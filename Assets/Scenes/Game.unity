@@ -5049,6 +5049,7 @@ MonoBehaviour:
   BonusCards: []
   bonusCardParent: {fileID: 1053947361}
   cardSpawnPoint: {fileID: 1053947363}
+
 --- !u!4 &1053947363
 Transform:
   m_ObjectHideFlags: 0
@@ -7031,6 +7032,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5108533337ed0c44ca485250936f1079, type: 3}
+
 --- !u!1 &1567315435
 GameObject:
   m_ObjectHideFlags: 0
@@ -9731,3 +9733,4 @@ SceneRoots:
   - {fileID: 1263850395}
   - {fileID: 1570363076}
   - {fileID: 1558265589}
+

@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
-    public List<PlayerData> player = new List<PlayerData>();//¸ğµç ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ ¸®½ºÆ®(ÀÚ½ÅÆ÷ÇÔ)
+    public List<PlayerData> player = new List<PlayerData>();//ëª¨ë“  í”Œë ˆì´ì–´ ë°ì´í„° ë¦¬ìŠ¤íŠ¸(ìì‹ í¬í•¨)
     public Data<GuardState> G_State = new Data<GuardState>();
     public Data<StrikeState> S_State = new Data<StrikeState>();
-    public int myIndex;//ÀÚ½ÅÀÇ ÀÎµ¦½º ÀúÀå¿ë
-    public GameObject Judge;//¹öÆ° ºÒ·¯¿À±â
-    public GameObject Judge1;//¹öÆ° ºÒ·¯¿À±â
+    public int myIndex;//ìì‹ ì˜ ì¸ë±ìŠ¤ ì €ì¥ìš©
+    public GameObject Judge;//ë²„íŠ¼ ë¶ˆëŸ¬ì˜¤ê¸°
+    public GameObject Judge1;//ë²„íŠ¼ ë¶ˆëŸ¬ì˜¤ê¸°
     public GameObject CardBuffering;
     public GameObject ActiveJudge;
     public GameObject StrikeObject;
@@ -30,14 +30,14 @@ public class GameManager : Singleton<GameManager>
     public TMP_Text FianlScoretext1;
     public bool AnotherStrike = false;
 
-    private void ViewButton(int _sIndex)//ÅÏ¸¶´Ù ³ªÀÇ ¹öÆ°ÀÌ º¸ÀÌ°Ô ÇÏµµ·Ï
+    private void ViewButton(int _sIndex)//í„´ë§ˆë‹¤ ë‚˜ì˜ ë²„íŠ¼ì´ ë³´ì´ê²Œ í•˜ë„ë¡
     {
-        Judge.SetActive(_sIndex == 0);//³» ÀÎµ¦½º°¡ ½Ã½ºÅÛÀÎµ¦½º¿Í µ¿ÀÏÇÒ¶§ true
+        Judge.SetActive(_sIndex == 0);//ë‚´ ì¸ë±ìŠ¤ê°€ ì‹œìŠ¤í…œì¸ë±ìŠ¤ì™€ ë™ì¼í• ë•Œ true
     }
 
-    private void ViewButton1(int _sIndex)//ÅÏ¸¶´Ù ³ªÀÇ ¹öÆ°ÀÌ º¸ÀÌ°Ô ÇÏµµ·Ï
+    private void ViewButton1(int _sIndex)//í„´ë§ˆë‹¤ ë‚˜ì˜ ë²„íŠ¼ì´ ë³´ì´ê²Œ í•˜ë„ë¡
     {
-        Judge1.SetActive(_sIndex == 1);//³» ÀÎµ¦½º°¡ ½Ã½ºÅÛÀÎµ¦½º¿Í µ¿ÀÏÇÒ¶§ true
+        Judge1.SetActive(_sIndex == 1);//ë‚´ ì¸ë±ìŠ¤ê°€ ì‹œìŠ¤í…œì¸ë±ìŠ¤ì™€ ë™ì¼í• ë•Œ true
 
     }
     public void FinishTurn()
@@ -125,9 +125,11 @@ public class GameManager : Singleton<GameManager>
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
+
             player[1].strikeCards.Sort();
             player[1].Check();
             if (player[1].strikeCards[0] >= player[0].Guardnums[0])
+
             {
                 if (player[0].doubleCheck == true && player[1].doubleCheck == true)
                 {
@@ -152,6 +154,7 @@ public class GameManager : Singleton<GameManager>
             player[0].Guardnums.Sort();
             player[0].GuardCheck();
             if (player[0].Guardnums[0] >= player[1].Guardnums[0])
+
             {
                 if (player[0].doubleCheck == true && player[1].doubleCheck == true)
                 {
@@ -178,7 +181,9 @@ public class GameManager : Singleton<GameManager>
                 S_State.Value = StrikeState.SetStrike;
             }
         }
+
         DoGuardButton.SetActive(false);
+
     }
 
     private void FinishButton(StrikeState _sState)
@@ -207,6 +212,9 @@ public class GameManager : Singleton<GameManager>
                 player[0].playerScore -= player[1].strikeScore;
                 player[1].strikeScore = 0;
                 player[0].playerScoreText.text = "" + player[0].playerScore;
+
+                //player[1].pState.Value = PlayerState.Select; 
+
             }
             S_State.Value = StrikeState.ReadyStrike;
         }
@@ -221,17 +229,17 @@ public class GameManager : Singleton<GameManager>
         G_State.onChange += CheckGuard;
         G_State.onChange += SelectGuardCard;
         
-        /*sPlayerIndex¿¡ ±¸µ¶À» ÇÏ´Â ÀÌÀ¯ : 
-         * ±×³É ÇÃ·¹ÀÌ¾î ÀÎµ¦½º¸¦ ³Ö¾î¹ö¸®¸é ´Ù¸¥ »ç¶÷Â÷·Ê¿¡ ¹öÆ°ÀÌ È£Ãâ µÇÁö¾ÊÀ» °Í.
-         * ½Ã½ºÅÛÇÃ·¹ÀÌ¾î ÀÎµ¦½º¿¡¼­ È£ÃâÀ» ÇØ¾ß ´Ù¸¥»ç¶÷¿¡°Ôµµ È£ÃâÀÌµÊ
-         * ½Ã½ºÅÛÀÎµ¦½º¿Í ³»ÀÎµ¦½º°¡ µ¿ÀÏÇÒ¶§¶ó´Â Á¶°Ç¿¡ µû¶ó °¢ Â÷·Ê¿¡ ¹öÆ° È£Ãâ
-         * È°¿ë¹æ¾ÈÀ¸·Î ¸Ş¼Òµå¾È¿¡ if(³ªÀÇ ÀÎµ¦½º == ½Ã½ºÅÛÀÎµ¦½º){ ÅÏ¿¡ ÀÛ¿ëÇÏ°í ½ÍÀº Çàµ¿ }
+        /*sPlayerIndexì— êµ¬ë…ì„ í•˜ëŠ” ì´ìœ  : 
+         * ê·¸ëƒ¥ í”Œë ˆì´ì–´ ì¸ë±ìŠ¤ë¥¼ ë„£ì–´ë²„ë¦¬ë©´ ë‹¤ë¥¸ ì‚¬ëŒì°¨ë¡€ì— ë²„íŠ¼ì´ í˜¸ì¶œ ë˜ì§€ì•Šì„ ê²ƒ.
+         * ì‹œìŠ¤í…œí”Œë ˆì´ì–´ ì¸ë±ìŠ¤ì—ì„œ í˜¸ì¶œì„ í•´ì•¼ ë‹¤ë¥¸ì‚¬ëŒì—ê²Œë„ í˜¸ì¶œì´ë¨
+         * ì‹œìŠ¤í…œì¸ë±ìŠ¤ì™€ ë‚´ì¸ë±ìŠ¤ê°€ ë™ì¼í• ë•Œë¼ëŠ” ì¡°ê±´ì— ë”°ë¼ ê° ì°¨ë¡€ì— ë²„íŠ¼ í˜¸ì¶œ
+         * í™œìš©ë°©ì•ˆìœ¼ë¡œ ë©”ì†Œë“œì•ˆì— if(ë‚˜ì˜ ì¸ë±ìŠ¤ == ì‹œìŠ¤í…œì¸ë±ìŠ¤){ í„´ì— ì‘ìš©í•˜ê³  ì‹¶ì€ í–‰ë™ }
         */
     }
 
     void Update()
     {
-       /* if(player[0].pState.Value == PlayerState.Select)//½Ã°£Ã¼Å©¿ë
+       /* if(player[0].pState.Value == PlayerState.Select)//ì‹œê°„ì²´í¬ìš©
         {
             turnTime -= Time.deltaTime;
             timerText.text = ""+Mathf.Round(turnTime);
@@ -247,7 +255,7 @@ public class GameManager : Singleton<GameManager>
             }      
         }
        */
-        if (player[1].pState.Value == PlayerState.Select)//½Ã°£Ã¼Å©¿ë
+        if (player[1].pState.Value == PlayerState.Select)//ì‹œê°„ì²´í¬ìš©
         {
             turnTime -= Time.deltaTime;
             timerText.text = "" + Mathf.Round(turnTime);
@@ -267,10 +275,10 @@ public class GameManager : Singleton<GameManager>
         G_State.Value = GuardState.Idle;
         player[0].playerScoreText.text = "" + player[0].playerScore;
         player[1].playerScoreText.text = "" + player[1].playerScore;
-        for (int i = 0; i < player.Count; i++)//ÇÃ·¹ÀÌ¾îÀÇ ¼öµû¶ó
+        for (int i = 0; i < player.Count; i++)//í”Œë ˆì´ì–´ì˜ ìˆ˜ë”°ë¼
         {
-            player[i].pState.Value = PlayerState.Idle;//ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ¸¦ ÃÊ±âÈ­
-            player[i].pIndex = i;//°¢ÇÃ·¹ÀÌ¾î¿¡°Ô ÅÏ ÀÎµ¦½º¸¦ ¹èÁ¤
+            player[i].pState.Value = PlayerState.Idle;//í”Œë ˆì´ì–´ ë°ì´í„°ë¥¼ ì´ˆê¸°í™”
+            player[i].pIndex = i;//ê°í”Œë ˆì´ì–´ì—ê²Œ í„´ ì¸ë±ìŠ¤ë¥¼ ë°°ì •
             for(int j = 0; j < 7; j++)
             {
                 CardManager.Instance.AddCard(player[i].playerCards,player[i].playerPosition,player[i].playerObject);
@@ -281,18 +289,18 @@ public class GameManager : Singleton<GameManager>
     }
     IEnumerator CheckDelay(GameObject obj)
     {
-        yield return new WaitForSeconds(0.2f); // 0.2ÃÊ Áö¿¬
+        yield return new WaitForSeconds(0.2f); // 0.2ì´ˆ ì§€ì—°
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            player[0].playerCards.Remove(player[0].playerCards[7]);//³»Ä«µå¸®½ºÆ®¿¡ »èÁ¦
+            player[0].playerCards.Remove(player[0].playerCards[7]);//ë‚´ì¹´ë“œë¦¬ìŠ¤íŠ¸ì— ì‚­ì œ
             player[0].pState.Value = PlayerState.SelectFin;
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            player[1].playerCards.Remove(player[1].playerCards[7]);//³»Ä«µå¸®½ºÆ®¿¡ »èÁ¦
+            player[1].playerCards.Remove(player[1].playerCards[7]);//ë‚´ì¹´ë“œë¦¬ìŠ¤íŠ¸ì— ì‚­ì œ
            player[1].pState.Value = PlayerState.SelectFin;
         }
         Destroy(obj);
-        // ¿ÀºêÁ§Æ® ÆÄ±«
+        // ì˜¤ë¸Œì íŠ¸ íŒŒê´´
     }
 }

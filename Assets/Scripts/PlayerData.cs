@@ -8,8 +8,8 @@ using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
 {
-    public Data<PlayerState> pState = new Data<PlayerState>();//ÇÃ·¹ÀÌ¾î »óÅÂ º¯¼ö
-    public int pIndex;//ÇÃ·¹ÀÌ¾îÀÇ ÀÎµ¦½º
+    public Data<PlayerState> pState = new Data<PlayerState>();//í”Œë ˆì´ì–´ ìƒíƒœ ë³€ìˆ˜
+    public int pIndex;//í”Œë ˆì´ì–´ì˜ ì¸ë±ìŠ¤
     public List<CardInfo> playerCards = new List<CardInfo>();
     public List<int> strikeCards = new List<int>();
     public int playerScore;
@@ -27,7 +27,7 @@ public class PlayerData : MonoBehaviour
     
     private void Awake()
     {
-        pState.onChange += Draw;//¸Ş¼Òµå¸¦ Ãß°¡(onChange¸¦ ÀÇµµÇÏ´Â ¼ø¼­´ë·Î ¹èÄ¡)
+        pState.onChange += Draw;//ë©”ì†Œë“œë¥¼ ì¶”ê°€(onChangeë¥¼ ì˜ë„í•˜ëŠ” ìˆœì„œëŒ€ë¡œ ë°°ì¹˜)
         pState.onChange += AISelect;
         pState.onChange += SelectCardFin;
         pState.onChange += SetIdle;
@@ -45,26 +45,28 @@ public class PlayerData : MonoBehaviour
     }
     IEnumerator PlayerSystem()
     {
-        //Ä«µåÁÖ±â¸¦ ¿©±â¿¡ ³Ö°Å³ª
-        TurnSys.Instance.gState.Value = GameState.WaitAction;//°ÔÀÓ »óÅÂ¸¦ WaitActionÀ¸·Î ¹Ù²Û ÈÄ
+        //ì¹´ë“œì£¼ê¸°ë¥¼ ì—¬ê¸°ì— ë„£ê±°ë‚˜
+        TurnSys.Instance.gState.Value = GameState.WaitAction;//ê²Œì„ ìƒíƒœë¥¼ WaitActionìœ¼ë¡œ ë°”ê¾¼ í›„
         yield return new WaitForSeconds(1.0f);
         CardManager.Instance.SortCards(playerCards);
         yield return new WaitForSeconds(0.5f);
         pState.Value = PlayerState.Select;
-        
-        /*ÅÏ¿¡ µé¾î°¡¾ß ÇÏ´Â °Í
-         * °¡»óÀ¸·Î 20ÃÊ¸¦ ¼¼°í, 20ÃÊ°¡ Áö³ª°¡¸é ÅÏÀÌ ³Ñ¾î°¡°Å³ª È¤Àº ÆĞ¸¦ ³ÂÀ»¶§ ÅÏÀÌ ³Ñ¾î°¡µµ·Ï
-         * 20ÃÊ¸¦ ¼¼´Âµ¿¾È ÆĞ¸¦ ³»´Â µ¿ÀÛÀÌ ÀÛµ¿ÇÏµµ·Ï
-         * °Ë»ç ÇÔ¼ö¸¦ µû·Î ¸¸µé¾î Á¶°ÇÀÌ ¸ÂÀ»°æ¿ì UI¹öÆ°À» SetActive·Î ¸¸µé±â±îÁö?
-         * ³²Àº½Ã°£ Ç¥±â±îÁö?
+        //yield return new WaitForSeconds(0.5f); í˜¹ì‹œëª°ë¦„
+        /*í„´ì— ë“¤ì–´ê°€ì•¼ í•˜ëŠ” ê²ƒ
+         * ê°€ìƒìœ¼ë¡œ 20ì´ˆë¥¼ ì„¸ê³ , 20ì´ˆê°€ ì§€ë‚˜ê°€ë©´ í„´ì´ ë„˜ì–´ê°€ê±°ë‚˜ í˜¹ì€ íŒ¨ë¥¼ ëƒˆì„ë•Œ í„´ì´ ë„˜ì–´ê°€ë„ë¡
+         * 20ì´ˆë¥¼ ì„¸ëŠ”ë™ì•ˆ íŒ¨ë¥¼ ë‚´ëŠ” ë™ì‘ì´ ì‘ë™í•˜ë„ë¡
+         * ê²€ì‚¬ í•¨ìˆ˜ë¥¼ ë”°ë¡œ ë§Œë“¤ì–´ ì¡°ê±´ì´ ë§ì„ê²½ìš° UIë²„íŠ¼ì„ SetActiveë¡œ ë§Œë“¤ê¸°ê¹Œì§€?
+         * ë‚¨ì€ì‹œê°„ í‘œê¸°ê¹Œì§€?
          */
     }
-    private void Draw(PlayerState _pState)//Player»óÅÂ°¡ StartDrawÀÎÁö Ã¼Å©ÇÏ°í PlayerSystem ½ÃÀÛ 
+    private void Draw(PlayerState _pState)//Playerìƒíƒœê°€ StartDrawì¸ì§€ ì²´í¬í•˜ê³  PlayerSystem ì‹œì‘ 
     {
         if (_pState == PlayerState.StartDraw)
         {
             strikeScore = 0;
+
             for (int i = playerCards.Count; i < 8; i++)
+
             {
                 if (playerCards.Count == 7)
                     break;
@@ -76,19 +78,21 @@ public class PlayerData : MonoBehaviour
             StartCoroutine(PlayerSystem());
         }
     }
-    private void SelectCardFin(PlayerState _pState)//Ä«µå ¼±ÅÃÀÌ ³¡³µÀ»¶§
+    private void SelectCardFin(PlayerState _pState)//ì¹´ë“œ ì„ íƒì´ ëë‚¬ì„ë•Œ
     {
         if (_pState == PlayerState.SelectFin)
         {
+
             ComboCount = 0;
             GameManager.Instance.turnFinishButton.SetActive(false);
             CardManager.Instance.SortCards(playerCards);
-            CardManager.Instance.ArrangeCardsBetweenMyCards(playerCards, cardLeftTransform, cardRightTransform, 1.7f);//°ÇÇÊ±ºÀÌ Ä«µå °£°İÀ» Á¶ÀıÇÏ°í½ÍÀ»¶§ ¸Ç¸¶Áö¸·»ó¼öf°ªÀ»°Çµé¸éµÊ
+            CardManager.Instance.ArrangeCardsBetweenMyCards(playerCards, cardLeftTransform, cardRightTransform, 1.7f);//ê±´í•„êµ°ì´ ì¹´ë“œ ê°„ê²©ì„ ì¡°ì ˆí•˜ê³ ì‹¶ì„ë•Œ ë§¨ë§ˆì§€ë§‰ìƒìˆ˜fê°’ì„ê±´ë“¤ë©´ë¨
             pState.Value = PlayerState.End;
             StartCoroutine(CardClearDelay());
+
         }
     }
-    public void ReadyStrike()//½ºÆ®¶óÀÌÅ© ¹öÆ° ÀÛ¿ë
+    public void ReadyStrike()//ìŠ¤íŠ¸ë¼ì´í¬ ë²„íŠ¼ ì‘ìš©
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
@@ -100,7 +104,7 @@ public class PlayerData : MonoBehaviour
             else if (GameManager.Instance.S_State.Value == StrikeState.Idle)
             {
                 Debug.Log("SetStrike");
-                //¹®±¸ È£Ãâ
+                //ë¬¸êµ¬ í˜¸ì¶œ
                 GameManager.Instance.S_State.Value = StrikeState.ReadyStrike;
             }
 
@@ -113,31 +117,36 @@ public class PlayerData : MonoBehaviour
         strikeCards.Clear();
         Guardnums.Clear();
         GameManager.Instance.S_State.Value = StrikeState.Idle;
-        TurnSys.Instance.gState.Value = GameState.ActionEnd;  //°ÔÀÓ»óÅÂ¸¦ ActionEnd·Î¸¸µë
+        TurnSys.Instance.gState.Value = GameState.ActionEnd;  //ê²Œì„ìƒíƒœë¥¼ ActionEndë¡œë§Œë“¬
 
     }
+
     private void SetTurn(int _sIndex)
     {
-        if (pIndex == _sIndex)//½Ã½ºÅÛ ÀÎµ¦½º¿Í ÇÃ·¹ÀÌ¾î ÀÎµ¦½º°¡ °°À»°æ¿ì ÅÏÀ» ½ÃÀÛÇÏ°Ô ÇÏ±âÀ§ÇÑ Á¶°Ç
+        if (pIndex == _sIndex)//ì‹œìŠ¤í…œ ì¸ë±ìŠ¤ì™€ í”Œë ˆì´ì–´ ì¸ë±ìŠ¤ê°€ ê°™ì„ê²½ìš° í„´ì„ ì‹œì‘í•˜ê²Œ í•˜ê¸°ìœ„í•œ ì¡°ê±´
         {
-            pState.Value = PlayerState.StartDraw;//StartDraw»óÅÂ·Î º¯°æ
+            pState.Value = PlayerState.StartDraw;//StartDrawìƒíƒœë¡œ ë³€ê²½
+
             strikeCards.Clear();
             Guardnums.Clear();
-            Debug.Log("DrawTurn " + pIndex);//¿©±â°°Àº °æ¿ì ÀÌ¹ÌÁö¶ç¿ì±â¿¬Ãâ°°Àº°Å ³ÖÀ¸¸é µÉµí
+
+            Debug.Log("DrawTurn " + pIndex);//ì—¬ê¸°ê°™ì€ ê²½ìš° ì´ë¯¸ì§€ë„ìš°ê¸°ì—°ì¶œê°™ì€ê±° ë„£ìœ¼ë©´ ë ë“¯
         }
     }
-    private void SetIdle(PlayerState _pState)//playerÀÇ »óÅÂ°¡ endÀÏ °æ¿ì¿¡
+    private void SetIdle(PlayerState _pState)//playerì˜ ìƒíƒœê°€ endì¼ ê²½ìš°ì—
     {
         if (_pState == PlayerState.End)
         {
-            _pState = PlayerState.Idle;// ¾Æ¹«°Íµµ ¾ÈÇÏ´Â µ¿ÀÛÀ¸·Î º¯°æ
+            _pState = PlayerState.Idle;// ì•„ë¬´ê²ƒë„ ì•ˆí•˜ëŠ” ë™ì‘ìœ¼ë¡œ ë³€ê²½
         }
-        //ÀÌ ¼ø°£¿¡µµ »ó´ë°¡ ÆĞ¸¦ ³ÂÀ»¶§ ±×ÆĞ¸¦ °¡Á®¿Í Á¶ÇÕ¿Ï¼ºÀÌ °¡´ÉÇÏ´Ù¸é ÀÛµ¿ÇÏµµ·Ï °Ë»çÃß°¡
+        //ì´ ìˆœê°„ì—ë„ ìƒëŒ€ê°€ íŒ¨ë¥¼ ëƒˆì„ë•Œ ê·¸íŒ¨ë¥¼ ê°€ì ¸ì™€ ì¡°í•©ì™„ì„±ì´ ê°€ëŠ¥í•˜ë‹¤ë©´ ì‘ë™í•˜ë„ë¡ ê²€ì‚¬ì¶”ê°€
     }
 
     public void Check()
     {
+
         strikeCards.Sort();
+
         int headCheck = 0;
         int bodyCheck = 0;
         doubleCheck = false;
@@ -154,6 +163,7 @@ public class PlayerData : MonoBehaviour
         if (strikeCards.Count == 2)
         {
             if (temp == strikeCards[i + 1])
+
             {
                 Debug.Log("HEAD");
                 headCheck++;
@@ -163,19 +173,21 @@ public class PlayerData : MonoBehaviour
         }
         if (strikeCards.Count == 3)
         {
+
             if (temp == strikeCards[i + 1])         // HEAD CHECK
             {
-                if (temp == strikeCards[i + 2])//°°Àº¼ö 3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp == strikeCards[i + 2])//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 { 
                     bodyCheck++;
                     tripleCheck = true;
+
                     Debug.Log("HEAD => BODY");
                     strikeScore = 300;
                 }
             }
             else                             // BODY CHECK
             {
-                if (temp + 1 == strikeCards[i + 1] && temp + 2 == strikeCards[i + 2])//¿¬¼Ó¼ö3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp + 1 == strikeCards[i + 1] && temp + 2 == strikeCards[i + 2])//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
                     stairCheck = true;
                     bodyCheck++;
@@ -185,6 +197,7 @@ public class PlayerData : MonoBehaviour
 
             }
         }
+
         if (bodyCheck == 0 && headCheck == 0)
         {
             for (int a = 0; a < strikeCards.Count; a++)
@@ -192,11 +205,13 @@ public class PlayerData : MonoBehaviour
                 strikeCards.Clear();
             }
             for (int a = 0; a < playerCards.Count; a++)
+
             {
                 playerCards[a].myCardState = false;
             }
-            //¹®±¸ ¹× ¼±ÅÃÃë¼Ò
+            //ë¬¸êµ¬ ë° ì„ íƒì·¨ì†Œ
         }
+
         if (bodyCheck == 1 || headCheck == 1)
         {
             for (int a = playerCards.Count - 1; a >= 0; a--)
@@ -243,7 +258,7 @@ public class PlayerData : MonoBehaviour
         {
             if (temp == Guardnums[i + 1])         
             {
-                if (temp == Guardnums[i + 1]&&Guardnums[i+1]== Guardnums[i+2])//°°Àº¼ö 3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp == Guardnums[i + 1]&&Guardnums[i+1]== Guardnums[i+2])//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
                     headCheck--;
                     doubleCheck = false;
@@ -254,7 +269,7 @@ public class PlayerData : MonoBehaviour
             }
             else                             
             {
-                if (temp + 1 == Guardnums[i + 1] && temp + 2 == Guardnums[i + 2])//¿¬¼Ó¼ö3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp + 1 == Guardnums[i + 1] && temp + 2 == Guardnums[i + 2])//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
                     stairCheck = true;
                     bodyCheck++;
@@ -273,7 +288,7 @@ public class PlayerData : MonoBehaviour
             {
                 playerCards[a].myCardState = false;
             }
-            //¹®±¸ ¹× ¼±ÅÃÃë¼Ò
+            //ë¬¸êµ¬ ë° ì„ íƒì·¨ì†Œ
         }
         if (bodyCheck == 1 || headCheck == 1)
         {
@@ -312,6 +327,7 @@ public class PlayerData : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
 
+
             int temp = playerCards[i].cardnum;
             if (temp == playerCards[i + 1].cardnum)         // HEAD CHECK
             {
@@ -328,8 +344,9 @@ public class PlayerData : MonoBehaviour
                     strikeScore = 200;
                     break;
                 }
-                if (temp == playerCards[i + 2].cardnum)//°°Àº¼ö 3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp == playerCards[i + 2].cardnum)//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
+
                     headCheck--;
                     doubleCheck = false;
                     bodyCheck++;
@@ -359,10 +376,11 @@ public class PlayerData : MonoBehaviour
                     break;
                 if (bodyCheck == 1)
                     break;
-                if (temp + 1 == playerCards[i + 1].cardnum && temp + 2 == playerCards[i + 2].cardnum)//¿¬¼Ó¼ö3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp + 1 == playerCards[i + 1].cardnum && temp + 2 == playerCards[i + 2].cardnum)//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
                     stairCheck = true;
                     CardStateChange(i, 3);
+
                     bodyCheck++;
                     strikeScore = 300;
                     Debug.Log("BODY");
@@ -414,4 +432,5 @@ public class PlayerData : MonoBehaviour
             playerCards[i+a].myCardState = true;
         }
     }
+
 }
