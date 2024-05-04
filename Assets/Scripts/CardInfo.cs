@@ -17,19 +17,22 @@ public class CardInfo : MonoBehaviour
     public void Setup(Card card)
     {
         this.card = card;
-
         cardSprite.sprite = this.card.sprite;
         text.text = this.card.num.ToString();
+        if (this.card.num == 20)
+            text.text = "R";
+        else if (this.card.num == 30)
+            text.text = "B";
         cardnum = this.card.num;
         myCardState = this.card.CardState;
     }
 
  
- void OnMouseDown()//Å¬¸¯½Ã
+ void OnMouseDown()//í´ë¦­ì‹œ
     {
         if (GameManager.Instance.player[0].pState.Value == PlayerState.Select)
         {
-            if (TurnSys.Instance.sPlayerIndex.Value == 0)//½ÉÆÇÀÌ 0¹øÀÌ¶ó¸é
+            if (TurnSys.Instance.sPlayerIndex.Value == 0)//ì‹¬íŒì´ 0ë²ˆì´ë¼ë©´
             {
                 if (GameManager.Instance.S_State.Value == StrikeState.ReadyStrike )
                 {
@@ -40,7 +43,8 @@ public class CardInfo : MonoBehaviour
                     }
                     if (myCardState == false)
                     {
-                        GameManager.Instance.player[0].strikeCards.Add(this);
+                        GameManager.Instance.player[0].strikeCards.Add(this.cardnum);
+
                         myCardState = true;
                     }
                     
@@ -48,11 +52,11 @@ public class CardInfo : MonoBehaviour
                
                 else
                 {
-                    if (this.transform.parent == GameManager.Instance.player[0].playerObject.transform)//ºÎ¸ğÀÇ À§Ä¡·Î ³»Ä«µåÀÎÁö ¾Æ´ÑÁö ÆÇÁ¤
+                    if (this.transform.parent == GameManager.Instance.player[0].playerObject.transform)//ë¶€ëª¨ì˜ ìœ„ì¹˜ë¡œ ë‚´ì¹´ë“œì¸ì§€ ì•„ë‹Œì§€ íŒì •
                     {
                         GameManager.Instance.CardBuffering.SetActive(GameManager.Instance.player[0].pState.Value == PlayerState.Select);
                         this.myCardState = true;
-                        GameManager.Instance.player[0].playerCards.Remove(this);//³»Ä«µå¸®½ºÆ®¿¡ »èÁ¦
+                        GameManager.Instance.player[0].playerCards.Remove(this);//ë‚´ì¹´ë“œë¦¬ìŠ¤íŠ¸ì— ì‚­ì œ
                         this.text.text = "";
                         this.cardSprite.sprite = null;
                         GameManager.Instance.player[0].pState.Value = PlayerState.Idle;
@@ -64,7 +68,7 @@ public class CardInfo : MonoBehaviour
         }
         else if (GameManager.Instance.player[1].pState.Value == PlayerState.Select)
         {
-            if (TurnSys.Instance.sPlayerIndex.Value == 1)//½ÉÆÇÀÌ 1¹øÀÌ¶ó¸é
+            if (TurnSys.Instance.sPlayerIndex.Value == 1)//ì‹¬íŒì´ 1ë²ˆì´ë¼ë©´
             {
                 if (GameManager.Instance.S_State.Value == StrikeState.ReadyStrike)
                 {
@@ -75,7 +79,7 @@ public class CardInfo : MonoBehaviour
                     }
                     if (myCardState == false)
                     {
-                        GameManager.Instance.player[1].strikeCards.Add(this);
+                        GameManager.Instance.player[1].strikeCards.Add(this.cardnum);
                         myCardState = true;
                     }
 
@@ -83,11 +87,11 @@ public class CardInfo : MonoBehaviour
              
                 else
                 {
-                    if (this.transform.parent == GameManager.Instance.player[1].playerObject.transform)//ºÎ¸ğÀÇ À§Ä¡·Î ³»Ä«µåÀÎÁö ¾Æ´ÑÁö ÆÇÁ¤
+                    if (this.transform.parent == GameManager.Instance.player[1].playerObject.transform)//ë¶€ëª¨ì˜ ìœ„ì¹˜ë¡œ ë‚´ì¹´ë“œì¸ì§€ ì•„ë‹Œì§€ íŒì •
                     {
                         GameManager.Instance.CardBuffering.SetActive(GameManager.Instance.player[1].pState.Value == PlayerState.Select);
                         this.myCardState = true;
-                        GameManager.Instance.player[1].playerCards.Remove(this);//³»Ä«µå¸®½ºÆ®¿¡ »èÁ¦
+                        GameManager.Instance.player[1].playerCards.Remove(this);//ë‚´ì¹´ë“œë¦¬ìŠ¤íŠ¸ì— ì‚­ì œ
                         this.text.text = "";
                         this.cardSprite.sprite = null;
                         GameManager.Instance.player[1].pState.Value = PlayerState.Idle;
@@ -100,21 +104,22 @@ public class CardInfo : MonoBehaviour
         {
             if (transform.parent == GameManager.Instance.player[0].playerObject.transform)
             {
-                GameManager.Instance.player[0].strikeCards.Add(this);
+                GameManager.Instance.player[0].Guardnums.Add(this.cardnum);
                 myCardState = true;
             }
         }
     }
     IEnumerator CheckDelay(GameObject obj)
     {
-        yield return new WaitForSeconds(0.2f); // 0.2ÃÊ Áö¿¬
+        yield return new WaitForSeconds(0.2f); // 0.2ì´ˆ ì§€ì—°
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
             GameManager.Instance.player[0].pState.Value = PlayerState.SelectFin;
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
             GameManager.Instance.player[1].pState.Value = PlayerState.SelectFin;
         yield return new WaitForSeconds(0.05f);
         Destroy(obj);
-        // ¿ÀºêÁ§Æ® ÆÄ±«
+
+        // ì˜¤ë¸Œì íŠ¸ íŒŒê´´
     }
 
 

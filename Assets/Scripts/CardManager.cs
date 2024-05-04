@@ -15,29 +15,28 @@ public class CardManager : Singleton<CardManager>
     public List<CardInfo> BonusCards;
     [SerializeField] GameObject bonusCardParent;
     [SerializeField] Transform cardSpawnPoint;
-    public TMP_Text BonusText; 
 
-    List<Card> cardBuffer;//Ä«µå¸¦ ´ãÀ» °ø°£
+    List<Card> cardBuffer;//ì¹´ë“œë¥¼ ë‹´ì„ ê³µê°„
 
     
 
     enum ECardState {Nothing, CanMouseOver, CanMouseDrag }
-    public Card PopCard()//Ä«µå ²¨³»±â
+    public Card PopCard()//ì¹´ë“œ êº¼ë‚´ê¸°
     {
         Card card = cardBuffer[0];
         cardBuffer.RemoveAt(0);
         return card;
     }
-    void SetupCardBuffer()//Ä«µå¸ğµÒ ¼¼ÆÃ
+    void SetupCardBuffer()//ì¹´ë“œëª¨ë‘  ì„¸íŒ…
     {
         cardBuffer = new List<Card>();
-        for( int i = 0; i < cardSO.cards.Length; i++)//Ä«µå¸¦ ³Ö°í
+        for( int i = 0; i < cardSO.cards.Length; i++)//ì¹´ë“œë¥¼ ë„£ê³ 
         {
             Card card = cardSO.cards[i];
             for (int j = 0; j < card.percent; j++)
                 cardBuffer.Add(card);
         }
-        for(int i = 0; i< cardBuffer.Count; i ++)//·£´ıÇÏ°Ô ¼¯±â
+        for(int i = 0; i< cardBuffer.Count; i ++)//ëœë¤í•˜ê²Œ ì„ê¸°
         {
             int rand = Random.Range(i, cardBuffer.Count);
             Card temp = cardBuffer[i];
@@ -61,7 +60,6 @@ public class CardManager : Singleton<CardManager>
     private void Start()
     {
         AddCard(BonusCards, cardSpawnPoint, bonusCardParent);
-        BonusText.text = "Bonus :" + BonusCards[0].cardnum.ToString();
     }
 
     // Update is called once per frame
@@ -70,7 +68,7 @@ public class CardManager : Singleton<CardManager>
     
 
   
-    public void AddCard(List<CardInfo> _pCard, Transform playerPosition, GameObject playerObject)//Ä«µåÃß°¡
+    public void AddCard(List<CardInfo> _pCard, Transform playerPosition, GameObject playerObject)//ì¹´ë“œì¶”ê°€
     {
             var cardObject = Instantiate(cardPrefab, playerPosition.position, Utills.QI);
             cardObject.transform.parent = playerObject.transform;
@@ -78,29 +76,15 @@ public class CardManager : Singleton<CardManager>
             card.Setup(PopCard());
             _pCard.Add(card);
     }
-    public void ReturnCard(List<CardInfo> _pCard, Transform playerPosition, GameObject playerObject)//Ä«µåÃß°¡
-    {
-        var cardObject = Instantiate(cardPrefab, playerPosition.position, Utills.QI);
-        cardObject.transform.parent = playerObject.transform;
-        var card = cardObject.GetComponent<CardInfo>();
-        if (TurnSys.Instance.sPlayerIndex.Value == 0)
-        {
-            card.Setup(GameManager.Instance.player[0].strikeCards[0].card);
-        }
-        if(TurnSys.Instance.sPlayerIndex.Value == 1)
-        {
-            card.Setup(GameManager.Instance.player[1].strikeCards[0].card);
-        }
-            _pCard.Add(card);
-    }
+
 
     public void ArrangeCardsBetweenMyCards(List<CardInfo> cards, Transform leftTransform, Transform rightTransform, float gap)
     {
         int cardCount = cards.Count;
-        float totalWidth = gap * (cardCount - 1); // Ä«µåµéÀÌ Â÷ÁöÇÒ ÃÑ °¡·Î ±æÀÌ °è»ê
-        float startX = (leftTransform.position.x + rightTransform.position.x - totalWidth) / 2f; // Ã¹ ¹øÂ° Ä«µåÀÇ x À§Ä¡ °è»ê
+        float totalWidth = gap * (cardCount - 1); // ì¹´ë“œë“¤ì´ ì°¨ì§€í•  ì´ ê°€ë¡œ ê¸¸ì´ ê³„ì‚°
+        float startX = (leftTransform.position.x + rightTransform.position.x - totalWidth) / 2f; // ì²« ë²ˆì§¸ ì¹´ë“œì˜ x ìœ„ì¹˜ ê³„ì‚°
 
-        // Ä«µå¸¦ ÀÏÁ¤ÇÑ °£°İÀ¸·Î ¹èÄ¡
+        // ì¹´ë“œë¥¼ ì¼ì •í•œ ê°„ê²©ìœ¼ë¡œ ë°°ì¹˜
         for (int i = 0; i < cardCount; i++)
         {
             Vector3 cardPosition = new Vector3(startX + i * gap, leftTransform.position.y, leftTransform.position.z);

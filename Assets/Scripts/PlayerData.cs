@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour
 {
-    public Data<PlayerState> pState = new Data<PlayerState>();//ÇÃ·¹ÀÌ¾î »óÅÂ º¯¼ö
-    public int pIndex;//ÇÃ·¹ÀÌ¾îÀÇ ÀÎµ¦½º
+    public Data<PlayerState> pState = new Data<PlayerState>();//í”Œë ˆì´ì–´ ìƒíƒœ ë³€ìˆ˜
+    public int pIndex;//í”Œë ˆì´ì–´ì˜ ì¸ë±ìŠ¤
     public List<CardInfo> playerCards = new List<CardInfo>();
-    public List<CardInfo> strikeCards = new List<CardInfo>();
+    public List<int> strikeCards = new List<int>();
     public int playerScore;
     public int strikeScore = 0;
     public int ComboCount = 0;
@@ -24,9 +24,10 @@ public class PlayerData : MonoBehaviour
     public bool stairCheck = false;
     public bool doubleCheck = false;
     public List<int> Guardnums = new List<int>();
+    
     private void Awake()
     {
-        pState.onChange += Draw;//¸Ş¼Òµå¸¦ Ãß°¡(onChange¸¦ ÀÇµµÇÏ´Â ¼ø¼­´ë·Î ¹èÄ¡)
+        pState.onChange += Draw;//ë©”ì†Œë“œë¥¼ ì¶”ê°€(onChangeë¥¼ ì˜ë„í•˜ëŠ” ìˆœì„œëŒ€ë¡œ ë°°ì¹˜)
         pState.onChange += AISelect;
         pState.onChange += SelectCardFin;
         pState.onChange += SetIdle;
@@ -36,7 +37,7 @@ public class PlayerData : MonoBehaviour
     {
         if (_pState == PlayerState.Select)
         {
-            if(pIndex == 1 &&  TurnSys.Instance.sPlayerIndex.Value == 1)
+            if (pIndex == 1 && TurnSys.Instance.sPlayerIndex.Value == 1)
             {
                 AICheck();
             }
@@ -44,26 +45,28 @@ public class PlayerData : MonoBehaviour
     }
     IEnumerator PlayerSystem()
     {
-        //Ä«µåÁÖ±â¸¦ ¿©±â¿¡ ³Ö°Å³ª
-        TurnSys.Instance.gState.Value = GameState.WaitAction;//°ÔÀÓ »óÅÂ¸¦ WaitActionÀ¸·Î ¹Ù²Û ÈÄ
+        //ì¹´ë“œì£¼ê¸°ë¥¼ ì—¬ê¸°ì— ë„£ê±°ë‚˜
+        TurnSys.Instance.gState.Value = GameState.WaitAction;//ê²Œì„ ìƒíƒœë¥¼ WaitActionìœ¼ë¡œ ë°”ê¾¼ í›„
         yield return new WaitForSeconds(1.0f);
         CardManager.Instance.SortCards(playerCards);
         yield return new WaitForSeconds(0.5f);
         pState.Value = PlayerState.Select;
-        yield return new WaitForSeconds(0.5f);
-        /*ÅÏ¿¡ µé¾î°¡¾ß ÇÏ´Â °Í
-         * °¡»óÀ¸·Î 20ÃÊ¸¦ ¼¼°í, 20ÃÊ°¡ Áö³ª°¡¸é ÅÏÀÌ ³Ñ¾î°¡°Å³ª È¤Àº ÆĞ¸¦ ³ÂÀ»¶§ ÅÏÀÌ ³Ñ¾î°¡µµ·Ï
-         * 20ÃÊ¸¦ ¼¼´Âµ¿¾È ÆĞ¸¦ ³»´Â µ¿ÀÛÀÌ ÀÛµ¿ÇÏµµ·Ï
-         * °Ë»ç ÇÔ¼ö¸¦ µû·Î ¸¸µé¾î Á¶°ÇÀÌ ¸ÂÀ»°æ¿ì UI¹öÆ°À» SetActive·Î ¸¸µé±â±îÁö?
-         * ³²Àº½Ã°£ Ç¥±â±îÁö?
+        //yield return new WaitForSeconds(0.5f); í˜¹ì‹œëª°ë¦„
+        /*í„´ì— ë“¤ì–´ê°€ì•¼ í•˜ëŠ” ê²ƒ
+         * ê°€ìƒìœ¼ë¡œ 20ì´ˆë¥¼ ì„¸ê³ , 20ì´ˆê°€ ì§€ë‚˜ê°€ë©´ í„´ì´ ë„˜ì–´ê°€ê±°ë‚˜ í˜¹ì€ íŒ¨ë¥¼ ëƒˆì„ë•Œ í„´ì´ ë„˜ì–´ê°€ë„ë¡
+         * 20ì´ˆë¥¼ ì„¸ëŠ”ë™ì•ˆ íŒ¨ë¥¼ ë‚´ëŠ” ë™ì‘ì´ ì‘ë™í•˜ë„ë¡
+         * ê²€ì‚¬ í•¨ìˆ˜ë¥¼ ë”°ë¡œ ë§Œë“¤ì–´ ì¡°ê±´ì´ ë§ì„ê²½ìš° UIë²„íŠ¼ì„ SetActiveë¡œ ë§Œë“¤ê¸°ê¹Œì§€?
+         * ë‚¨ì€ì‹œê°„ í‘œê¸°ê¹Œì§€?
          */
     }
-    private void Draw(PlayerState _pState)//Player»óÅÂ°¡ StartDrawÀÎÁö Ã¼Å©ÇÏ°í PlayerSystem ½ÃÀÛ 
+    private void Draw(PlayerState _pState)//Playerìƒíƒœê°€ StartDrawì¸ì§€ ì²´í¬í•˜ê³  PlayerSystem ì‹œì‘ 
     {
         if (_pState == PlayerState.StartDraw)
         {
             strikeScore = 0;
-            for(int i = playerCards.Count; i < 8 ; i++)
+
+            for (int i = playerCards.Count; i < 8; i++)
+
             {
                 if (playerCards.Count == 7)
                     break;
@@ -75,18 +78,21 @@ public class PlayerData : MonoBehaviour
             StartCoroutine(PlayerSystem());
         }
     }
-    private void SelectCardFin(PlayerState _pState)//Ä«µå ¼±ÅÃÀÌ ³¡³µÀ»¶§
+    private void SelectCardFin(PlayerState _pState)//ì¹´ë“œ ì„ íƒì´ ëë‚¬ì„ë•Œ
     {
         if (_pState == PlayerState.SelectFin)
         {
+
+            ComboCount = 0;
+            GameManager.Instance.turnFinishButton.SetActive(false);
             CardManager.Instance.SortCards(playerCards);
-            CardManager.Instance.ArrangeCardsBetweenMyCards(playerCards, cardLeftTransform, cardRightTransform, 1.7f);//°ÇÇÊ±ºÀÌ Ä«µå °£°İÀ» Á¶ÀıÇÏ°í½ÍÀ»¶§ ¸Ç¸¶Áö¸·»ó¼öf°ªÀ»°Çµé¸éµÊ
+            CardManager.Instance.ArrangeCardsBetweenMyCards(playerCards, cardLeftTransform, cardRightTransform, 1.7f);//ê±´í•„êµ°ì´ ì¹´ë“œ ê°„ê²©ì„ ì¡°ì ˆí•˜ê³ ì‹¶ì„ë•Œ ë§¨ë§ˆì§€ë§‰ìƒìˆ˜fê°’ì„ê±´ë“¤ë©´ë¨
             pState.Value = PlayerState.End;
-            GameManager.Instance.S_State.Value = StrikeState.Idle;
-            TurnSys.Instance.gState.Value = GameState.ActionEnd;//°ÔÀÓ»óÅÂ¸¦ ActionEnd·Î¸¸µë
+            StartCoroutine(CardClearDelay());
+
         }
     }
-    public void ReadyStrike()//½ºÆ®¶óÀÌÅ© ¹öÆ° ÀÛ¿ë
+    public void ReadyStrike()//ìŠ¤íŠ¸ë¼ì´í¬ ë²„íŠ¼ ì‘ìš©
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
@@ -98,34 +104,49 @@ public class PlayerData : MonoBehaviour
             else if (GameManager.Instance.S_State.Value == StrikeState.Idle)
             {
                 Debug.Log("SetStrike");
-                //¹®±¸ È£Ãâ
+                //ë¬¸êµ¬ í˜¸ì¶œ
                 GameManager.Instance.S_State.Value = StrikeState.ReadyStrike;
             }
-           
+
         }
-        
+
     }
-    
+    IEnumerator CardClearDelay()
+    {
+        yield return new WaitForSeconds(0.05f);
+        strikeCards.Clear();
+        Guardnums.Clear();
+        GameManager.Instance.S_State.Value = StrikeState.Idle;
+        TurnSys.Instance.gState.Value = GameState.ActionEnd;  //ê²Œì„ìƒíƒœë¥¼ ActionEndë¡œë§Œë“¬
+
+    }
+
     private void SetTurn(int _sIndex)
     {
-        if (pIndex == _sIndex)//½Ã½ºÅÛ ÀÎµ¦½º¿Í ÇÃ·¹ÀÌ¾î ÀÎµ¦½º°¡ °°À»°æ¿ì ÅÏÀ» ½ÃÀÛÇÏ°Ô ÇÏ±âÀ§ÇÑ Á¶°Ç
+        if (pIndex == _sIndex)//ì‹œìŠ¤í…œ ì¸ë±ìŠ¤ì™€ í”Œë ˆì´ì–´ ì¸ë±ìŠ¤ê°€ ê°™ì„ê²½ìš° í„´ì„ ì‹œì‘í•˜ê²Œ í•˜ê¸°ìœ„í•œ ì¡°ê±´
         {
-            pState.Value = PlayerState.StartDraw;//StartDraw»óÅÂ·Î º¯°æ
-            Debug.Log("DrawTurn " + pIndex);//¿©±â°°Àº °æ¿ì ÀÌ¹ÌÁö¶ç¿ì±â¿¬Ãâ°°Àº°Å ³ÖÀ¸¸é µÉµí
+            pState.Value = PlayerState.StartDraw;//StartDrawìƒíƒœë¡œ ë³€ê²½
+
+            strikeCards.Clear();
+            Guardnums.Clear();
+
+            Debug.Log("DrawTurn " + pIndex);//ì—¬ê¸°ê°™ì€ ê²½ìš° ì´ë¯¸ì§€ë„ìš°ê¸°ì—°ì¶œê°™ì€ê±° ë„£ìœ¼ë©´ ë ë“¯
         }
     }
-    private void SetIdle(PlayerState _pState)//playerÀÇ »óÅÂ°¡ endÀÏ °æ¿ì¿¡
+    private void SetIdle(PlayerState _pState)//playerì˜ ìƒíƒœê°€ endì¼ ê²½ìš°ì—
     {
         if (_pState == PlayerState.End)
         {
-            _pState = PlayerState.Idle;// ¾Æ¹«°Íµµ ¾ÈÇÏ´Â µ¿ÀÛÀ¸·Î º¯°æ
+            _pState = PlayerState.Idle;// ì•„ë¬´ê²ƒë„ ì•ˆí•˜ëŠ” ë™ì‘ìœ¼ë¡œ ë³€ê²½
         }
-        //ÀÌ ¼ø°£¿¡µµ »ó´ë°¡ ÆĞ¸¦ ³ÂÀ»¶§ ±×ÆĞ¸¦ °¡Á®¿Í Á¶ÇÕ¿Ï¼ºÀÌ °¡´ÉÇÏ´Ù¸é ÀÛµ¿ÇÏµµ·Ï °Ë»çÃß°¡
+        //ì´ ìˆœê°„ì—ë„ ìƒëŒ€ê°€ íŒ¨ë¥¼ ëƒˆì„ë•Œ ê·¸íŒ¨ë¥¼ ê°€ì ¸ì™€ ì¡°í•©ì™„ì„±ì´ ê°€ëŠ¥í•˜ë‹¤ë©´ ì‘ë™í•˜ë„ë¡ ê²€ì‚¬ì¶”ê°€
     }
 
     public void Check()
     {
-        CardManager.Instance.SortCards(strikeCards);
+
+        strikeCards.Sort();
+
         int headCheck = 0;
         int bodyCheck = 0;
         doubleCheck = false;
@@ -138,40 +159,36 @@ public class PlayerData : MonoBehaviour
             Debug.Log("CheckError");
             return;
         }
-        int temp = strikeCards[i].cardnum;
-        if(strikeCards.Count == 2)
+        int temp = strikeCards[i];
+        if (strikeCards.Count == 2)
         {
-            if(temp == strikeCards[i+1].cardnum)
+            if (temp == strikeCards[i + 1])
+
             {
                 Debug.Log("HEAD");
                 headCheck++;
                 doubleCheck = true;
-                i++;
                 strikeScore = 200;
             }
         }
         if (strikeCards.Count == 3)
         {
-            if (temp == strikeCards[i + 1].cardnum)         // HEAD CHECK
+
+            if (temp == strikeCards[i + 1])         // HEAD CHECK
             {
-                if (temp == strikeCards[i + 2].cardnum)//°°Àº¼ö 3°³°¡ ¸öÅëÀÏ°æ¿ì
-                {
-                    headCheck--;
-                    doubleCheck = false;
+                if (temp == strikeCards[i + 2])//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
+                { 
                     bodyCheck++;
                     tripleCheck = true;
-                    i++;
-                    i++;
+
                     Debug.Log("HEAD => BODY");
                     strikeScore = 300;
                 }
             }
             else                             // BODY CHECK
             {
-                if (temp + 1 == strikeCards[i + 1].cardnum && temp + 2 == strikeCards[i + 2].cardnum)//¿¬¼Ó¼ö3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (temp + 1 == strikeCards[i + 1] && temp + 2 == strikeCards[i + 2])//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
-                    i++;
-                    i++;
                     stairCheck = true;
                     bodyCheck++;
                     strikeScore = 300;
@@ -180,139 +197,190 @@ public class PlayerData : MonoBehaviour
 
             }
         }
-        if(bodyCheck == 0 && headCheck == 0)
+
+        if (bodyCheck == 0 && headCheck == 0)
         {
-            for(int a = 0; a < strikeCards.Count; a++)
+            for (int a = 0; a < strikeCards.Count; a++)
             {
                 strikeCards.Clear();
             }
-            for(int a = 0; a < playerCards.Count; a++)
+            for (int a = 0; a < playerCards.Count; a++)
+
             {
                 playerCards[a].myCardState = false;
             }
-            //¹®±¸ ¹× ¼±ÅÃÃë¼Ò
+            //ë¬¸êµ¬ ë° ì„ íƒì·¨ì†Œ
         }
-        if(bodyCheck == 1 || headCheck == 1)
-        {
-            StartCoroutine(RemoveCards());
-            ComboCount++;
-            pState.Value = PlayerState.delay;
-            GameManager.Instance.G_State.Value = GuardState.DoCheckGuard;
-        }
-    }
-    IEnumerator RemoveCards()
-    {
-        for (int a = playerCards.Count - 1; a >= 0; a--)
-        {
-            if (playerCards[a].myCardState == true)
-            {
-                Guardnums.Add(playerCards[a].cardnum);
-                yield return new WaitForSeconds(0.05f);
-                Destroy(playerCards[a].gameObject);
-                yield return new WaitForSeconds(0.15f);
-                playerCards.Remove(playerCards[a]);
-                yield return new WaitForSeconds(0.15f);                
-            }
-        }
-    }
 
-    public void AICheck()
+        if (bodyCheck == 1 || headCheck == 1)
+        {
+            for (int a = playerCards.Count - 1; a >= 0; a--)
+            {
+                if (playerCards[a].myCardState == true)
+                {
+                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
+                        Guardnums.Add(playerCards[a].cardnum);
+                    StartCoroutine(RemoveCards(playerCards[a].gameObject, a));
+
+                }
+            }
+            ComboCount++;
+            strikeCards.Clear();
+            pState.Value = PlayerState.delay;
+            StartCoroutine(GuardCheckdelay()); 
+        }
+    }
+    public void GuardCheck()
     {
         int headCheck = 0;
         int bodyCheck = 0;
-      
+        doubleCheck = false;
+        tripleCheck = false;
+        stairCheck = false;
+        int i = 0;
+
+        if (Guardnums.Count < 2)
+        {
+            Debug.Log("CheckError");
+            return;
+        }
+        int temp = Guardnums[i];
+        if (Guardnums.Count == 2)
+        {
+            if (temp == Guardnums[i + 1])
+            {
+                Debug.Log("HEAD");
+                headCheck++;
+                doubleCheck = true;
+            }
+        }
+        if (Guardnums.Count == 3)
+        {
+            if (temp == Guardnums[i + 1])         
+            {
+                if (temp == Guardnums[i + 1]&&Guardnums[i+1]== Guardnums[i+2])//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
+                {
+                    headCheck--;
+                    doubleCheck = false;
+                    bodyCheck++;
+                    tripleCheck = true;
+                    Debug.Log("HEAD => BODY");
+                }
+            }
+            else                             
+            {
+                if (temp + 1 == Guardnums[i + 1] && temp + 2 == Guardnums[i + 2])//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
+                {
+                    stairCheck = true;
+                    bodyCheck++;
+                    Debug.Log("BODY");
+                }
+
+            }
+        }
+        if (bodyCheck == 0 && headCheck == 0)
+        {
+            for (int a = 0; a < strikeCards.Count; a++)
+            {
+                Guardnums.Clear();
+            }
+            for (int a = 0; a < playerCards.Count; a++)
+            {
+                playerCards[a].myCardState = false;
+            }
+            //ë¬¸êµ¬ ë° ì„ íƒì·¨ì†Œ
+        }
+        if (bodyCheck == 1 || headCheck == 1)
+        {
+            for (int a = playerCards.Count - 1; a >= 0; a--)
+            {
+                if (playerCards[a].myCardState == true)
+                {
+                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
+                        Guardnums.Add(playerCards[a].cardnum);
+                  StartCoroutine(RemoveCards(playerCards[a].gameObject,a));     
+                 
+                }
+            }
+
+            strikeCards.Clear();
+        }
+    }
+    IEnumerator RemoveCards(GameObject obj, int a)
+    {
+        yield return new WaitForSeconds(0.03f);
+        Destroy(obj);
+        yield return new WaitForSeconds(0.05f);
+        playerCards.RemoveAt(a);
+        yield return new WaitForSeconds(0.05f);
+    }
+    IEnumerator AIDelayCheck()
+    {
+        Guardnums.Clear();
+        yield return new WaitForSeconds(0.05f);
+        int headCheck = 0;
+        int bodyCheck = 0;
+        doubleCheck = false;
+        tripleCheck = false;
+        stairCheck = false;
         for (var i = 0; i < playerCards.Count - 1; i++)
         {
-            if (i == playerCards.Count - 1)
-            {
-                break;
-            }
+            yield return new WaitForSeconds(0.1f);
+
 
             int temp = playerCards[i].cardnum;
             if (temp == playerCards[i + 1].cardnum)         // HEAD CHECK
             {
                 if (headCheck == 1)
                     break;
-                if (i + 1 >= playerCards.Count - 1)
+                if (bodyCheck == 1)
+                    break;
+                if (i == playerCards.Count - 2)
+                {
+                    Debug.Log("HEAD");
+                    doubleCheck = true;
+                    headCheck++;
+                    CardStateChange(i, 2);
+                    strikeScore = 200;
+                    break;
+                }
+                if (temp == playerCards[i + 2].cardnum)//ê°™ì€ìˆ˜ 3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
 
-                    if(playerCards[i].cardnum == playerCards[i+1].cardnum)
-                    {
-                        
-                        headCheck++;
-                        doubleCheck = true;
-                        strikeCards.Add(playerCards[i]);
-                        strikeCards.Add(playerCards[i + 1]);
-                        playerCards[i].myCardState = true;
-                        playerCards[i + 1].myCardState = true;
-                       
-                    }
-                }
-                    if (temp == playerCards[i + 2].cardnum)//°°Àº¼ö 3°³°¡ ¸öÅëÀÏ°æ¿ì
-                    {
                     headCheck--;
                     doubleCheck = false;
                     bodyCheck++;
                     tripleCheck = true;
-                    strikeCards.Add(playerCards[i]);
-                    strikeCards.Add(playerCards[i + 1]);
-                    strikeCards.Add(playerCards[i + 2]);
-                    playerCards[i].myCardState = true;
-                    playerCards[i + 1].myCardState = true;
-                    playerCards[i+2].myCardState = true;
-                    i++;
-                        i++;
-                        Debug.Log("HEAD => BODY");
-                        strikeScore = 300;
+                    CardStateChange(i, 3);
+                    Debug.Log("HEAD => BODY");
+                    strikeScore = 300;
                     break;
 
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     Debug.Log("HEAD");
                     doubleCheck = true;
                     headCheck++;
-                    strikeCards.Add(playerCards[i]);
-                    strikeCards.Add(playerCards[i + 1]);
-                    playerCards[i].myCardState = true;
-                    playerCards[i + 1].myCardState = true;
+                    CardStateChange(i, 2);
                     strikeScore = 200;
-                        i++;
-                    }
-                
+                    break;
+                }
+
             }
             else                             // BODY CHECK
             {
+                if (i  == playerCards.Count - 2)
+                    break;
                 if (headCheck == 1)
                     break;
-                if (i + 2 >= playerCards.Count -1 )
-                {
-                    if (playerCards[i].cardnum == playerCards[i+1].cardnum - 1 && playerCards[i+1].cardnum == playerCards[i+2].cardnum - 1)
-                    {
-                        stairCheck = true;
-                        bodyCheck++;
-                        strikeCards.Add(playerCards[i]);
-                        strikeCards.Add(playerCards[i + 1]);
-                        strikeCards.Add(playerCards[i + 2]);
-                        playerCards[i].myCardState = true;
-                        playerCards[i + 1].myCardState = true;
-                        playerCards[i + 2].myCardState = true;
-                        strikeScore = 300;
-                        break;
-                    }
-                }
-                
-                if (temp + 1 == playerCards[i + 1].cardnum && temp + 2 == playerCards[i + 2].cardnum)//¿¬¼Ó¼ö3°³°¡ ¸öÅëÀÏ°æ¿ì
+                if (bodyCheck == 1)
+                    break;
+                if (temp + 1 == playerCards[i + 1].cardnum && temp + 2 == playerCards[i + 2].cardnum)//ì—°ì†ìˆ˜3ê°œê°€ ëª¸í†µì¼ê²½ìš°
                 {
                     stairCheck = true;
-                    strikeCards.Add(playerCards[i]);
-                    strikeCards.Add(playerCards[i + 1]);
-                    strikeCards.Add(playerCards[i + 2]);
-                    playerCards[i].myCardState = true;
-                    playerCards[i + 1].myCardState = true;
-                    playerCards[i + 2].myCardState = true;
-                    i++;
-                    i++;
+                    CardStateChange(i, 3);
+
                     bodyCheck++;
                     strikeScore = 300;
                     Debug.Log("BODY");
@@ -322,17 +390,47 @@ public class PlayerData : MonoBehaviour
             }
 
         }
-      if(headCheck == 1 || bodyCheck == 1)
+        if (headCheck == 1 || bodyCheck == 1)
         {
-            StartCoroutine(RemoveCards());
+            for (int a = playerCards.Count - 1; a >= 0; a--)
+            {
+                if (playerCards[a].myCardState == true)
+                {
+                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
+                        Guardnums.Add(playerCards[a].cardnum);
+                   StartCoroutine(RemoveCards(playerCards[a].gameObject, a));
+
+                }
+            }
             ComboCount++;
+            strikeCards.Clear();
             pState.Value = PlayerState.delay;
-            GameManager.Instance.G_State.Value = GuardState.DoCheckGuard;
+            StartCoroutine(GuardCheckdelay());
         }
-      if(bodyCheck == 0 && headCheck == 0)
+        if (bodyCheck == 0 && headCheck == 0)
         {
-            
+            pState.Value = PlayerState.SelectFin;
         }
 
     }
+
+    IEnumerator GuardCheckdelay()
+    {
+        yield return new WaitForSeconds(1.0f);
+        GameManager.Instance.G_State.Value = GuardState.DoCheckGuard;
+    }
+
+    public void AICheck()
+    {
+        StartCoroutine(AIDelayCheck());
+    }
+    private void CardStateChange(int i, int Count)
+    {
+       for(int a = 0; a < Count; a++)
+        {
+            strikeCards.Add(playerCards[i+a].cardnum);      
+            playerCards[i+a].myCardState = true;
+        }
+    }
+
 }
