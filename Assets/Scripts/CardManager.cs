@@ -15,7 +15,6 @@ public class CardManager : Singleton<CardManager>
     public List<CardInfo> BonusCards;
     [SerializeField] GameObject bonusCardParent;
     [SerializeField] Transform cardSpawnPoint;
-    public TMP_Text BonusText; 
 
     List<Card> cardBuffer;//카드를 담을 공간
 
@@ -60,7 +59,6 @@ public class CardManager : Singleton<CardManager>
     private void Start()
     {
         AddCard(BonusCards, cardSpawnPoint, bonusCardParent);
-        BonusText.text = "Bonus :" + BonusCards[0].cardnum.ToString();
     }
 
     // Update is called once per frame
@@ -77,21 +75,7 @@ public class CardManager : Singleton<CardManager>
             card.Setup(PopCard());
             _pCard.Add(card);
     }
-    public void ReturnCard(List<CardInfo> _pCard, Transform playerPosition, GameObject playerObject)//카드추가
-    {
-        var cardObject = Instantiate(cardPrefab, playerPosition.position, Utills.QI);
-        cardObject.transform.parent = playerObject.transform;
-        var card = cardObject.GetComponent<CardInfo>();
-        if (TurnSys.Instance.sPlayerIndex.Value == 0)
-        {
-            card.Setup(GameManager.Instance.player[0].strikeCards[0].card);
-        }
-        if(TurnSys.Instance.sPlayerIndex.Value == 1)
-        {
-            card.Setup(GameManager.Instance.player[1].strikeCards[0].card);
-        }
-            _pCard.Add(card);
-    }
+    
 
     public void ArrangeCardsBetweenMyCards(List<CardInfo> cards, Transform leftTransform, Transform rightTransform, float gap)
     {

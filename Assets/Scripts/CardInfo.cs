@@ -17,9 +17,12 @@ public class CardInfo : MonoBehaviour
     public void Setup(Card card)
     {
         this.card = card;
-
         cardSprite.sprite = this.card.sprite;
         text.text = this.card.num.ToString();
+        if (this.card.num == 20)
+            text.text = "R";
+        else if (this.card.num == 30)
+            text.text = "B";
         cardnum = this.card.num;
         myCardState = this.card.CardState;
     }
@@ -40,7 +43,7 @@ public class CardInfo : MonoBehaviour
                     }
                     if (myCardState == false)
                     {
-                        GameManager.Instance.player[0].strikeCards.Add(this);
+                        GameManager.Instance.player[0].strikeCards.Add(this.cardnum);
                         myCardState = true;
                     }
                     
@@ -75,7 +78,7 @@ public class CardInfo : MonoBehaviour
                     }
                     if (myCardState == false)
                     {
-                        GameManager.Instance.player[1].strikeCards.Add(this);
+                        GameManager.Instance.player[1].strikeCards.Add(this.cardnum);
                         myCardState = true;
                     }
 
@@ -100,7 +103,7 @@ public class CardInfo : MonoBehaviour
         {
             if (transform.parent == GameManager.Instance.player[0].playerObject.transform)
             {
-                GameManager.Instance.player[0].strikeCards.Add(this);
+                GameManager.Instance.player[0].Guardnums.Add(this.cardnum);
                 myCardState = true;
             }
         }
@@ -112,8 +115,8 @@ public class CardInfo : MonoBehaviour
             GameManager.Instance.player[0].pState.Value = PlayerState.SelectFin;
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
             GameManager.Instance.player[1].pState.Value = PlayerState.SelectFin;
-        yield return new WaitForSeconds(0.05f);
         Destroy(obj);
+
         // 오브젝트 파괴
     }
 

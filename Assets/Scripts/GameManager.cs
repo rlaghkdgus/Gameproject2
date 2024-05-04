@@ -44,11 +44,17 @@ public class GameManager : Singleton<GameManager>
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            player[0].pState.Value = PlayerState.SelectFin;
+            if (player[0].ComboCount == 0)
+                StartCoroutine(CheckDelay(player[0].playerCards[7].gameObject));
+            else
+                player[0].pState.Value = PlayerState.SelectFin;
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            player[1].pState.Value = PlayerState.SelectFin;
+            if (player[1].ComboCount == 0)
+                StartCoroutine(CheckDelay(player[1].playerCards[7].gameObject));
+            else
+                player[1].pState.Value = PlayerState.SelectFin;
         }
     }
     public void TestButton()
@@ -71,6 +77,7 @@ public class GameManager : Singleton<GameManager>
           
             if (TurnSys.Instance.sPlayerIndex.Value == 1)
             {
+                player[1].Guardnums.Sort();
                 CheckGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
                 NoGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
             }
@@ -82,7 +89,7 @@ public class GameManager : Singleton<GameManager>
         NoGuardButton.SetActive(false);
         G_State.Value = GuardState.GuardSelect;
     }
-    public void NoGuard() //여기부터 다시 코딩 시작
+    public void NoGuard()
     {
         G_State.Value = GuardState.Idle;
         /*if (TurnSys.Instance.sPlayerIndex.Value == 0)
@@ -93,10 +100,16 @@ public class GameManager : Singleton<GameManager>
         */
         if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            S_State.Value = StrikeState.SetStrike;
-            G_State.Value = GuardState.Idle;
-            player[1].pState.Value = PlayerState.Select;
+            CheckGuardButton.SetActive(false);
+            NoGuardButton.SetActive(false);
+            StartCoroutine(SetStrikeDelay());
         }
+    }
+    IEnumerator SetStrikeDelay()
+    {
+        S_State.Value = StrikeState.SetStrike;
+        yield return new WaitForSeconds(0.5f);
+        player[1].pState.Value = PlayerState.Select;
     }
     private void SelectGuardCard(GuardState _gState)
     {
@@ -112,9 +125,9 @@ public class GameManager : Singleton<GameManager>
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            CardManager.Instance.SortCards(player[1].strikeCards);
+            player[1].strikeCards.Sort();
             player[1].Check();
-            if (player[1].Guardnums[0] > player[0].Guardnums[0])
+            if (player[1].strikeCards[0] >= player[0].Guardnums[0])
             {
                 if (player[0].doubleCheck == true && player[1].doubleCheck == true)
                 {
@@ -136,9 +149,9 @@ public class GameManager : Singleton<GameManager>
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            CardManager.Instance.SortCards(player[0].strikeCards);
-            player[0].Check();
-            if (player[0].strikeCards[0].cardnum > player[1].Guardnums[0])
+            player[0].Guardnums.Sort();
+            player[0].GuardCheck();
+            if (player[0].Guardnums[0] >= player[1].Guardnums[0])
             {
                 if (player[0].doubleCheck == true && player[1].doubleCheck == true)
                 {
@@ -165,12 +178,14 @@ public class GameManager : Singleton<GameManager>
                 S_State.Value = StrikeState.SetStrike;
             }
         }
+        DoGuardButton.SetActive(false);
     }
 
     private void FinishButton(StrikeState _sState)
     {
         if (_sState == StrikeState.ReadyStrike)
         { 
+            if(TurnSys.Instance.sPlayerIndex.Value == 0)
              turnFinishButton.SetActive(true);
         }
        
@@ -192,7 +207,6 @@ public class GameManager : Singleton<GameManager>
                 player[0].playerScore -= player[1].strikeScore;
                 player[1].strikeScore = 0;
                 player[0].playerScoreText.text = "" + player[0].playerScore;
-                player[1].pState.Value = PlayerState.Select;
             }
             S_State.Value = StrikeState.ReadyStrike;
         }
@@ -242,8 +256,6 @@ public class GameManager : Singleton<GameManager>
                 CardBuffering.SetActive(player[1].pState.Value == PlayerState.Select);
                 player[1].playerCards[7].myCardState = true;
                 CardManager.Instance.SortCards(player[0].playerCards);
-                player[1].playerCards[7].text.text = "";
-                player[1].playerCards[7].cardSprite.sprite = null;
                 player[1].pState.Value = PlayerState.Idle;
                 StartCoroutine(CheckDelay(player[1].playerCards[7].gameObject));
             }
