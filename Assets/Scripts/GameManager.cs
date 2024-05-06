@@ -23,12 +23,17 @@ public class GameManager : Singleton<GameManager>
     public GameObject CheckGuardButton;
     public GameObject DoGuardButton;
     public GameObject NoGuardButton;
+    public GameObject GuardUI;
+    public List<GameObject> GuardBirdUI = new List<GameObject>();
+    public List<TMP_Text> GuardBirdTxt = new List<TMP_Text>();
+    public List<GameObject> GuardBirdUIExc = new List<GameObject>();
     public float turnTime;
     public TMP_Text timerText;
     public TMP_Text strikeScoreText;
     public TMP_Text FianlScoretext;
     public TMP_Text FianlScoretext1;
     public bool AnotherStrike = false;
+    bool guardOk = false;
 
     private void ViewButton(int _sIndex)//턴마다 나의 버튼이 보이게 하도록
     {
@@ -151,41 +156,73 @@ public class GameManager : Singleton<GameManager>
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            player[0].Guardnums.Sort();
-            player[0].GuardCheck();
-            if (player[0].Guardnums[0] >= player[1].Guardnums[0])
-
-            {
-                if (player[0].doubleCheck == true && player[1].doubleCheck == true)
-                {
-                    player[1].strikeScore = 0;
-                    player[1].pState.Value = PlayerState.SelectFin;
-                    G_State.Value = GuardState.Idle;
-                }
-                else if (player[0].tripleCheck == true && player[1].tripleCheck == true)
-                {
-                    player[1].strikeScore = 0;
-                    player[1].pState.Value = PlayerState.SelectFin;
-                    G_State.Value = GuardState.Idle;
-                }
-                else if (player[0].stairCheck == true && player[1].stairCheck == true)
-                {
-                    player[1].strikeScore = 0;
-                    player[1].pState.Value = PlayerState.SelectFin;
-                    G_State.Value = GuardState.Idle;
-                }
-                player[1].Guardnums.Clear();
-            }
-            else
-            {
-                S_State.Value = StrikeState.SetStrike;
-            }
+            StartCoroutine(GuardUIDelay());
         }
 
         DoGuardButton.SetActive(false);
 
     }
 
+    IEnumerator GuardUIDelay()
+    {
+        DoGuardButton.SetActive(false);
+        GuardUI.SetActive(true);
+        player[0].Guardnums.Sort();
+        player[0].GuardCheck();
+        for(int i = 0; i < player[0].Guardnums.Count; i++)
+        {
+            GuardBirdTxt[i].text = player[0].Guardnums[i].ToString();
+        }
+        for(int i = 0; i< player[1].Guardnums.Count; i++)
+        {
+            GuardBirdTxt[i+3].text = player[1].Guardnums[i].ToString();
+        }
+        if (player[0].Guardnums[0] >= player[1].Guardnums[0])
+        {
+            if (player[0].doubleCheck == true && player[1].doubleCheck == true)
+            {
+                for(int i = 0; i < GuardBirdUIExc.Count; i++)
+                {
+                    GuardBirdUIExc[i].SetActive(false);
+                }
+                player[1].strikeScore = 0;
+                guardOk = true;
+            }
+            else if (player[0].tripleCheck == true && player[1].tripleCheck == true)
+            {
+                player[1].strikeScore = 0;
+                guardOk = true;
+            }
+            else if (player[0].stairCheck == true && player[1].stairCheck == true)
+            {
+                player[1].strikeScore = 0;
+                guardOk = true;
+            }
+            player[1].Guardnums.Clear();
+        }
+        else
+        {
+            guardOk = false;
+        }
+        yield return new WaitForSeconds(1.0f);
+        GuardBirdUI[0].SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        GuardBirdUI[1].SetActive(true);
+        yield return new WaitForSeconds(3.0f);
+        for(int i = 0; i< 2; i++)
+        {
+            GuardBirdUI[i].SetActive(false);
+            GuardBirdUIExc[i].SetActive(true);
+        }
+        GuardUI.SetActive(false);
+        if (guardOk == true)
+        {
+            player[1].pState.Value = PlayerState.SelectFin;
+            G_State.Value = GuardState.Idle;
+        }
+        else if (guardOk == false)
+            S_State.Value = StrikeState.SetStrike; 
+    }
     private void FinishButton(StrikeState _sState)
     {
         if (_sState == StrikeState.ReadyStrike)

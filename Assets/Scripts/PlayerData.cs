@@ -214,16 +214,7 @@ public class PlayerData : MonoBehaviour
 
         if (bodyCheck == 1 || headCheck == 1)
         {
-            for (int a = playerCards.Count - 1; a >= 0; a--)
-            {
-                if (playerCards[a].myCardState == true)
-                {
-                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
-                        Guardnums.Add(playerCards[a].cardnum);
-                    StartCoroutine(RemoveCards(playerCards[a].gameObject, a));
-
-                }
-            }
+            StartCoroutine(DeleteDelay());
             ComboCount++;
             strikeCards.Clear();
             pState.Value = PlayerState.delay;
@@ -292,27 +283,27 @@ public class PlayerData : MonoBehaviour
         }
         if (bodyCheck == 1 || headCheck == 1)
         {
-            for (int a = playerCards.Count - 1; a >= 0; a--)
-            {
-                if (playerCards[a].myCardState == true)
-                {
-                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
-                        Guardnums.Add(playerCards[a].cardnum);
-                  StartCoroutine(RemoveCards(playerCards[a].gameObject,a));     
-                 
-                }
-            }
+            StartCoroutine(DeleteDelay());
 
             strikeCards.Clear();
         }
     }
-    IEnumerator RemoveCards(GameObject obj, int a)
+    IEnumerator DeleteDelay()
     {
-        yield return new WaitForSeconds(0.03f);
-        Destroy(obj);
-        yield return new WaitForSeconds(0.05f);
-        playerCards.RemoveAt(a);
-        yield return new WaitForSeconds(0.05f);
+        for (int a = playerCards.Count - 1; a >= 0; a--)
+        {
+            if (playerCards[a].myCardState == true)
+            { 
+                if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
+                    Guardnums.Add(playerCards[a].cardnum);
+                yield return new WaitForSeconds(0.03f);
+                Destroy(playerCards[a].gameObject);
+                yield return new WaitForSeconds(0.05f);
+                playerCards.RemoveAt(a);
+                yield return new WaitForSeconds(0.05f);
+
+            }
+        }
     }
     IEnumerator AIDelayCheck()
     {
@@ -323,11 +314,8 @@ public class PlayerData : MonoBehaviour
         doubleCheck = false;
         tripleCheck = false;
         stairCheck = false;
-        for (var i = 0; i < playerCards.Count - 1; i++)
+        for (int i = 0; i < playerCards.Count - 1; i++)
         {
-            yield return new WaitForSeconds(0.1f);
-
-
             int temp = playerCards[i].cardnum;
             if (temp == playerCards[i + 1].cardnum)         // HEAD CHECK
             {
@@ -392,16 +380,7 @@ public class PlayerData : MonoBehaviour
         }
         if (headCheck == 1 || bodyCheck == 1)
         {
-            for (int a = playerCards.Count - 1; a >= 0; a--)
-            {
-                if (playerCards[a].myCardState == true)
-                {
-                    if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
-                        Guardnums.Add(playerCards[a].cardnum);
-                   StartCoroutine(RemoveCards(playerCards[a].gameObject, a));
-
-                }
-            }
+            StartCoroutine(DeleteDelay());
             ComboCount++;
             strikeCards.Clear();
             pState.Value = PlayerState.delay;
