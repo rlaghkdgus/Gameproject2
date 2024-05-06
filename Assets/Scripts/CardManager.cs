@@ -52,7 +52,7 @@ public class CardManager : Singleton<CardManager>
 
     private void Awake()
     {
-        SingleTon.Instance.SetChar(SingleTon.Instance.GetCharID());
+        //SingleTon.Instance.SetChar(SingleTon.Instance.GetCharID());
         SetupCardBuffer();
     }
 
