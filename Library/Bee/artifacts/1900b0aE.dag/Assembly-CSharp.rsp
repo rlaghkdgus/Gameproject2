@@ -379,6 +379,7 @@
 "Assets/Scripts/CardSO.cs"
 "Assets/Scripts/Example1.cs"
 "Assets/Scripts/GameManager.cs"
+"Assets/Scripts/JudgeMove/JudgeMove.cs"
 "Assets/Scripts/LoadingSceneManager.cs"
 "Assets/Scripts/MainMenuManage.cs"
 "Assets/Scripts/PlayerData.cs"

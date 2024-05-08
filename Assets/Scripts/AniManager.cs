@@ -7,7 +7,10 @@ public class AniManager : MonoBehaviour
     public Animator Judgeanim;
     public GameObject targetPosition1;
     public GameObject targetPosition2;
+    public GameObject targetPosition3;
+    public GameObject targetPosition4;
     public bool JudgePosition = false;
+    public bool Judge1 = false;
     // 회전할 속도
     public float rotationSpeed = 30f;
 
@@ -34,7 +37,7 @@ public class AniManager : MonoBehaviour
 
     void Start()
     {
-       Judgeanim = GetComponent<Animator>();
+        Judgeanim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,9 +46,14 @@ public class AniManager : MonoBehaviour
         if (JudgePosition == true)
         {
             transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition1.transform.position, 0.01f);
-            if(gameObject.transform.position == targetPosition1.transform.position)
+            if (gameObject.transform.position == targetPosition1.transform.position)
             {
-                transform.rotation = Quaternion.RotateTowards(gameObject.transform.rotation, targetPosition1.transform.rotation, 100 * Time.deltaTime);
+                transform.position = targetPosition3.transform.position;
+                Judge1 = true;
+            }
+            if (Judge1 == true)
+            {
+                transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition4.transform.position, 0.01f);
             }
         }
         else if (JudgePosition == false)
