@@ -170,10 +170,18 @@ public class GameManager : Singleton<GameManager>
         for(int i = 0; i < player[0].Guardnums.Count; i++)
         {
             GuardBirdTxt[i].text = player[0].Guardnums[i].ToString();
+            if (player[0].Guardnums[i] == 20)
+                GuardBirdTxt[i].text = "R";
+            else if (player[0].Guardnums[i] == 30)
+                GuardBirdTxt[i].text = "B";
         }
         for(int i = 0; i< player[1].Guardnums.Count; i++)
         {
             GuardBirdTxt[i+3].text = player[1].Guardnums[i].ToString();
+            if (player[1].Guardnums[i] == 20)
+                GuardBirdTxt[i+3].text = "R";
+            else if (player[1].Guardnums[i] == 30)
+                GuardBirdTxt[i+3].text = "B";
         }
         if (player[0].Guardnums[0] >= player[1].Guardnums[0])
         {
@@ -236,7 +244,6 @@ public class GameManager : Singleton<GameManager>
         {
             if (TurnSys.Instance.sPlayerIndex.Value == 0)
             {
-                
                 player[0].strikeCards.Clear();
                 player[0].characterImg.sprite = player[0].characterUI[1];
                 player[1].characterImg.sprite = player[1].characterUI[2];

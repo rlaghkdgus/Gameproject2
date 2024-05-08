@@ -26,6 +26,7 @@ public class AniManager : MonoBehaviour
     private void Awake()
     {
         TurnSys.Instance.gState.onChange += JudgeAnim;
+        
     }
 
     private void JudgeAnim(GameState _gState)
