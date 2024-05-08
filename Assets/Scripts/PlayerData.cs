@@ -68,7 +68,6 @@ public class PlayerData : MonoBehaviour
             strikeScore = 0;
 
             for (int i = playerCards.Count; i < 8; i++)
-
             {
                 if (playerCards.Count == 7)
                     break;
@@ -296,11 +295,11 @@ public class PlayerData : MonoBehaviour
             { 
                 if (GameManager.Instance.G_State.Value != GuardState.GuardSelect)
                     Guardnums.Add(playerCards[a].cardnum);
-                yield return new WaitForSeconds(0.03f);
+                yield return new WaitForSecondsRealtime(0.07f);
                 Destroy(playerCards[a].gameObject);
-                yield return new WaitForSeconds(0.03f);
+                yield return new WaitForSecondsRealtime(0.07f);
                 playerCards.RemoveAt(a);
-                yield return new WaitForSeconds(0.03f);
+                yield return new WaitForSecondsRealtime(0.07f);
 
             }
         }
