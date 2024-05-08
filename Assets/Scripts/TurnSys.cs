@@ -13,8 +13,7 @@ public class TurnSys : Singleton<TurnSys>
     public Data<GameState> gState = new Data<GameState>();//게임 상태 저장용 변수
 
     public int gameTurn = 0;//플레이어별 한바퀴 돌때마다 +1추가, 추후 카드 인덱스에 넣을 예정
-    
-
+    public bool gameStart = false;
    
 
     private void Awake()
@@ -36,6 +35,8 @@ public class TurnSys : Singleton<TurnSys>
         if (_gState == GameState.ActionEnd)//PlayerSystem에서 gState.Value가 ActionEnd상태가 될 경우
         {
             StartCoroutine(TurnStartCo());
+            GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
+            GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
         }
     }
    IEnumerator TurnStartCo()
@@ -46,7 +47,7 @@ public class TurnSys : Singleton<TurnSys>
 
             sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
             gameTurn++;//게임의 전체 턴 증가
-            GameManager.Instance.turnTime = 10.0f;
+            GameManager.Instance.turnTime = 20.0f;
             Debug.Log("NextTurn " + gameTurn);
         }
         else if (sPlayerIndex.Value == -1)
@@ -54,12 +55,11 @@ public class TurnSys : Singleton<TurnSys>
 
             sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
             gameTurn++;//게임의 전체 턴 증가
-            GameManager.Instance.turnTime = 10.0f;
+            GameManager.Instance.turnTime = 20.0f;
             Debug.Log("NextTurn " + gameTurn);
         }
         else
         {
-
             sPlayerIndex.Value++;//sPlayerIndex의 밸류를 증가시켜 턴 전환 구현
             GameManager.Instance.turnTime = 2.0f;
         }
@@ -68,6 +68,7 @@ public class TurnSys : Singleton<TurnSys>
     {
         yield return new WaitForSeconds(1.0f);//1초의 딜레이를 주고
         gState.Value = GameState.ActionEnd;//
+        gameStart = true;
         Debug.Log("GameStart");
     }
 }

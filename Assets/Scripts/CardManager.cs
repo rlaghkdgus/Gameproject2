@@ -10,15 +10,12 @@ public class CardManager : Singleton<CardManager>
 
     [SerializeField] CardSO cardSO;
     [SerializeField] GameObject cardPrefab;
-   
-   
     public List<CardInfo> BonusCards;
     [SerializeField] GameObject bonusCardParent;
     [SerializeField] Transform cardSpawnPoint;
 
     List<Card> cardBuffer;//카드를 담을 공간
 
-    
 
     enum ECardState {Nothing, CanMouseOver, CanMouseDrag }
     public Card PopCard()//카드 꺼내기

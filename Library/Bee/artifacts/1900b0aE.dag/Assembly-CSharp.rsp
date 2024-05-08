@@ -388,6 +388,7 @@
 "Assets/Scripts/LoadingSceneManager.cs"
 "Assets/Scripts/MainMenuManage.cs"
 "Assets/Scripts/PlayerData.cs"
+"Assets/Scripts/ShootingManager.cs"
 "Assets/Scripts/SingleTon.cs"
 "Assets/Scripts/TurnSys.cs"
 "Assets/Scripts/UtillEnum.cs"

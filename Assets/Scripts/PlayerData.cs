@@ -15,6 +15,8 @@ public class PlayerData : MonoBehaviour
     public int playerScore;
     public int strikeScore = 0;
     public int ComboCount = 0;
+    public Image characterImg;
+    public List <Sprite> characterUI = new List<Sprite>();
     public Transform cardLeftTransform;
     public Transform cardRightTransform;
     public Transform playerPosition;
@@ -126,10 +128,8 @@ public class PlayerData : MonoBehaviour
         if (pIndex == _sIndex)//시스템 인덱스와 플레이어 인덱스가 같을경우 턴을 시작하게 하기위한 조건
         {
             pState.Value = PlayerState.StartDraw;//StartDraw상태로 변경
-
             strikeCards.Clear();
             Guardnums.Clear();
-
             Debug.Log("DrawTurn " + pIndex);//여기같은 경우 이미지띄우기연출같은거 넣으면 될듯
         }
     }
@@ -298,9 +298,9 @@ public class PlayerData : MonoBehaviour
                     Guardnums.Add(playerCards[a].cardnum);
                 yield return new WaitForSeconds(0.03f);
                 Destroy(playerCards[a].gameObject);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.03f);
                 playerCards.RemoveAt(a);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(0.03f);
 
             }
         }
