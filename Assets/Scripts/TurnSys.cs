@@ -52,7 +52,6 @@ public class TurnSys : Singleton<TurnSys>
         }
         else if (sPlayerIndex.Value == -1)
         {
-
             sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
             gameTurn++;//게임의 전체 턴 증가
             GameManager.Instance.turnTime = 20.0f;
@@ -66,8 +65,8 @@ public class TurnSys : Singleton<TurnSys>
     }
     IEnumerator StartGameCo()//게임 시작시
     {
-        yield return new WaitForSeconds(1.0f);//1초의 딜레이를 주고
-        gState.Value = GameState.ActionEnd;//
+        yield return new WaitForSeconds(1.0f);//1초의 딜레이를 주고 
+        gState.Value = GameState.ActionEnd;// 0
         gameStart = true;
         Debug.Log("GameStart");
     }
