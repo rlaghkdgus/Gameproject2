@@ -378,7 +378,7 @@
       "DisplayName": "Writing boot.config_tyr4.info",
       "ActionType": "WriteFile",
       "PayloadOffset": 83,
-      "PayloadLength": 15187,
+      "PayloadLength": 15227,
       "PayloadDebugContentSnippet": "{\"System.Object\":null,\"Bee.Tun",
       "Inputs": [],
       "Outputs": [
@@ -478,26 +478,26 @@
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.WindModule.dll",
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.XRModule.dll",
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Facades/System.Runtime.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Facades/netstandard.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Mono.Security.dll",
@@ -1404,7 +1404,7 @@
       "DisplayName": "Copying Assembly-CSharp.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Assembly-CSharp.dll"
@@ -1416,7 +1416,7 @@
       "DisplayName": "Copying Unity.2D.IK.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.IK.Runtime.dll"
@@ -1428,7 +1428,7 @@
       "DisplayName": "Copying Unity.Burst.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Burst.dll"
@@ -1440,7 +1440,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Core.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.VisualScripting.Core.dll"
@@ -1452,7 +1452,7 @@
       "DisplayName": "Copying Unity.2D.Animation.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.Animation.Runtime.dll"
@@ -1464,7 +1464,7 @@
       "DisplayName": "Copying Unity.2D.Tilemap.Extras.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.Tilemap.Extras.dll"
@@ -1476,7 +1476,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Flow.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.VisualScripting.Flow.dll"
@@ -1488,7 +1488,7 @@
       "DisplayName": "Copying Unity.InternalAPIEngineBridge.001.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.InternalAPIEngineBridge.001.dll"
@@ -1500,7 +1500,7 @@
       "DisplayName": "Copying Unity.2D.Common.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.Common.Runtime.dll"
@@ -1512,7 +1512,7 @@
       "DisplayName": "Copying UnityEngine.UI.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/UnityEngine.UI.dll"
@@ -1524,7 +1524,7 @@
       "DisplayName": "Copying Unity.Timeline.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Timeline.dll"
@@ -1536,7 +1536,7 @@
       "DisplayName": "Copying Unity.Collections.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Collections.dll"
@@ -1548,7 +1548,7 @@
       "DisplayName": "Copying Unity.2D.SpriteShape.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.SpriteShape.Runtime.dll"
@@ -1560,7 +1560,7 @@
       "DisplayName": "Copying Unity.2D.PixelPerfect.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.2D.PixelPerfect.dll"
@@ -1572,7 +1572,7 @@
       "DisplayName": "Copying Unity.Mathematics.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Mathematics.dll"
@@ -1584,7 +1584,7 @@
       "DisplayName": "Copying Unity.TextMeshPro.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.TextMeshPro.dll"
@@ -1596,7 +1596,7 @@
       "DisplayName": "Copying Unity.VisualScripting.State.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.VisualScripting.State.dll"
@@ -1608,7 +1608,7 @@
       "DisplayName": "Copying Unity.Collections.LowLevel.ILSupport.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Collections.LowLevel.ILSupport.dll"
@@ -1620,7 +1620,7 @@
       "DisplayName": "Copying Unity.VisualScripting.Antlr3.Runtime.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.VisualScripting.Antlr3.Runtime.dll"
@@ -1632,7 +1632,7 @@
       "DisplayName": "Copying Unity.Burst.Unsafe.dll",
       "ActionType": "CopyFiles",
       "Inputs": [
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll"
       ],
       "Outputs": [
         "C:/Users/rlagh/OneDrive/바탕 화면/유니티스크립트/birdStrike_Data/Managed/Unity.Burst.Unsafe.dll"
@@ -1907,8 +1907,8 @@
       "Annotation": "GenerateNativePluginsForAssemblies Library/Bee/artifacts/WinPlayerBuildProgram/AsyncPluginsFromLinker",
       "DisplayName": "Running Burst Compiler",
       "ActionType": "RunRPCCommand",
-      "PayloadOffset": 15393,
-      "PayloadLength": 13935,
+      "PayloadOffset": 15433,
+      "PayloadLength": 13975,
       "PayloadDebugContentSnippet": "{\"PlayerBuildProgramLibrary.Da",
       "Action": "GenerateNativePluginsForAssemblies",
       "Inputs": [
@@ -1980,26 +1980,26 @@
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.WindModule.dll",
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.XRModule.dll",
         "D:/unity/2022.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.IK.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Burst.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Core.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Animation.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Tilemap.Extras.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.Flow.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.Common.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/UnityEngine.UI.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Timeline.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Collections.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.2D.PixelPerfect.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.Mathematics.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.TextMeshPro.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/PlayerScriptAssemblies/Unity.VisualScripting.State.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.collections@1.2.4/Unity.Collections.LowLevel.ILSupport/Unity.Collections.LowLevel.ILSupport.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.visualscripting@1.9.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll",
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.burst@1.8.8/Unity.Burst.Unsafe.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Facades/System.Runtime.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Facades/netstandard.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/Mono.Security.dll",
@@ -2023,7 +2023,7 @@
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/System.dll",
         "D:/unity/2022.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32/mscorlib.dll",
         "ProjectSettings/BurstAotSettings_StandaloneWindows.json",
-        "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/PackageCache/com.unity.burst@1.8.8/.Runtime/bcl.exe"
+        "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/PackageCache/com.unity.burst@1.8.8/.Runtime/bcl.exe"
       ],
       "Outputs": [],
       "TargetDirectories": [
@@ -2076,7 +2076,7 @@
       "Annotation": "WriteText Library/Bee/artifacts/WinPlayerBuildProgram/Data/app.info",
       "DisplayName": "Writing app.info",
       "ActionType": "WriteFile",
-      "PayloadOffset": 29417,
+      "PayloadOffset": 29497,
       "PayloadLength": 25,
       "PayloadDebugContentSnippet": "DefaultCompany\nbirdStrike",
       "Inputs": [],
@@ -2763,6 +2763,6 @@
   "SharedResources": [],
   "Scanners": [],
   "Identifier": "Library/Bee/Player228e4f9c.dag.json",
-  "PayloadsFile": "C:/Users/rlagh/OneDrive/문서/GitHub/BirdStrike/Library/Bee/Player228e4f9c.dag.payloads",
+  "PayloadsFile": "C:/Users/rlagh/OneDrive/문서/GitHub/Gameproject2/Library/Bee/Player228e4f9c.dag.payloads",
   "RelativePathToRoot": "../.."
 }
