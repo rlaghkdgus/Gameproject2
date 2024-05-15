@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.UI;
 
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviourPunCallbacks 
 {
     public List<PlayerData> player = new List<PlayerData>();//모든 플레이어 데이터 리스트(자신포함)
     public Data<GuardState> G_State = new Data<GuardState>();
     public Data<StrikeState> S_State = new Data<StrikeState>();
     public int myIndex;//자신의 인덱스 저장용
-    public GameObject Judge;//버튼 불러오기
-    public GameObject Judge1;//버튼 불러오기
+    public GameObject p1Camera;
+    public GameObject p2Camera;
     public GameObject CardBuffering;
     public GameObject ActiveJudge;
     public GameObject StrikeObject;
@@ -24,25 +26,42 @@ public class GameManager : Singleton<GameManager>
     public GameObject DoGuardButton;
     public GameObject NoGuardButton;
     public GameObject GuardUI;
+    public GameObject p1prefab;
+    public GameObject p2prefab;
     public List<GameObject> GuardBirdUI = new List<GameObject>();
     public List<TMP_Text> GuardBirdTxt = new List<TMP_Text>();
     public List<GameObject> GuardBirdUIExc = new List<GameObject>();
     public float turnTime;
     public TMP_Text timerText;
     public TMP_Text strikeScoreText;
+    public List<TMP_Text> GuardNumTxt = new List<TMP_Text>();
     public bool AnotherStrike = false;
     bool guardOk = false;
+    Vector3 bird1rot = new Vector3(-90f, 360f, 0f);
+    Vector3 bird2rot = new Vector3(-90f, 180f, 0f);
 
-    private void ViewButton(int _sIndex)//턴마다 나의 버튼이 보이게 하도록
+    public PhotonView PV;
+
+    private static GameManager _instance;
+
+    public static GameManager Instance
     {
-        Judge.SetActive(_sIndex == 0);//내 인덱스가 시스템인덱스와 동일할때 true
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+                if (_instance == null)
+                {
+                    GameObject singleton = new GameObject(typeof(GameManager).Name);
+                    _instance = singleton.AddComponent<GameManager>();
+                }
+            }
+            return _instance;
+        }
     }
 
-    private void ViewButton1(int _sIndex)//턴마다 나의 버튼이 보이게 하도록
-    {
-        Judge1.SetActive(_sIndex == 1);//내 인덱스가 시스템인덱스와 동일할때 true
-
-    }
+  
     public void FinishTurn()
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
@@ -60,27 +79,67 @@ public class GameManager : Singleton<GameManager>
                 player[1].pState.Value = PlayerState.SelectFin;
         }
     }
-    public void TestButton()
-    {
-        Debug.Log("Idle");
-        S_State.Value = StrikeState.Idle;
-    }
+  
     private void CheckGuard(GuardState _gState)
     {
         if (_gState == GuardState.DoCheckGuard)
         {
           if (TurnSys.Instance.sPlayerIndex.Value == 0)
             {
-                G_State.Value = GuardState.Idle;
-                S_State.Value = StrikeState.SetStrike;
-                player[0].pState.Value = PlayerState.Select;
-                //CheckGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
-                //NoGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
+                player[0].Guardnums.Sort();
+                if (player[0].Guardnums.Count == 3)
+                {
+                    for (int i = 0; i < player[0].Guardnums.Count; i++)
+                    {
+                        GuardNumTxt[i].text = "" + player[0].Guardnums[i];
+                        if (player[0].Guardnums[i] == 20)
+                            GuardNumTxt[i].text = "R";
+                        if (player[0].Guardnums[i] == 30)
+                            GuardNumTxt[i].text = "B";
+                    }
+                }
+                if (player[0].Guardnums.Count == 2)
+                {
+                    for (int i = 0; i < player[1].Guardnums.Count; i++)
+                    {
+                        GuardNumTxt[i].text = "" + player[0].Guardnums[i];
+                        if (player[0].Guardnums[i] == 20)
+                            GuardNumTxt[i].text = "R";
+                        if (player[0].Guardnums[i] == 30)
+                            GuardNumTxt[i].text = "B";
+                    }
+                    GuardNumTxt[2].text = "";
+                }
+                CheckGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
+                NoGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
             }
           
             if (TurnSys.Instance.sPlayerIndex.Value == 1)
             {
                 player[1].Guardnums.Sort();
+                if (player[1].Guardnums.Count == 3)
+                {
+                    for (int i = 0; i < player[1].Guardnums.Count; i++)
+                    {
+                        GuardNumTxt[i].text = "" + player[1].Guardnums[i];
+                        if (player[1].Guardnums[i] == 20)
+                            GuardNumTxt[i].text = "R";
+                        if (player[1].Guardnums[i] == 30)
+                            GuardNumTxt[i].text = "B"; 
+                    }
+                }
+                if(player[1].Guardnums.Count == 2)
+                {
+                    for(int i = 0; i< player[1].Guardnums.Count; i++)
+                    {
+                        GuardNumTxt[i].text = "" + player[1].Guardnums[i];
+                        if (player[1].Guardnums[i] == 20)
+                            GuardNumTxt[i].text = "R";
+                        if (player[1].Guardnums[i] == 30)
+                            GuardNumTxt[i].text = "B";
+                    }
+                    GuardNumTxt[2].text = "";
+                }
                 CheckGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
                 NoGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
             }
@@ -95,12 +154,13 @@ public class GameManager : Singleton<GameManager>
     public void NoGuard()
     {
         G_State.Value = GuardState.Idle;
-        /*if (TurnSys.Instance.sPlayerIndex.Value == 0)
+        if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            S_State.Value = StrikeState.SetStrike;
-            player[0].pState.Value = PlayerState.Select;
+            CheckGuardButton.SetActive(false);
+            NoGuardButton.SetActive(false);
+            StartCoroutine(SetStrikeDelay());
         }
-        */
+        
         if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
             CheckGuardButton.SetActive(false);
@@ -112,7 +172,7 @@ public class GameManager : Singleton<GameManager>
     {
         S_State.Value = StrikeState.SetStrike;
         yield return new WaitForSeconds(0.5f);
-        player[1].pState.Value = PlayerState.Select;
+        player[TurnSys.Instance.sPlayerIndex.Value].pState.Value = PlayerState.Select;
     }
     private void SelectGuardCard(GuardState _gState)
     {
@@ -128,9 +188,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-
-            player[1].strikeCards.Sort();
-            player[1].Check();
+          
             if (player[1].strikeCards[0] >= player[0].Guardnums[0])
 
             {
@@ -154,19 +212,42 @@ public class GameManager : Singleton<GameManager>
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            StartCoroutine(GuardUIDelay());
+            player[0].Guardnums.Sort();
+            if (player[0].Guardnums[0] >= player[1].Guardnums[0])
+            {
+                if ((player[0].doubleCheck == true && player[1].doubleCheck == true) || (player[0].tripleCheck == true && player[1].tripleCheck == true) || (player[0].stairCheck == true && player[1].stairCheck == true))
+                    StartCoroutine(GuardUIDelay());
+                else
+                {
+                    for (int i = 0; i < player[0].playerCards.Count; i++)
+                    {
+                        player[0].playerCards[i].myCardState = false;
+                    }
+                    player[0].Guardnums.Clear();
+                    return;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < player[0].playerCards.Count; i++)
+                {
+                    player[0].playerCards[i].myCardState = false;
+                }
+                player[0].Guardnums.Clear();
+                return;
+            }
         }
-
-        DoGuardButton.SetActive(false);
 
     }
 
     IEnumerator GuardUIDelay()
     {
+        yield return new WaitForSecondsRealtime(1.5f);
         DoGuardButton.SetActive(false);
         GuardUI.SetActive(true);
         player[0].Guardnums.Sort();
         player[0].GuardCheck();
+        ShootingManager.Instance.DestoyGuardBird();
         for(int i = 0; i < player[0].Guardnums.Count; i++)
         {
             GuardBirdTxt[i].text = player[0].Guardnums[i].ToString();
@@ -242,14 +323,30 @@ public class GameManager : Singleton<GameManager>
     {
         if (_sState == StrikeState.SetStrike)
         {
+            
             if (TurnSys.Instance.sPlayerIndex.Value == 0)
             {
                 player[0].strikeCards.Clear();
                 player[0].characterImg.sprite = player[0].characterUI[1];
                 player[1].characterImg.sprite = player[1].characterUI[2];
                 player[1].playerScore -= player[0].strikeScore;
+                player[1].playerScore -= player[0].ComboScore * player[0].ComboCount;
                 player[0].strikeScore = 0;
                 player[1].playerScoreText.text = "" + player[1].playerScore;
+                if(player[0].playerCards.Count <8)
+                {
+                    CardManager.Instance.AddCard(0);
+                    CardManager.Instance.SortCards(0);
+                    CardManager.Instance.ArrangeCardsBetweenMyCards(0,1.7f);
+                    ShootingManager.Instance.AddBird(ShootingManager.Instance.p1birdTransform[player[0].playerCards.Count-1], ShootingManager.Instance.birdparentobj, ShootingManager.Instance.birdPrefab, ShootingManager.Instance.p1Bird, bird1rot);
+                }
+                if (player[1].playerCards.Count < 8)
+                {
+                    CardManager.Instance.AddCard(1);
+                    CardManager.Instance.SortCards(1);
+                    CardManager.Instance.ArrangeCardsBetweenMyCards(1, 1.7f);
+                    ShootingManager.Instance.AddBird(ShootingManager.Instance.p2birdTransform[player[1].playerCards.Count-1], ShootingManager.Instance.birdparentobj2, ShootingManager.Instance.bird2Prefab, ShootingManager.Instance.p2Bird, bird2rot);
+                }
             }
             else if (TurnSys.Instance.sPlayerIndex.Value == 1)
             {
@@ -257,20 +354,36 @@ public class GameManager : Singleton<GameManager>
                 player[1].characterImg.sprite = player[1].characterUI[1];
                 player[0].characterImg.sprite = player[0].characterUI[2];
                 player[0].playerScore -= player[1].strikeScore;
+                player[0].playerScore -= player[1].ComboScore * player[1].ComboCount;
                 player[1].strikeScore = 0;
                 player[0].playerScoreText.text = "" + player[0].playerScore;
-
+                if (player[1].playerCards.Count < 8)
+                {
+                    CardManager.Instance.AddCard(1);
+                    CardManager.Instance.SortCards(1);
+                    CardManager.Instance.ArrangeCardsBetweenMyCards(1, 1.7f);
+                    ShootingManager.Instance.AddBird(ShootingManager.Instance.p2birdTransform[player[1].playerCards.Count-1], ShootingManager.Instance.birdparentobj2, ShootingManager.Instance.bird2Prefab,ShootingManager.Instance.p2Bird ,bird2rot);
+                }
+                if (player[0].playerCards.Count < 8)
+                {
+                    CardManager.Instance.AddCard(0);
+                    CardManager.Instance.SortCards(0);
+                    CardManager.Instance.ArrangeCardsBetweenMyCards(0, 1.7f);
+                    ShootingManager.Instance.AddBird(ShootingManager.Instance.p1birdTransform[player[0].playerCards.Count-1], ShootingManager.Instance.birdparentobj, ShootingManager.Instance.birdPrefab, ShootingManager.Instance.p1Bird, bird1rot);
+                }
                 //player[1].pState.Value = PlayerState.Select; 
 
             }
             S_State.Value = StrikeState.ReadyStrike;
+            
         }
        
     }
     private void Awake()
     {
-        TurnSys.Instance.sPlayerIndex.onChange += ViewButton;
-        TurnSys.Instance.sPlayerIndex.onChange += ViewButton1;
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PV = GetComponent<PhotonView>();
+        PV.RPC("SetCamera", RpcTarget.All);
         S_State.onChange += FinishButton;
         S_State.onChange += StrikeDamage;
         G_State.onChange += CheckGuard;
@@ -283,9 +396,17 @@ public class GameManager : Singleton<GameManager>
          * 활용방안으로 메소드안에 if(나의 인덱스 == 시스템인덱스){ 턴에 작용하고 싶은 행동 }
         */
     }
-
+    [PunRPC]
+    public void SetCamera()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            p2Camera.SetActive(false);
+        else if (!PhotonNetwork.IsMasterClient)
+            p1Camera.SetActive(false);
+    }
     void Update()
     {
+        /*
         if(player[0].pState.Value == PlayerState.Select)//시간체크용
         {
             turnTime -= Time.deltaTime;
@@ -306,11 +427,13 @@ public class GameManager : Singleton<GameManager>
                     CardBuffering.SetActive(player[0].pState.Value == PlayerState.Select);
                     player[0].playerCards[7].myCardState = true;
                     StartCoroutine(CheckDelay(player[0].playerCards[7].gameObject));
+                    ShootingManager.Instance.DestroyTurnEndBird();
                 }
             }      
         }
        
         if (player[1].pState.Value == PlayerState.Select)//시간체크용
+        */
         {
             /*
             turnTime -= Time.deltaTime;
@@ -337,26 +460,34 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        S_State.Value = StrikeState.Idle;
-        G_State.Value = GuardState.Idle;
-        player[0].playerScoreText.text = "" + player[0].playerScore;
-        player[1].playerScoreText.text = "" + player[1].playerScore;
-        for (int i = 0; i < player.Count; i++)//플레이어의 수따라
-        {
-            player[i].pState.Value = PlayerState.Idle;//플레이어 데이터를 초기화
-            player[i].pIndex = i;//각플레이어에게 턴 인덱스를 배정
-            for(int j = 0; j < 7; j++)
-            {
-                CardManager.Instance.AddCard(player[i].playerCards,player[i].playerPosition,player[i].playerObject);
+      if(PhotonNetwork.IsMasterClient)  PV.RPC("GmrStart", RpcTarget.All); 
+    }
+    [PunRPC]
+    public void GmrStart()
+    {
+        Debug.Log("GmrStart");
+            S_State.Value = StrikeState.Idle;
+            G_State.Value = GuardState.Idle;
+            player[0].playerScoreText.text = "" + player[0].playerScore;
+            player[1].playerScoreText.text = "" + player[1].playerScore;
+            for (int i = 0; i < player.Count; i++)//플레이어의 수따라
+            {    
+                player[i].pState.Value = PlayerState.Idle;//플레이어 데이터를 초기화
+                player[i].pIndex = i;//각플레이어에게 턴 인덱스를 배정
+                for (int j = 0; j < 8; j++)
+                {
+                if(PhotonNetwork.IsMasterClient)
+                    CardManager.Instance.AddCard(i);
+                }
+                CardManager.Instance.SortCards(i);
+                CardManager.Instance.ArrangeCardsBetweenMyCards(i, 1.7f);
             }
-            CardManager.Instance.SortCards(player[i].playerCards);
-            CardManager.Instance.ArrangeCardsBetweenMyCards(player[i].playerCards, player[i].cardLeftTransform, player[i].cardRightTransform, 1.7f);
-        }
+        
     }
     IEnumerator CheckDelay(GameObject obj)
     {
         Destroy(obj);
-        yield return new WaitForSeconds(0.05f); // 0.2초 지연
+        yield return new WaitForSeconds(0.15f); // 0.2초 지연
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
             player[0].playerCards.RemoveAt(7);//내카드리스트에 삭제
@@ -370,4 +501,7 @@ public class GameManager : Singleton<GameManager>
        
         // 오브젝트 파괴
     }
+    
+  
 }
+

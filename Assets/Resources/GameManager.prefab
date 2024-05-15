@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1449069213870740746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4769270471283082698}
+  - component: {fileID: 7167907433462406325}
+  - component: {fileID: 6821401833369508377}
+  - component: {fileID: 6037197792779422879}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4769270471283082698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449069213870740746}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.0650225, y: 0.615804, z: -0.026930936}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7167907433462406325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449069213870740746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb26bc3b66898a44ca50092e5b493dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player:
+  - {fileID: 0}
+  - {fileID: 0}
+  myIndex: 0
+  CardBuffering: {fileID: 0}
+  ActiveJudge: {fileID: 0}
+  StrikeObject: {fileID: 0}
+  ResultImage: {fileID: 0}
+  EntityManage: {fileID: 0}
+  ResultCharacter1: {fileID: 0}
+  ResultCharacter2: {fileID: 0}
+  turnFinishButton: {fileID: 0}
+  CheckGuardButton: {fileID: 0}
+  DoGuardButton: {fileID: 0}
+  NoGuardButton: {fileID: 0}
+  GuardUI: {fileID: 0}
+  p1prefab: {fileID: 3200770867304812237, guid: ceed437ed77b1184abae0534b74faf7e, type: 3}
+  p2prefab: {fileID: 3671760442489235706, guid: 470fd49c77aa0cb4eadee28a01f8d66a, type: 3}
+  GuardBirdUI:
+  - {fileID: 0}
+  - {fileID: 0}
+  GuardBirdTxt:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  GuardBirdUIExc:
+  - {fileID: 0}
+  - {fileID: 0}
+  turnTime: 20
+  timerText: {fileID: 0}
+  strikeScoreText: {fileID: 0}
+  GuardNumTxt:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  AnotherStrike: 0
+  PV: {fileID: 6037197792779422879}
+--- !u!114 &6821401833369508377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449069213870740746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 830d83940d7ee9a4f9b6a5567653ba9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTurn: 0
+  gameStart: 0
+  PV: {fileID: 6037197792779422879}
+--- !u!114 &6037197792779422879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449069213870740746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
