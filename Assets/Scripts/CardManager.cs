@@ -17,7 +17,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject bonusCardParent;
     [SerializeField] Transform cardSpawnPoint;
 
-    List<Card> cardBuffer;//카드를 담을 공간
+   public List<Card> cardBuffer;//카드를 담을 공간
 
     private static CardManager _instance;
 
@@ -40,7 +40,6 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public void PopCard(int playerIndex)//카드 꺼내기
     {
-        if(PhotonNetwork.IsMasterClient)
         PV.RPC("RPCCard", RpcTarget.All, playerIndex);
     }
     [PunRPC]
@@ -91,17 +90,14 @@ public class CardManager : MonoBehaviourPunCallbacks
     }
 
 
-    public void SortCards(int playerIndex)
+    public void SortCards(List<CardInfo> playerCards)
     {
-        if(PhotonNetwork.IsMasterClient)
-            PV.RPC("RPCSortCards",RpcTarget.All, playerIndex);
+        if(playerCards.Count == 0)
+        Debug.Log("Sort");
+        playerCards.Sort((card1, card2) => card1.cardnum.CompareTo(card2.cardnum)); ;    
     }
 
-    [PunRPC]
-    public void RPCSortCards(int playerIndex)
-    {
-        GameManager.Instance.player[playerIndex].playerCards.Sort((card1, card2) => card1.cardnum.CompareTo(card2.cardnum));
-    }
+   
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -124,99 +120,59 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     public void AddCard(int playerIndex)
     {
-        if (PhotonNetwork.IsMasterClient)
             PV.RPC("RPCAddCard", RpcTarget.All, playerIndex);
     }
 
     [PunRPC]
     public void RPCAddCard(int playerIndex)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
             if (cardBuffer.Count == 0)
-                return;
-            if (playerIndex == 0)
-            {
-                Debug.Log("p1card");
-                PopCard(0);
-            }
-            else if (playerIndex == 1)
-            {
-                Debug.Log("p2Card");
-                PopCard(1);
-            }
-            Debug.Log("AddCard");
+                return;   
+           
+        if (PhotonNetwork.IsMasterClient && playerIndex == 0)
+        {
             var cardObject = PhotonNetwork.Instantiate("Card1", GameManager.Instance.player[playerIndex].playerPosition.position, Utills.QI);
             var card = cardObject.GetComponent<CardInfo>();
             cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
-            if (playerIndex == 0)
-            {
-                Debug.Log("p1card");
-                card.Setup(p1BufferCard);
-            }
-            else if (playerIndex == 1)
-            {
-                Debug.Log("p2Card");
-                card.Setup(p2BufferCard);
-            }
-            GameManager.Instance.player[playerIndex].playerCards.Add(card);
-            PV.RPC("OtherAddCard", RpcTarget.Others, playerIndex);
-
-        }
-        
-        
-        /*else if (PhotonNetwork.IsMasterClient == false)
-        {
-            PopCard();
-            var cardObject = Instantiate(cardPrefab, GameManager.Instance.player[1].playerPosition.position, Utills.QI);
-            var card = cardObject.GetComponent<CardInfo>();
-            cardObject.transform.parent = GameManager.Instance.player[1].playerObject.transform;
-            card.Setup(p2BufferCard);
-            GameManager.Instance.player[1].playerCards.Add(card);
-        }
-        */
-        // 카드를 추가한 후에 CardBuffer에서 해당하는 카드를 삭제하고 동기화
-    }
-    [PunRPC]
-    public void OtherAddCard(int playerIndex)
-    {
-        var cardObject = PhotonNetwork.Instantiate("Card1", GameManager.Instance.player[playerIndex].playerPosition.position, Utills.QI);
-        var card = cardObject.GetComponent<CardInfo>();
-        cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
-        if (playerIndex == 0)
-        {
             Debug.Log("p1card");
+                PopCard(0);
             card.Setup(p1BufferCard);
+            GameManager.Instance.player[playerIndex].playerCards.Add(card);
         }
-        else if (playerIndex == 1)
+            else if (!PhotonNetwork.IsMasterClient  &&  playerIndex == 1)
         {
+            var cardObject = PhotonNetwork.Instantiate("Card1", GameManager.Instance.player[playerIndex].playerPosition.position, Utills.QI);
+            var card = cardObject.GetComponent<CardInfo>();
+            cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
+            cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
             Debug.Log("p2Card");
+                PopCard(1);
             card.Setup(p2BufferCard);
+            GameManager.Instance.player[playerIndex].playerCards.Add(card);
         }
-        GameManager.Instance.player[playerIndex].playerCards.Add(card);
-    }
+            Debug.Log("AddCard");
+        
 
-    public void ArrangeCardsBetweenMyCards(int playerIndex, float gap)
-    {
-        if (PhotonNetwork.IsMasterClient)
-            PV.RPC("RPCArrangeCards", RpcTarget.All, playerIndex, gap);
     }
+  
 
-    [PunRPC]
-    public void RPCArrangeCards(int playerIndex, float gap)
+    public void ArrangeCardsBetweenMyCards(List<CardInfo> cards, Transform leftTransform, Transform rightTransform, float gap)
     {
+        if (cards.Count == 0)
+            return;
+        Debug.Log("Arrange");
+        int cardCount = cards.Count;
+        float totalWidth = gap * (cardCount - 1); // 카드들이 차지할 총 가로 길이 계산
+        float startX = (leftTransform.position.x + rightTransform.position.x - totalWidth) / 2f; // 첫 번째 카드의 x 위치 계산
+
+        // 카드를 일정한 간격으로 배치
+        for (int i = 0; i < cardCount; i++)
         {
-            int cardCount = GameManager.Instance.player[playerIndex].playerCards.Count;
-            float totalWidth = gap * (cardCount - 1); // 카드들이 차지할 총 가로 길이 계산
-            float startX = (GameManager.Instance.player[playerIndex].cardLeftTransform.position.x + GameManager.Instance.player[playerIndex].cardRightTransform.position.x - totalWidth) / 2f; // 첫 번째 카드의 x 위치 계산
-
-            // 카드를 일정한 간격으로 배치
-            for (int i = 0; i < cardCount; i++)
-            {
-                Vector3 cardPosition = new Vector3(startX + i * gap, GameManager.Instance.player[playerIndex].cardLeftTransform.position.y, GameManager.Instance.player[playerIndex].cardRightTransform.position.z);
-                GameManager.Instance.player[playerIndex].playerCards[i].transform.position = cardPosition;
-            }
+            Vector3 cardPosition = new Vector3(startX + i * gap, leftTransform.position.y, leftTransform.position.z);
+            cards[i].transform.position = cardPosition;
         }
     }
+
+ 
 
 }
