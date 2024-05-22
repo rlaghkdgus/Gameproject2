@@ -61,7 +61,10 @@ public class TurnSys : MonoBehaviourPun
                 endCount++;
             if (endCount == 2)
                 gState.Value = GameState.GameEnd;
-            ShootingManager.Instance.DestroyTurnEndBird();
+            if ((sPlayerIndex.Value == 0  &&  ShootingManager.Instance.p1Bird.Count == 8)|| (sPlayerIndex.Value == 1 && ShootingManager.Instance.p2Bird.Count == 8))
+            {
+                ShootingManager.Instance.DestroyTurnEndBird();
+            }
             GameManager.Instance.timerText.text = "";
             Debug.Log("NextPlayer");
             if(PhotonNetwork.IsMasterClient)

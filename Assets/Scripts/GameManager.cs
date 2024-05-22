@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 player[0].playerCards[i].myCardState = false;
         }
         PV.RPC("RPCGuardNumClear", RpcTarget.All);
-        PV.RPC("RPCSetStrike", RpcTarget.All);
+        StartCoroutine(SetStrikeDelay());
         DoGuardButton.SetActive(false);
         CancelGuardButton.SetActive(false);
     }
@@ -139,6 +139,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         player[1].Guardnums.Clear();
     }
     [PunRPC]
+    public void RPCpGuardNumClear(int playerIndex)
+    {
+        if (playerIndex == 0)
+            player[0].Guardnums.Clear();
+        else if (playerIndex == 1)
+            player[1].Guardnums.Clear();
+    }
+    [PunRPC]
     public void RPCGuardIdle()
     {
         Debug.Log("Guard=Idle");
@@ -167,6 +175,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if ((myIndex == 0 && TurnSys.Instance.sPlayerIndex.Value == 1) || (myIndex == 1 && TurnSys.Instance.sPlayerIndex.Value == 0))
             {
                 DoGuardButton.SetActive(true);
+                CancelGuardButton.SetActive(true);
             }
            
         }
@@ -175,7 +184,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            if (player[1].Guardnums.Count == 0)
+            if (player[1].Guardnums.Count < 2)
                 return;
             player[1].Guardnums.Sort();
             player[1].GuardCheck();
@@ -194,7 +203,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     {
                         player[1].playerCards[i].myCardState = false;
                     }
-                    player[1].Guardnums.Clear();
+                    PV.RPC("RPCpGuardNumClear", RpcTarget.All, 1);
                     return;
                 }
             }
@@ -204,7 +213,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     player[1].playerCards[i].myCardState = false;
                 }
-                player[1].Guardnums.Clear();
+                PV.RPC("RPCpGuardNumClear", RpcTarget.All, 1);
                 return;
             }
         }
@@ -231,7 +240,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     {
                         player[0].playerCards[i].myCardState = false;
                     }
-                    player[0].Guardnums.Clear();
+                    PV.RPC("RPCpGuardNumClear", RpcTarget.All, 0);
                     return;
                 }
             }
@@ -241,7 +250,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     player[0].playerCards[i].myCardState = false;
                 }
-                player[0].Guardnums.Clear();
+                PV.RPC("RPCpGuardNumClear", RpcTarget.All, 0);
                 return;
             }
         }
@@ -271,6 +280,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("E");
         DoGuardButton.SetActive(false);
+        CancelGuardButton.SetActive(false);
         yield return new WaitForSecondsRealtime(1.5f);
         GuardUI.SetActive(true);
         ShootingManager.Instance.DestoyGuardBird();
