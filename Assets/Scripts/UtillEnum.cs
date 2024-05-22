@@ -15,7 +15,8 @@ public enum GameState
 {
     Idle,       //아무것도 동작하지 않는 상태
     WaitAction, //동작을 기다리는 상태
-    ActionEnd   //플레이어의 행동이 끝난 상태
+    ActionEnd,   //플레이어의 행동이 끝난 상태
+    GameEnd     //게임이 끝난 상태
 }
 public enum GuardState
 {

@@ -74,6 +74,32 @@ MonoBehaviour:
   - RPCClick
   - RPCDeleteCard
   - SetCamera
+  - OtherRPCDraw
+  - OtherRPCPlayerSelect
+  - OtherRPCPlayerSystem
+  - OtherRPCReadyStrike
+  - OtherRPCSelectCardFin
+  - OtherRPCSetIdle
+  - OtherRPCStartDraw
+  - OtherRPCActionEnd
+  - RPCp1Click
+  - RPCp2Click
+  - DoReady
+  - SelectFin
+  - SortStartCards
+  - GuardnumInfo
+  - RPCCheckGuard
+  - RPCGuardSelect
+  - RPCGuardIdle
+  - RPCSelectFin
+  - RPCStrikeDelay
+  - RPCSetStrike
+  - RPCGuardClick
+  - RPCGuardnumClear
+  - RPCGuardNumClear
+  - RPCGuardCheck
+  - RPCGuardDelay
+  - RPCCharacterImg
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

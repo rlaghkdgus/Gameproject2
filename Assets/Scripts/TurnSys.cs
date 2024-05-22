@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using TMPro;
 public class TurnSys : MonoBehaviourPun
 {
 
@@ -15,7 +16,7 @@ public class TurnSys : MonoBehaviourPun
 
     public int gameTurn = 0;//플레이어별 한바퀴 돌때마다 +1추가, 추후 카드 인덱스에 넣을 예정
     public bool gameStart = false;
-
+    int endCount = 0;
     private static TurnSys _instance;
     public PhotonView PV;
 
@@ -45,10 +46,6 @@ public class TurnSys : MonoBehaviourPun
     }
     private void Start()
     {
-        // if (PhotonNetwork.IsMasterClient) // 방장인 경우에만 모든 플레이어의 로드를 확인
-        //  {
-        //     StartCoroutine(CheckAllPlayersLoaded());
-        // }
         if(PhotonNetwork.IsMasterClient)
         PV.RPC("StartGame", RpcTarget.All);
     }
@@ -60,6 +57,12 @@ public class TurnSys : MonoBehaviourPun
         //gState의Value는 PlayerData의 PlayerSystem과 연계
         if (_gState == GameState.ActionEnd)//PlayerSystem에서 gState.Value가 ActionEnd상태가 될 경우
         {
+            if (CardManager.Instance.cardBuffer.Count == 0)
+                endCount++;
+            if (endCount == 2)
+                gState.Value = GameState.GameEnd;
+            ShootingManager.Instance.DestroyTurnEndBird();
+            GameManager.Instance.timerText.text = "";
             Debug.Log("NextPlayer");
             if(PhotonNetwork.IsMasterClient)
             PV.RPC("RPCActionEnd", RpcTarget.All);
@@ -68,51 +71,44 @@ public class TurnSys : MonoBehaviourPun
     [PunRPC]
     public void RPCActionEnd()
     {
-        Debug.Log("ActionEnd");
-        if(PhotonNetwork.IsMasterClient)    StartCoroutine(TurnStartCo());
-        if(sPlayerIndex.Value == 0)
+            Debug.Log("ActionEnd");
+            StartCoroutine(TurnStartCo());
+        if (GameManager.Instance.myIndex == 0)
         {
             GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
             GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
         }
-        else if(sPlayerIndex.Value == 1)
+        else if (GameManager.Instance.myIndex == 1)
         {
-            GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
-            GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
+            GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
+            GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
         }
     }
-   IEnumerator TurnStartCo()
+    
+    IEnumerator TurnStartCo()
     {
-        Debug.Log("TurnStart");
-        yield return new WaitForSeconds(2.0f);
-        if (sPlayerIndex.Value + 1 >= 2)//sPlayer의 인덱스가 2이상일경우
-        {
-            sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
-            gameTurn++;//게임의 전체 턴 증가
-            GameManager.Instance.turnTime = 20.0f;
-            Debug.Log("NextTurn " + gameTurn);
-        }
-        else if (sPlayerIndex.Value == -1)
-        {
-            sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
-            gameTurn++;//게임의 전체 턴 증가
-            GameManager.Instance.turnTime = 20.0f;
-            Debug.Log("NextTurn " + gameTurn);
-        }
-        else
-        {
-            sPlayerIndex.Value++;//sPlayerIndex의 밸류를 증가시켜 턴 전환 구현
-            GameManager.Instance.turnTime = 2.0f;
-        }
-        PV.RPC("RPCsPIndex", RpcTarget.Others, sPlayerIndex.Value);
+        
+            Debug.Log("TurnStart");
+            yield return new WaitForSeconds(1.0f);
+            if (sPlayerIndex.Value >= 1)//sPlayer의 인덱스가 2이상일경우
+            {
+                sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
+                gameTurn++;//게임의 전체 턴 증가
+                Debug.Log("NextTurn " + gameTurn);
+            }
+            else if (sPlayerIndex.Value == -1)
+            {
+                sPlayerIndex.Value = 0;//0으로 초기화(player1의턴)
+                gameTurn++;//게임의 전체 턴 증가
+                Debug.Log("NextTurn " + gameTurn);
+            }
+            else
+            {
+                sPlayerIndex.Value = 1;//sPlayerIndex의 밸류를 증가시켜 턴 전환 구현 
+            }
+            GameManager.Instance.turnTime = 20.0f;       
     }
-    [PunRPC]
-    public void RPCsPIndex(int _sPlayerIndex)
-    {
-        sPlayerIndex.Value = _sPlayerIndex;
-        if(_sPlayerIndex == 0)
-            gameTurn++;
-    }
+
     IEnumerator StartGameCoroutine()//게임 시작시
     {
         Debug.Log("StartC");
@@ -127,6 +123,4 @@ public class TurnSys : MonoBehaviourPun
     {
         StartCoroutine(StartGameCoroutine());
     }
-   
-
 }

@@ -4714,7 +4714,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &999912794
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4787,7 +4787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1005204951
 Transform:
   m_ObjectHideFlags: 0
@@ -5355,7 +5355,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2913725872439522625}
+        m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
+        m_MethodName: ReadyStrike
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4523578170211864085}
         m_TargetAssemblyTypeName: PlayerData, Assembly-CSharp
         m_MethodName: ReadyStrike
         m_Mode: 1
@@ -8941,7 +8953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1882255449
 Transform:
   m_ObjectHideFlags: 0
@@ -11005,10 +11017,8 @@ MonoBehaviour:
   p1Camera: {fileID: 1882255448}
   p2Camera: {fileID: 1005204950}
   CardBuffering: {fileID: 239319387}
-  ActiveJudge: {fileID: 0}
   StrikeObject: {fileID: 885981416}
   ResultImage: {fileID: 1875160395}
-  EntityManage: {fileID: 0}
   ResultCharacter1: {fileID: 2020492578}
   ResultCharacter2: {fileID: 268861318}
   turnFinishButton: {fileID: 662837807}
@@ -11016,8 +11026,6 @@ MonoBehaviour:
   DoGuardButton: {fileID: 382603989}
   NoGuardButton: {fileID: 1129363012}
   GuardUI: {fileID: 1350672105}
-  p1prefab: {fileID: 0}
-  p2prefab: {fileID: 0}
   GuardBirdUI:
   - {fileID: 1375914507}
   - {fileID: 240639036}
