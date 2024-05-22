@@ -164,6 +164,9 @@ ScriptsOnlyBuild:
     methodName: NoGuard
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
+    methodName: CancelGuard
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
     methodName: CheckGuardSelect
   - assembly: Assembly-CSharp
     fullTypeName: MainMenuManage
