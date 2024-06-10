@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public List<PlayerData> player = new List<PlayerData>();//모든 플레이어 데이터 리스트(자신포함)
     public Data<GuardState> G_State = new Data<GuardState>();
     public Data<StrikeState> S_State = new Data<StrikeState>();
+    public Image TimeRoundUI;
+    public List<Sprite> RoundUISprites = new List<Sprite>();
     public int myIndex;//자신의 인덱스 저장용
     public GameObject p1Camera;
     public GameObject p2Camera;
@@ -25,19 +27,27 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject NoGuardButton;
     public GameObject CancelGuardButton;
     public GameObject GuardUI;
+    public GameObject HelpUIImg;
+    public TMP_Text RoundTxt;
     public List<GameObject> GuardBirdUI = new List<GameObject>();
     public List<TMP_Text> GuardBirdTxt = new List<TMP_Text>();
     public List<GameObject> GuardBirdUIExc = new List<GameObject>();
     public float turnTime;
     public TMP_Text timerText;
+    public GameObject GuardFailUIdelay;
     public TMP_Text strikeScoreText;
     public List<TMP_Text> GuardNumTxt = new List<TMP_Text>();
-    public bool AnotherStrike = false;
+    public bool HelpUICheck = false;
+    [Header("Damage")]
+    public GameObject moveDamageText;
+    public Transform p1DamagePos;
+    public Transform p2DamagePos;
+    public GameObject DamageCanvas;
     Vector3 bird1rot = new Vector3(-90f, 360f, 0f);
     Vector3 bird2rot = new Vector3(-90f, 180f, 0f);
-
+    [Header("Photon")]
     public PhotonView PV;
-
+    
     private static GameManager _instance;
 
     public static GameManager Instance
@@ -73,26 +83,137 @@ public class GameManager : MonoBehaviourPunCallbacks
                 player[0].pState.Value = PlayerState.SelectFin;
         }
     }
-
+    public void TakeDamage(int damage)
+    {
+        GameObject damageTxt = Instantiate(moveDamageText);
+        damageTxt.transform.parent = DamageCanvas.transform;
+        if (myIndex == 0)
+        {
+            if (TurnSys.Instance.sPlayerIndex.Value == 0)
+            {   
+                damageTxt.transform.position = p2DamagePos.position;
+                damageTxt.GetComponent<DamageText>().damage = damage;
+            }
+            else if (TurnSys.Instance.sPlayerIndex.Value == 1)
+            {
+                damageTxt.transform.position = p1DamagePos.position;
+                damageTxt.GetComponent<DamageText>().damage = damage;
+            }
+        }
+        else if(myIndex ==1)
+        {
+            if(TurnSys.Instance.sPlayerIndex.Value == 0)
+            {  
+                damageTxt.transform.position = p1DamagePos.position;
+                damageTxt.GetComponent<DamageText>().damage = damage;
+            }
+            else if (TurnSys.Instance.sPlayerIndex.Value ==1)
+            { 
+                damageTxt.transform.position = p2DamagePos.position;
+                damageTxt.GetComponent<DamageText>().damage = damage;
+            }
+        }
+    }
   
     private void CheckGuard(GuardState _gState)
     {
         if (_gState == GuardState.DoCheckGuard)
         {
+            StartCoroutine(GuardSelectTimer());
             if(myIndex != TurnSys.Instance.sPlayerIndex.Value)
             turnTime = 10.0f;
-          if (TurnSys.Instance.sPlayerIndex.Value == 0)
+            if ((myIndex == 0 && TurnSys.Instance.sPlayerIndex.Value == 1) || (myIndex == 1 && TurnSys.Instance.sPlayerIndex.Value == 0))
             {
-                player[0].Guardnums.Sort();
-                CheckGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
-                NoGuardButton.SetActive(myIndex == 1 && G_State.Value == GuardState.DoCheckGuard);
+                CheckGuardButton.SetActive(true);
+                NoGuardButton.SetActive(true);
+                if (TurnSys.Instance.sPlayerIndex.Value == 0)
+                {
+                    player[0].Guardnums.Sort();
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i == 2 && player[0].Guardnums.Count == 2)
+                        {
+                            GuardNumTxt[2].text = "";
+                            return;
+                        }
+                        GuardNumTxt[i].text = "" + player[0].Guardnums[i];
+                        if (player[0].Guardnums[i] == 20)
+                        {
+                            GuardNumTxt[i].text = "R";
+                        }
+                        else if (player[0].Guardnums[i] == 30)
+                        {
+                            GuardNumTxt[i].text = "B";
+                        }
+                    }
+                    
+                }
+                else if (TurnSys.Instance.sPlayerIndex.Value == 1)
+                {
+                    player[1].Guardnums.Sort();
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i == 2 && player[1].Guardnums.Count == 2)
+                        {
+                            GuardNumTxt[2].text = "";
+                            return;
+                        }
+                        GuardNumTxt[i].text = "" + player[1].Guardnums[i];
+                        if (player[1].Guardnums[i] == 20)
+                        {
+                            GuardNumTxt[i].text = "R";
+                        }
+                        else if (player[1].Guardnums[i] == 30)
+                        {
+                            GuardNumTxt[i].text = "B";
+                        }
+                    }
+                }
+               
             }
-            if (TurnSys.Instance.sPlayerIndex.Value == 1)
+
+        }
+
+    }
+    IEnumerator GuardSelectTimer()
+    {
+        while (true)
+        {
+            if (myIndex != TurnSys.Instance.sPlayerIndex.Value && (G_State.Value == GuardState.GuardSelect || G_State.Value == GuardState.DoCheckGuard))
             {
-                player[1].Guardnums.Sort();
-                CheckGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
-                NoGuardButton.SetActive(myIndex == 0 && G_State.Value == GuardState.DoCheckGuard);
+                turnTime -= Time.deltaTime;
+                timerText.text = "" + Mathf.Round(turnTime);
             }
+            else
+                break;
+            if (turnTime < 0)
+            {
+                PV.RPC("RPCGuardIdle", RpcTarget.All);
+                if (TurnSys.Instance.sPlayerIndex.Value == 0)
+                {
+                    for (int i = 0; i < player[1].playerCards.Count; i++)
+                    {
+                        player[1].playerCards[i].myCardState = false;
+                    }
+                }
+                else if(TurnSys.Instance.sPlayerIndex.Value == 1)
+                {
+                    for(int i = 0; i< player[0].playerCards.Count; i++)
+                    {
+                        player[0].playerCards[i].myCardState = false;
+                    }
+                }
+                timerText.text = "";
+                CheckGuardButton.SetActive(false);
+                NoGuardButton.SetActive(false);
+                 DoGuardButton.SetActive(false);
+                 CancelGuardButton.SetActive(false);
+                StartCoroutine(SetStrikeDelay());
+                PV.RPC("RPCGuardNumClear", RpcTarget.All);
+            }
+            if (TurnSys.Instance.gState.Value == GameState.GameEnd)
+                break;
+            yield return null;
         }
     }
     public void CancelGuard()
@@ -108,9 +229,11 @@ public class GameManager : MonoBehaviourPunCallbacks
                 player[0].playerCards[i].myCardState = false;
         }
         PV.RPC("RPCGuardNumClear", RpcTarget.All);
+        timerText.text = "";
         StartCoroutine(SetStrikeDelay());
         DoGuardButton.SetActive(false);
         CancelGuardButton.SetActive(false);
+
     }
     public void CheckGuardSelect()
     {
@@ -126,6 +249,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public void NoGuard()
     {
+        timerText.text = "";
         PV.RPC("RPCGuardIdle", RpcTarget.All);
         PV.RPC("RPCGuardNumClear", RpcTarget.All);
             CheckGuardButton.SetActive(false);
@@ -168,24 +292,77 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         S_State.Value = StrikeState.SetStrike;
     }
+
+    public void GuardnumTextClear()
+    {
+        for (int i = 0; i < GuardNumTxt.Count; i++)
+        {
+            GuardNumTxt[i].text = "";
+        }
+    }
     private void SelectGuardCard(GuardState _gState)
     {
         if (_gState == GuardState.GuardSelect)
         {
             if ((myIndex == 0 && TurnSys.Instance.sPlayerIndex.Value == 1) || (myIndex == 1 && TurnSys.Instance.sPlayerIndex.Value == 0))
             {
+                turnTime = 10.0f;
                 DoGuardButton.SetActive(true);
                 CancelGuardButton.SetActive(true);
+                if (TurnSys.Instance.sPlayerIndex.Value == 0)
+                {
+                    if (myIndex == 1)
+                        player[1].myStateTxt.text = "Guard";
+                    /*for(int i = 0; i < 3; i++)
+                    {
+                        if (i == 2 && player[0].Guardnums.Count == 2)
+                            return;
+                        GuardNumTxt[i].text = "" + player[0].Guardnums[i];
+                        if(player[0].Guardnums[i] == 20)
+                        {
+                            GuardNumTxt[i].text = "R";
+                        }
+                        else if(player[0].Guardnums[i] == 30)
+                        {
+                            GuardNumTxt[i].text = "B";
+                        }
+                    }
+                    */
+                }
+                else if (TurnSys.Instance.sPlayerIndex.Value == 1)
+                {
+                    if (myIndex == 0)
+                        player[0].myStateTxt.text = "Guard";
+                    /*for (int i = 0; i < 3; i++)
+                    {
+                        if (i == 2 && player[1].Guardnums.Count == 2)
+                            return;
+                        GuardNumTxt[i].text = "" + player[1].Guardnums[i];
+                        if (player[1].Guardnums[i] == 20)
+                        {
+                            GuardNumTxt[i].text = "R";
+                        }
+                        else if (player[1].Guardnums[i] == 30)
+                        {
+                            GuardNumTxt[i].text = "B";
+                        }
+                    }
+                    */
+                }       
             }
-           
         }
     }
     public void DoGuard()//여기부터, 가드체크 타이밍 및 가드 실패시 구현필요
     {
+       
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
+
             if (player[1].Guardnums.Count < 2)
+            {
+                StartCoroutine(GuardFaildelay(1));
                 return;
+            }
             player[1].Guardnums.Sort();
             player[1].GuardCheck();
             Debug.Log("A");
@@ -196,31 +373,30 @@ public class GameManager : MonoBehaviourPunCallbacks
                 {
                     PV.RPC("RPCGuardDelay", RpcTarget.All);
                     StartCoroutine(DeleteDelay(1));
+                    PV.RPC("RPCGuardIdle", RpcTarget.All);
+                    GuardnumTextClear();
                 }
                 else
                 {
-                    for (int i = 0; i < player[1].playerCards.Count; i++)
-                    {
-                        player[1].playerCards[i].myCardState = false;
-                    }
+                    StartCoroutine(GuardFaildelay(1));
                     PV.RPC("RPCpGuardNumClear", RpcTarget.All, 1);
                     return;
                 }
             }
             else
             {
-                for (int i = 0; i < player[1].playerCards.Count; i++)
-                {
-                    player[1].playerCards[i].myCardState = false;
-                }
+                StartCoroutine(GuardFaildelay(1));
                 PV.RPC("RPCpGuardNumClear", RpcTarget.All, 1);
                 return;
             }
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            if (player[0].Guardnums.Count == 0)
+            if (player[0].Guardnums.Count < 2)
+            {
+                StartCoroutine(GuardFaildelay(0));
                 return;
+            }
             player[0].Guardnums.Sort();
             player[0].GuardCheck();
             Debug.Log("A");
@@ -232,29 +408,36 @@ public class GameManager : MonoBehaviourPunCallbacks
                     Debug.Log("C");
                     PV.RPC("RPCGuardDelay", RpcTarget.All);
                     StartCoroutine(DeleteDelay(0));
+                    PV.RPC("RPCGuardIdle", RpcTarget.All);
+                    GuardnumTextClear();
                 }
                 else
                 {
                     Debug.Log("Else A");
-                    for (int i = 0; i < player[0].playerCards.Count; i++)
-                    {
-                        player[0].playerCards[i].myCardState = false;
-                    }
+                    StartCoroutine(GuardFaildelay(0));
                     PV.RPC("RPCpGuardNumClear", RpcTarget.All, 0);
                     return;
                 }
             }
             else
             {
-                for (int i = 0; i < player[0].playerCards.Count; i++)
-                {
-                    player[0].playerCards[i].myCardState = false;
-                }
+                StartCoroutine(GuardFaildelay(0));
                 PV.RPC("RPCpGuardNumClear", RpcTarget.All, 0);
                 return;
             }
         }
-
+    }
+    IEnumerator GuardFaildelay(int playerIndex)
+    {
+        GuardFailUIdelay.SetActive(true);
+        player[playerIndex].PlayerClickBird = player[playerIndex].PlayerGuardFailBird;
+        yield return new WaitForSecondsRealtime(0.5f);
+        for (int i = 0; i < player[playerIndex].playerCards.Count; i++)
+        {
+            player[playerIndex].playerCards[i].myCardState = false;
+        }
+        player[playerIndex].PlayerClickBird = player[playerIndex].PlayerBirdTemp;
+        GuardFailUIdelay.SetActive(false);
     }
 
     IEnumerator DeleteDelay(int playerIndex)
@@ -335,9 +518,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void FinishButton(StrikeState _sState)
     {
         if (_sState == StrikeState.ReadyStrike)
-        { 
-            if(TurnSys.Instance.sPlayerIndex.Value == myIndex)
-             turnFinishButton.SetActive(true);
+        {
+            if (myIndex == TurnSys.Instance.sPlayerIndex.Value)
+            {
+                if(TurnSys.Instance.sPlayerIndex.Value == 0)
+                player[0].myStateTxt.text = "Strike";
+                else if (TurnSys.Instance.sPlayerIndex.Value == 1)
+                player[1].myStateTxt.text = "Strike";
+                turnFinishButton.SetActive(true);
+            }
         }
        
     }
@@ -345,6 +534,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (_sState == StrikeState.SetStrike)
         {
+            GuardnumTextClear();
             if (TurnSys.Instance.sPlayerIndex.Value == 0)
             {
                 
@@ -352,10 +542,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 
                 player[1].playerScore -= player[0].strikeScore;
                 player[1].playerScore -= player[0].ComboScore * player[0].ComboCount;
-                if (player[1].playerScore < 0)
+                StartCoroutine(DamageUI(player[0].strikeScore, player[0].ComboCount * player[0].ComboScore));
+                if (player[1].playerScore <= 0)
                 {
                     player[1].playerScore = 0;
-                    TurnSys.Instance.gState.Value = GameState.GameEnd;
+                    if(PhotonNetwork.IsMasterClient)
+                    PV.RPC("RPCGameEnd", RpcTarget.All);
                 }
                 player[0].strikeScore = 0;
                 if (myIndex == 0)
@@ -381,6 +573,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                     }
                    if(ShootingManager.Instance.p1Bird.Count <8)
                     {
+                        if (ShootingManager.Instance.p1Bird.Count == 0)
+                            ShootingManager.Instance.AddBird(ShootingManager.Instance.p1birdTransform[0], ShootingManager.Instance.birdparentobj, ShootingManager.Instance.birdPrefab, ShootingManager.Instance.p1Bird, bird1rot);
+                        else
                         ShootingManager.Instance.AddBird(ShootingManager.Instance.p1birdTransform[ShootingManager.Instance.p1Bird.Count - 1], ShootingManager.Instance.birdparentobj, ShootingManager.Instance.birdPrefab, ShootingManager.Instance.p1Bird, bird1rot);
                     }
                 }
@@ -394,7 +589,11 @@ public class GameManager : MonoBehaviourPunCallbacks
                     }
                     if(ShootingManager.Instance.p2Bird.Count < 8)
                     {
+                        if(ShootingManager.Instance.p2Bird.Count == 0)
+                            ShootingManager.Instance.AddBird(ShootingManager.Instance.p2birdTransform[0], ShootingManager.Instance.birdparentobj2, ShootingManager.Instance.bird2Prefab, ShootingManager.Instance.p2Bird, bird2rot);
+                        else
                         ShootingManager.Instance.AddBird(ShootingManager.Instance.p2birdTransform[ShootingManager.Instance.p2Bird.Count -1], ShootingManager.Instance.birdparentobj2, ShootingManager.Instance.bird2Prefab, ShootingManager.Instance.p2Bird, bird2rot);
+                        
                     }
                 }
             }
@@ -403,10 +602,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 player[1].strikeCards.Clear();        
                 player[0].playerScore -= player[1].strikeScore;
                 player[0].playerScore -= player[1].ComboScore * player[1].ComboCount;
-                if (player[0].playerScore < 0)
+                StartCoroutine(DamageUI(player[1].strikeScore, player[1].ComboScore * player[1].ComboCount));
+                if (player[0].playerScore <= 0)
                 {
                     player[0].playerScore = 0;
-                    TurnSys.Instance.gState.Value = GameState.GameEnd;
+                    if (PhotonNetwork.IsMasterClient)
+                        PV.RPC("RPCGameEnd", RpcTarget.All);
                 }
                 player[1].strikeScore = 0;
                 if (myIndex == 0)
@@ -458,6 +659,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
        
     }
+    IEnumerator DamageUI(int strikedamage, int combodamage)
+    {
+        TakeDamage(strikedamage);
+        yield return new WaitForSecondsRealtime(0.3f);
+        TakeDamage(combodamage);
+    }
+    [PunRPC]
+    public void RPCGameEnd()
+    {
+        TurnSys.Instance.gState.Value = GameState.GameEnd;
+    }
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -489,36 +701,19 @@ public class GameManager : MonoBehaviourPunCallbacks
             myIndex = 1;
         }
     }
-    void Update()
+
+    public void HelpUI()
     {
-          
-        /*&if (player[1].pState.Value == PlayerState.Select)
+        if (HelpUICheck == false)
         {
-            if (myIndex == 1)
-            {
-                turnTime -= Time.deltaTime;
-                timerText.text = "" + Mathf.Round(turnTime);
-            }
-            if (turnTime < 10 && turnTime > 9.9f)
-            {
-                PV.RPC("RPCCharacterImg", RpcTarget.All);
-            }
-            if (turnTime < 0)
-            {
-                if (player[1].ComboCount > 0)
-                {
-                    player[1].pState.Value = PlayerState.SelectFin;
-                }
-                else
-                {
-                    CardBuffering.SetActive(player[1].pState.Value == PlayerState.Select);
-                    StartCoroutine(CheckDelay(player[1].playerCards[7].gameObject));
-                    ShootingManager.Instance.DestroyTurnEndBird();
-                    return;
-                }
-            }
+            HelpUIImg.SetActive(true);
+            HelpUICheck = true;
         }
-        */
+        else if(HelpUICheck == true)
+        {
+            HelpUIImg.SetActive(false);
+            HelpUICheck = false;
+        }
     }
     public void timerCharacterImg()
     {
@@ -550,6 +745,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void GmrStart()
     {
+        ShootingManager.Instance.BirdGmrStart();
+        RoundManager.Instance.roundCount++;
+        RoundTxt.text = "" + RoundManager.Instance.roundCount;
             Debug.Log("gmrStart");
             S_State.Value = StrikeState.Idle;
             G_State.Value = GuardState.Idle;
@@ -588,7 +786,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             player[1].playerCards.RemoveAt(7);//내카드리스트에 삭제
             player[1].pState.Value = PlayerState.SelectFin;
         }
-       
+        for (int j = 0; j < 2; j++)
+        {
+            for (int i = 0; i < player[j].playerCards.Count; i++)
+            {
+                player[j].playerCards[i].myCardState = false;
+            }
+        }
+        
         // 오브젝트 파괴
     }
    

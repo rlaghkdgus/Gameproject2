@@ -25,12 +25,19 @@ public class PlayerData : MonoBehaviourPunCallbacks
     public Transform playerPosition;
     public GameObject playerObject;
     public TMP_Text playerScoreText;
+    [Header("Check")]
     public bool tripleCheck = false;
     public bool stairCheck = false;
     public bool doubleCheck = false;
     public List<int> Guardnums = new List<int>();
     public PhotonView PV;
-    
+    public ParticleSystem p1TurnStart;
+    public ParticleSystem p2TurnStart;
+    [Header("BirdState")]
+    public Sprite PlayerClickBird;
+    public Sprite PlayerGuardFailBird;
+    public Sprite PlayerBirdTemp;
+    public TMP_Text myStateTxt;
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -68,6 +75,11 @@ public class PlayerData : MonoBehaviourPunCallbacks
     {
         if( _pState == PlayerState.Select )
         {
+            if (TurnSys.Instance.sPlayerIndex.Value == GameManager.Instance.myIndex)
+            {
+                GameManager.Instance.TimeRoundUI.sprite = GameManager.Instance.RoundUISprites[1];
+                myStateTxt.text = "My Turn";
+            }
             StartCoroutine(SelectTimer());
         }
     }
@@ -75,6 +87,16 @@ public class PlayerData : MonoBehaviourPunCallbacks
     {
         if (_pState == PlayerState.StartDraw)
         {
+            if (!p1TurnStart.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 0 && GameManager.Instance.myIndex == 0)
+            {
+                
+                p1TurnStart.Play();
+            }
+            else if (!p2TurnStart.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 1 && GameManager.Instance.myIndex == 1)
+            {
+                
+                p2TurnStart.Play();
+            }
             StartCoroutine(DelayDraw());
             Debug.Log("StartDraw?");
         }
@@ -101,6 +123,7 @@ public class PlayerData : MonoBehaviourPunCallbacks
     }
     IEnumerator SelectCardFin()
     {
+        
         GameManager.Instance.turnFinishButton.SetActive(false);
         yield return new WaitForSecondsRealtime(0.5f);
         CardManager.Instance.SortCards(playerCards);
@@ -178,6 +201,8 @@ public class PlayerData : MonoBehaviourPunCallbacks
     {
         if (_pState == PlayerState.End)
         {
+            GameManager.Instance.TimeRoundUI.sprite = GameManager.Instance.RoundUISprites[0];
+            myStateTxt.text = "";
             if (PhotonNetwork.IsMasterClient)
               PV.RPC("RPCSetIdle", RpcTarget.All);
         }
@@ -202,6 +227,7 @@ public class PlayerData : MonoBehaviourPunCallbacks
         if (strikeCards.Count < 2)
         {
             Debug.Log("CheckError");
+            StartCoroutine(PlayerCheckFaildelay());
             return;
         }
         int temp = strikeCards[i];
@@ -242,10 +268,7 @@ public class PlayerData : MonoBehaviourPunCallbacks
         if (bodyCheck == 0 && headCheck == 0)
         {
             strikeCards.Clear();
-            for (int a = 0; a < playerCards.Count; a++)
-            {
-                playerCards[a].myCardState = false;
-            }
+            StartCoroutine(PlayerCheckFaildelay());
             //문구 및 선택취소
         }
 
@@ -253,6 +276,18 @@ public class PlayerData : MonoBehaviourPunCallbacks
         {
             PV.RPC("RPCStrike", RpcTarget.All);
         }
+    }
+    IEnumerator PlayerCheckFaildelay()
+    {
+        GameManager.Instance.GuardFailUIdelay.SetActive(true);
+        PlayerClickBird = PlayerGuardFailBird;
+        yield return new WaitForSecondsRealtime(0.5f);
+        for (int i = 0; i < playerCards.Count; i++)
+        {
+            playerCards[i].myCardState = false;
+        }
+        PlayerClickBird = PlayerBirdTemp;
+        GameManager.Instance.GuardFailUIdelay.SetActive(false);
     }
     [PunRPC]
     public void RPCStrike()
@@ -270,7 +305,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
         Guardnums.Add(Guardnum);
     }
     [PunRPC]
- 
     public void GuardCheck()
     {
         int headCheck = 0;
@@ -393,6 +427,12 @@ public class PlayerData : MonoBehaviourPunCallbacks
                     break;
                 }
             }
+            for(int i = 0; i<playerCards.Count; i ++)
+            {
+                playerCards[i].myCardState = false;
+            }
+            if (TurnSys.Instance.gState.Value == GameState.GameEnd)
+                break;
             yield return null;
         }
     }

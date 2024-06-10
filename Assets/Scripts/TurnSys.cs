@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using TMPro;
 public class TurnSys : MonoBehaviourPun
 {
 
@@ -19,7 +18,7 @@ public class TurnSys : MonoBehaviourPun
     int endCount = 0;
     private static TurnSys _instance;
     public PhotonView PV;
-
+    public GameObject GameEndUI;
     public static TurnSys Instance
     {
         get
@@ -43,6 +42,7 @@ public class TurnSys : MonoBehaviourPun
         sPlayerIndex.Value = -1;//player1부터시작, 
         gState.Value = GameState.Idle;//게임 상태를 아무것도안할때로 변경
         gState.onChange += NextPlayer;
+        gState.onChange += GameEnd;
     }
     private void Start()
     {
@@ -56,15 +56,12 @@ public class TurnSys : MonoBehaviourPun
     {
         //gState의Value는 PlayerData의 PlayerSystem과 연계
         if (_gState == GameState.ActionEnd)//PlayerSystem에서 gState.Value가 ActionEnd상태가 될 경우
-        {
-            if (CardManager.Instance.cardBuffer.Count == 0)
-                endCount++;
-            if (endCount == 2)
-                gState.Value = GameState.GameEnd;
+        { 
             if ((sPlayerIndex.Value == 0  &&  ShootingManager.Instance.p1Bird.Count == 8)|| (sPlayerIndex.Value == 1 && ShootingManager.Instance.p2Bird.Count == 8))
             {
                 ShootingManager.Instance.DestroyTurnEndBird();
             }
+            GameManager.Instance.GuardnumTextClear();
             GameManager.Instance.timerText.text = "";
             Debug.Log("NextPlayer");
             if(PhotonNetwork.IsMasterClient)
@@ -74,8 +71,12 @@ public class TurnSys : MonoBehaviourPun
     [PunRPC]
     public void RPCActionEnd()
     {
-            Debug.Log("ActionEnd");
-            StartCoroutine(TurnStartCo());
+
+        if (CardManager.Instance.cardBuffer.Count == 0)
+            endCount++;
+        if (endCount == 2)
+            gState.Value = GameState.GameEnd;
+        StartCoroutine(TurnStartCo());
         if (GameManager.Instance.myIndex == 0)
         {
             GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
@@ -90,7 +91,6 @@ public class TurnSys : MonoBehaviourPun
     
     IEnumerator TurnStartCo()
     {
-        
             Debug.Log("TurnStart");
             yield return new WaitForSeconds(1.0f);
             if (sPlayerIndex.Value >= 1)//sPlayer의 인덱스가 2이상일경우
@@ -117,7 +117,6 @@ public class TurnSys : MonoBehaviourPun
         Debug.Log("StartC");
         yield return new WaitForSeconds(1.0f);//1초의 딜레이를 주고 
         gState.Value = GameState.ActionEnd;// 0
-        gameStart = true;
         Debug.Log("GameStart");
     }
 
@@ -125,5 +124,111 @@ public class TurnSys : MonoBehaviourPun
     public void StartGame()
     {
         StartCoroutine(StartGameCoroutine());
+    }
+    private void GameEnd(GameState _gState)
+    {
+        if(_gState == GameState.GameEnd)
+        {
+            GameManager.Instance.turnFinishButton.SetActive(false);
+            if (PhotonNetwork.IsMasterClient)
+            PV.RPC("RPCGameEnd1", RpcTarget.All);
+        }
+    }
+    [PunRPC]
+    public void RPCGameEnd1()
+    {
+        Debug.Log("A");
+        for (int i = 0; i < 2; i++)
+        {
+            GameManager.Instance.player[i].pState.Value = PlayerState.Idle;
+        }
+        GameManager.Instance.S_State.Value = StrikeState.Idle;
+        GameManager.Instance.G_State.Value = GuardState.Idle;
+        if (RoundManager.Instance.roundCount == 1)
+        {
+            if(PhotonNetwork.IsMasterClient)
+            PV.RPC("RPCNewRound", RpcTarget.All);
+        }
+        else if (RoundManager.Instance.roundCount == 2)
+        {
+            if(PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("RPCGameEndUI", RpcTarget.All);
+            }
+        }
+    }
+    [PunRPC]
+    public void RPCGameEndUI()
+    {
+        StartCoroutine(GameEndUIset());
+    }
+    IEnumerator GameEndUIset()
+    {
+        yield return new WaitForSecondsRealtime(1.0f);
+        GameEndUI.SetActive(true);
+    }
+    [PunRPC]
+    public void RPCNewRound()
+    {
+        
+        Debug.Log("B");
+        StartCoroutine(NewRound());
+    }
+    IEnumerator NewRound()
+    {
+        GameManager.Instance.GuardnumTextClear();
+        GameManager.Instance.timerText.text = "";
+        GameManager.Instance.turnFinishButton.SetActive(false);
+        yield return new WaitForSecondsRealtime(0.5f);
+        GameManager.Instance.player[0].playerScore = 3000;
+        GameManager.Instance.player[1].playerScore = 3000;
+        GameManager.Instance.player[0].ComboCount = 0;
+        GameManager.Instance.player[1].ComboCount = 0;
+        Debug.Log("C");
+        yield return new WaitForSecondsRealtime(1.0f);
+        for(int i = 0;  i<2; i++)
+        {
+            for (int j = 0; j < GameManager.Instance.player[i].playerCards.Count; j++)
+            {
+                GameManager.Instance.player[i].playerCards[j].gameObject.SetActive(false);
+            }
+            GameManager.Instance.player[i].playerCards.Clear();
+        }
+        Debug.Log("D");
+        yield return new WaitForSecondsRealtime(1.5f);
+        for(int i = 0; i < 2; i++)
+        {
+            if(i == 0)
+            {
+                for(int j = 0; j < ShootingManager.Instance.p1Bird.Count; j++)
+                {
+                    ShootingManager.Instance.p1Bird[j].gameObject.SetActive(false);
+                }
+                ShootingManager.Instance.p1Bird.Clear();
+            }
+            else if(i == 1)
+            {
+                for (int j = 0; j < ShootingManager.Instance.p2Bird.Count; j++)
+                {
+                    ShootingManager.Instance.p2Bird[j].gameObject.SetActive(false);
+                }
+                ShootingManager.Instance.p2Bird.Clear();
+            }
+        }
+        Debug.Log("E");
+        CardManager.Instance.cardBuffer.Clear();
+        yield return new WaitForSecondsRealtime(0.5f);
+        if (PhotonNetwork.IsMasterClient)
+            CardManager.Instance.RoundSetupCard();
+        Debug.Log("F");
+        yield return new WaitForSecondsRealtime(0.5f);
+        sPlayerIndex.Value = -1;
+        Debug.Log("G");
+        yield return new WaitForSecondsRealtime(2.0f);
+        if (PhotonNetwork.IsMasterClient)
+            PV.RPC("GmrStart", RpcTarget.All);
+        Debug.Log("H");
+        if(PhotonNetwork.IsMasterClient)
+            PV.RPC("RPCActionEnd", RpcTarget.All);
     }
 }

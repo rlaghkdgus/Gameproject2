@@ -6,6 +6,7 @@ using Photon.Realtime;
 
 public class ShootingManager : MonoBehaviourPun
 {
+    public int UInum;
     public GameObject birdparentobj;
     public GameObject birdparentobj2;
     [SerializeField] Transform p1hitbox;
@@ -18,6 +19,7 @@ public class ShootingManager : MonoBehaviourPun
     public GameObject bird2Prefab;
     Vector3 bird1rot = new Vector3(-90f, 360f, 0f);
     Vector3 bird2rot = new Vector3(-90f, 180f, 0f);
+    public Data<ShootingState> Sh_State = new Data<ShootingState>();
 
     private static ShootingManager _instance;
 
@@ -67,10 +69,14 @@ public class ShootingManager : MonoBehaviourPun
     }
     private void Start()
     {
-        for(int i  = 0; i< 7; i++)
+       
+    }
+    public void BirdGmrStart()
+    {
+        for (int i = 0; i < 8; i++)
         {
-            AddBird(p1birdTransform[i], birdparentobj, birdPrefab,p1Bird, bird1rot);
-            AddBird(p2birdTransform[i], birdparentobj2, bird2Prefab,p2Bird, bird2rot);
+            AddBird(p1birdTransform[i], birdparentobj, birdPrefab, p1Bird, bird1rot);
+            AddBird(p2birdTransform[i], birdparentobj2, bird2Prefab, p2Bird, bird2rot);
         }
     }
 
@@ -80,11 +86,13 @@ public class ShootingManager : MonoBehaviourPun
         GameManager.Instance.S_State.onChange += Shootingbird;
         GameManager.Instance.player[0].pState.onChange += SetBird;
         GameManager.Instance.player[1].pState.onChange += SetBird;
+        
     }
     private void Shootingbird(StrikeState _sState)
     {
         if(_sState == StrikeState.SetStrike)
         {
+            Sh_State.Value = ShootingState.Shooting;
             StartCoroutine(ShotBird());
         }
     }
@@ -171,7 +179,7 @@ public class ShootingManager : MonoBehaviourPun
                         p1Bird[i].transform.position = Vector3.MoveTowards(p1Bird[i].transform.position, p2hitbox.transform.position, 25f * Time.deltaTime);
                         if (p1Bird[i].transform.position.x >= p2hitbox.transform.position.x-0.1)
                         {
-                            Destroy(p1Bird[i]);
+                            p1Bird[i].SetActive(false);
                             yield return new WaitForSecondsRealtime(0.1f);
                             p1Bird.RemoveAt(i);
                             break;
@@ -238,7 +246,7 @@ public class ShootingManager : MonoBehaviourPun
                 }
             }
         }
-
+        Sh_State.Value = ShootingState.Idle;
     }
   
 }

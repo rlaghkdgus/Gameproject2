@@ -12,17 +12,29 @@ public class CardInfo : MonoBehaviourPunCallbacks
     public Card card;
     public int cardnum;
     public bool myCardState;
-    public SpriteRenderer sprite;
+    public SpriteRenderer Cardsprite;
     public TMP_Text text;
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+        if (Cardsprite == null)
+        {
+            Cardsprite = GetComponent<SpriteRenderer>();
+            if (Cardsprite == null)
+            {
+                Debug.LogError("SpriteRenderer 컴포넌트가 없습니다.");
+            }
+        }
         PhotonNetwork.AutomaticallySyncScene = true;
     }
     public void Setup(Card card)
     {
         this.card = card;
+        if (GameManager.Instance.myIndex == 0)
+            Cardsprite.sprite = GameManager.Instance.player[0].PlayerBirdSprite;
+        else if(GameManager.Instance.myIndex == 1)
+            Cardsprite.sprite = GameManager.Instance.player[1].PlayerBirdSprite;
         cardnum = this.card.num;
         myCardState = this.card.CardState;
         text.text = this.card.num.ToString();
@@ -38,7 +50,23 @@ public class CardInfo : MonoBehaviourPunCallbacks
         else if (!PhotonNetwork.IsMasterClient)
             RPCp2Click();
     }
-    
+    private void Update()
+    {
+        if(myCardState == true)
+        {
+            if (GameManager.Instance.myIndex == 0)
+                Cardsprite.sprite = GameManager.Instance.player[0].PlayerClickBird;
+            if (GameManager.Instance.myIndex == 1)
+                Cardsprite.sprite = GameManager.Instance.player[1].PlayerClickBird;
+        }
+        else if(myCardState == false)
+        {
+            if (GameManager.Instance.myIndex == 0)
+                Cardsprite.sprite = GameManager.Instance.player[0].PlayerBirdSprite;
+            else if (GameManager.Instance.myIndex == 1)
+                Cardsprite.sprite = GameManager.Instance.player[1].PlayerBirdSprite;
+        }
+    }
     public void RPCp1Click()
     {
         Debug.Log("Click");

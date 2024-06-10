@@ -16,7 +16,7 @@ public class CardManager : MonoBehaviourPunCallbacks
     public List<CardInfo> BonusCards;
     [SerializeField] GameObject bonusCardParent;
     [SerializeField] Transform cardSpawnPoint;
-
+    [SerializeField] TMP_Text cardCountTxt;
    public List<Card> cardBuffer;//카드를 담을 공간
 
     private static CardManager _instance;
@@ -60,6 +60,10 @@ public class CardManager : MonoBehaviourPunCallbacks
 
     }
 
+    public void RoundSetupCard()
+    {
+        PV.RPC("SetupCardBuffer", RpcTarget.All);
+    }
     [PunRPC]
     public void SetupCardBuffer()//카드모둠 세팅
     {
@@ -126,35 +130,36 @@ public class CardManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPCAddCard(int playerIndex)
     {
-            if (cardBuffer.Count == 0)
-                return;   
-           
+        if (cardBuffer.Count == 0)
+              return;   
         if (PhotonNetwork.IsMasterClient && playerIndex == 0)
         {
             var cardObject = PhotonNetwork.Instantiate("Card1", GameManager.Instance.player[playerIndex].playerPosition.position, Utills.QI);
             var card = cardObject.GetComponent<CardInfo>();
             cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
             Debug.Log("p1card");
-                PopCard(0);
+            PopCard(0);
             card.Setup(p1BufferCard);
             GameManager.Instance.player[playerIndex].playerCards.Add(card);
+            PV.RPC("RPCCardCount", RpcTarget.All);
         }
             else if (!PhotonNetwork.IsMasterClient  &&  playerIndex == 1)
         {
             var cardObject = PhotonNetwork.Instantiate("Card1", GameManager.Instance.player[playerIndex].playerPosition.position, Utills.QI);
             var card = cardObject.GetComponent<CardInfo>();
             cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
-            cardObject.transform.parent = GameManager.Instance.player[playerIndex].playerObject.transform;
             Debug.Log("p2Card");
-                PopCard(1);
+            PopCard(1);
             card.Setup(p2BufferCard);
             GameManager.Instance.player[playerIndex].playerCards.Add(card);
+            PV.RPC("RPCCardCount", RpcTarget.All);
         }
-            Debug.Log("AddCard");
-        
-
     }
-  
+  [PunRPC]
+  public void RPCCardCount()
+    {
+        cardCountTxt.text = "" + cardBuffer.Count;
+    }
 
     public void ArrangeCardsBetweenMyCards(List<CardInfo> cards, Transform leftTransform, Transform rightTransform, float gap)
     {
@@ -172,7 +177,5 @@ public class CardManager : MonoBehaviourPunCallbacks
             cards[i].transform.position = cardPosition;
         }
     }
-
- 
 
 }

@@ -74,7 +74,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 617d92089eec35e42ba2f9d1f71eb950, type: 2}
     - target: {fileID: 919132149155446097, guid: 0813fc570ddd820439f6104d036778e9, type: 3}
       propertyPath: m_Name
-      value: bird_fly02
+      value: Gogglebird
       objectReference: {fileID: 0}
     - target: {fileID: 2960982265701527121, guid: 0813fc570ddd820439f6104d036778e9, type: 3}
       propertyPath: m_Materials.Array.data[0]
