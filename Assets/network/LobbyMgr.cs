@@ -3,11 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class LobbyMgr : MonoBehaviourPunCallbacks
 {
     private static LobbyMgr _instance;
     public PhotonView PV;
+    public int playerCount = 0;
+    public bool readySign;
+
+    [Header("RoomPanel")]
+    public GameObject RoomPanel;
+    public Text ListText;
+    public Text RoomInfoText;
+    public Text[] ChatText;
+    public InputField ChatInput;
     public static LobbyMgr Instance
     {
         get
@@ -24,6 +34,40 @@ public class LobbyMgr : MonoBehaviourPunCallbacks
             return _instance;
         }
     }
+    public void ReadyCheck()
+    {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("DoReady", RpcTarget.All);
+        }
+    }
+    public void GoRoom()
+    {
+        photonmgr.Instance.OnConnet();
+    }
+    public void GoGameScene()
+    {
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        {
+            if (PhotonNetwork.IsMasterClient && readySign == true)
+            {
+                PhotonNetwork.LoadLevel("Game_HH");
+            }
+        }
+    }
+    [PunRPC]
+    public void DoReady()
+    {
+        if (readySign == false)
+        {
+            readySign = true;
+        }
+        else if (readySign == true)
+        {
+            readySign = false;
+        }
+    }
+
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -36,15 +80,51 @@ public class LobbyMgr : MonoBehaviourPunCallbacks
     public GameObject p2UI;
     public GameObject Mask;
     public Transform ReadyButtontransform;
-    public void GoGameScene()
+    void Update()
     {
-        if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Debug.Log("Master client. Loading Game_HH scene...");
-                PhotonNetwork.LoadLevel("Game_HH");
-            }
+            StartButton.SetActive(true);
+            ReadyButton.SetActive(false);
         }
+        else
+        {
+            StartButton.SetActive(false);
+            ReadyButton.SetActive(true);
+        }
+        if (PhotonNetwork.InRoom)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+            {
+                p1UI.SetActive(true);
+                p2UI.SetActive(false);
+            }
+            else if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
+                p2UI.SetActive(true);
+
+        }
+
+        if (readySign == true)
+        {
+            Mask.SetActive(false);
+        }
+        else if(readySign == false)
+        {
+            Mask.SetActive(true);
+        }
+
+    }
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        RoomRenewal();
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        RoomRenewal();
+    }
+    void RoomRenewal()
+    {
+       
     }
 }

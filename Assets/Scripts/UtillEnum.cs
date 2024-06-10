@@ -32,3 +32,8 @@ public enum StrikeState
     SetStrike
 }
 
+public enum ShootingState
+{
+    Idle,
+    Shooting
+}

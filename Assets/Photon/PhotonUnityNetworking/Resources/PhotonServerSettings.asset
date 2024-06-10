@@ -101,6 +101,11 @@ MonoBehaviour:
   - RPCGuardDelay
   - RPCCharacterImg
   - RPCpGuardNumClear
+  - RPCCardCount
+  - RPCGameEnd
+  - RPCGameEnd1
+  - RPCNewRound
+  - RPCGameEndUI
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
