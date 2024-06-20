@@ -106,6 +106,14 @@ MonoBehaviour:
   - RPCGameEnd1
   - RPCNewRound
   - RPCGameEndUI
+  - ResetGuard
+  - GuardClickBird
+  - RPCBirdUIClear
+  - GuardCountClear
+  - CancelGuardUI
+  - CheckGuardBird
+  - GuardCountOff
+  - SelectGuardBGOff
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

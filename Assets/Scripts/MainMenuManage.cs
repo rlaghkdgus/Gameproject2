@@ -10,15 +10,17 @@ public class MainMenuManage : MonoBehaviourPun
   
     public void GoMainMenu()
     {
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.ClickButton);
         LoadingSceneManager.LoadScene("MainMenu");
-        Time.timeScale = 1;
     }
     public void PNLeaveRoom()
     {
+        SoundManager.Instance.PlayBgm(SoundManager.Bgm.MainMenuBgm);
         PhotonNetwork.LeaveRoom();
     }
     public void GoLobby()
     {
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.ClickButton);
         LoadingSceneManager.LoadScene("RoomList_HH");
     }
     public void LeaveLobby()

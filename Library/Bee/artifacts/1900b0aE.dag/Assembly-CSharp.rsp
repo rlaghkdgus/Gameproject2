@@ -122,6 +122,7 @@
 -define:PUN_2_0_OR_NEWER
 -define:PUN_2_OR_NEWER
 -define:PUN_2_19_OR_NEWER
+-define:UNITY_POST_PROCESSING_STACK_V2
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"Assets/Photon/PhotonLibs/netstandard2.0/Photon3Unity3D.dll"
@@ -384,6 +385,8 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Mathematics.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Mathematics.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.PlasticSCM.Editor.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Postprocessing.Editor.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aE.dag/Unity.Postprocessing.Runtime.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.RenderPipeline.Universal.ShaderLibrary.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.RenderPipelines.Core.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.RenderPipelines.Core.Runtime.ref.dll"
@@ -433,6 +436,7 @@
 "Assets/Scripts/CardInfo.cs"
 "Assets/Scripts/CardManager.cs"
 "Assets/Scripts/CardSO.cs"
+"Assets/Scripts/CharaChange.cs"
 "Assets/Scripts/DamageText.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/JudgeMove.cs"
@@ -440,8 +444,9 @@
 "Assets/Scripts/MainMenuManage.cs"
 "Assets/Scripts/PlaneMove.cs"
 "Assets/Scripts/PlayerData.cs"
-"Assets/Scripts/RandomMover.cs"
+"Assets/Scripts/RandomCartoon.cs"
 "Assets/Scripts/RoundManager.cs"
+"Assets/Scripts/SetVolume.cs"
 "Assets/Scripts/ShootingManager.cs"
 "Assets/Scripts/SingleTon.cs"
 "Assets/Scripts/SoundManager.cs"

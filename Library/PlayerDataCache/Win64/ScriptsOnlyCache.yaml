@@ -12,6 +12,7 @@ ScriptsOnlyBuild:
     - CardInfo
     - CardManager
     - CardSO
+    - CharaChange
     - DamageText
     - GameManager
     - JudgeMove
@@ -20,8 +21,10 @@ ScriptsOnlyBuild:
     - MainMenuManage
     - PlaneMove
     - PlayerData
+    - RandomCartoon
     - RoomManager
     - RoundManager
+    - SetVolume
     - ShootingManager
     - SoundManager
     - SyncObject
@@ -173,6 +176,12 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Outline
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
+    spine-unity-editor.dll:
+    - Spine.Unity.Editor.SpinePreferences
+    spine-unity.dll:
+    - Spine.Unity.SkeletonDataAsset
+    - Spine.Unity.SkeletonGraphic
+    - Spine.Unity.SpineAtlasAsset
   serializedClasses:
     Assembly-CSharp:
     - Card
@@ -234,6 +243,10 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Slider/SliderEvent
     - UnityEngine.UI.SpriteState
     - UnityEngine.UI.Toggle/ToggleEvent
+    spine-unity:
+    - Spine.Unity.BlendModeMaterials
+    - Spine.Unity.MeshGenerator
+    - Spine.Unity.MeshGenerator/Settings
   methodsToPreserve:
   - assembly: Assembly-CSharp
     fullTypeName: MainMenuManage
@@ -292,6 +305,9 @@ ScriptsOnlyBuild:
   - assembly: UnityEngine.CoreModule
     fullTypeName: UnityEngine.GameObject
     methodName: SetActive
+  - assembly: Assembly-CSharp
+    fullTypeName: SetVolume
+    methodName: SetBgmVolume
   - assembly: UnityEngine.CoreModule
     fullTypeName: UnityEngine.GameObject
     methodName: SetActive
@@ -361,6 +377,9 @@ ScriptsOnlyBuild:
   - assembly: UnityEngine.CoreModule
     fullTypeName: UnityEngine.GameObject
     methodName: SetActive
+  - assembly: Assembly-CSharp
+    fullTypeName: SetVolume
+    methodName: SetSfxVolume
   - assembly: UnityEngine.CoreModule
     fullTypeName: UnityEngine.GameObject
     methodName: SetActive
@@ -385,6 +404,9 @@ ScriptsOnlyBuild:
   - assembly: Assembly-CSharp
     fullTypeName: RoomManager
     methodName: MyListClick
+  - assembly: Assembly-CSharp
+    fullTypeName: LobbyMgr
+    methodName: leftRoom
   - assembly: Assembly-CSharp
     fullTypeName: LobbyMgr
     methodName: GoGameScene
@@ -453,6 +475,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
     - Class: 90
       Script: {instanceID: 0}
     - Class: 91
@@ -462,171 +486,169 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16850}
+      Script: {instanceID: 17030}
     - Class: 114
-      Script: {instanceID: 16852}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16854}
+      Script: {instanceID: 17178}
     - Class: 114
-      Script: {instanceID: 16856}
+      Script: {instanceID: 17552}
     - Class: 114
-      Script: {instanceID: 16858}
+      Script: {instanceID: 17786}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 18174}
     - Class: 114
-      Script: {instanceID: 16862}
+      Script: {instanceID: 18516}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 18656}
     - Class: 114
-      Script: {instanceID: 16872}
+      Script: {instanceID: 18728}
     - Class: 114
-      Script: {instanceID: 17366}
+      Script: {instanceID: 18878}
     - Class: 114
-      Script: {instanceID: 17588}
+      Script: {instanceID: 18924}
     - Class: 114
-      Script: {instanceID: 17952}
+      Script: {instanceID: 19212}
     - Class: 114
-      Script: {instanceID: 18402}
+      Script: {instanceID: 19218}
     - Class: 114
-      Script: {instanceID: 18468}
+      Script: {instanceID: 19482}
     - Class: 114
-      Script: {instanceID: 18612}
+      Script: {instanceID: 20300}
     - Class: 114
-      Script: {instanceID: 18654}
+      Script: {instanceID: 20344}
     - Class: 114
-      Script: {instanceID: 18922}
+      Script: {instanceID: 20404}
     - Class: 114
-      Script: {instanceID: 18926}
+      Script: {instanceID: 20470}
     - Class: 114
-      Script: {instanceID: 19174}
+      Script: {instanceID: 20634}
     - Class: 114
-      Script: {instanceID: 19950}
+      Script: {instanceID: 20652}
     - Class: 114
-      Script: {instanceID: 19994}
+      Script: {instanceID: 20834}
     - Class: 114
-      Script: {instanceID: 20114}
+      Script: {instanceID: 21058}
     - Class: 114
-      Script: {instanceID: 20270}
+      Script: {instanceID: 21168}
     - Class: 114
-      Script: {instanceID: 20288}
+      Script: {instanceID: 21242}
     - Class: 114
-      Script: {instanceID: 20458}
+      Script: {instanceID: 21338}
     - Class: 114
-      Script: {instanceID: 20760}
+      Script: {instanceID: 21424}
     - Class: 114
-      Script: {instanceID: 20766}
+      Script: {instanceID: 21504}
     - Class: 114
-      Script: {instanceID: 20832}
+      Script: {instanceID: 21566}
     - Class: 114
-      Script: {instanceID: 20924}
+      Script: {instanceID: 21798}
     - Class: 114
-      Script: {instanceID: 21006}
+      Script: {instanceID: 21810}
     - Class: 114
-      Script: {instanceID: 21076}
+      Script: {instanceID: 21874}
     - Class: 114
-      Script: {instanceID: 21136}
+      Script: {instanceID: 22018}
     - Class: 114
-      Script: {instanceID: 21356}
+      Script: {instanceID: 22480}
     - Class: 114
-      Script: {instanceID: 21366}
+      Script: {instanceID: 22768}
     - Class: 114
-      Script: {instanceID: 21428}
+      Script: {instanceID: 22948}
     - Class: 114
-      Script: {instanceID: 21570}
+      Script: {instanceID: 23060}
     - Class: 114
-      Script: {instanceID: 22006}
+      Script: {instanceID: 23308}
     - Class: 114
-      Script: {instanceID: 22276}
+      Script: {instanceID: 23436}
     - Class: 114
-      Script: {instanceID: 22444}
+      Script: {instanceID: 23772}
     - Class: 114
-      Script: {instanceID: 22550}
+      Script: {instanceID: 23838}
     - Class: 114
-      Script: {instanceID: 22786}
+      Script: {instanceID: 23990}
     - Class: 114
-      Script: {instanceID: 22904}
+      Script: {instanceID: 24066}
     - Class: 114
-      Script: {instanceID: 23220}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 23284}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 23424}
+      Script: {instanceID: 24412}
     - Class: 114
-      Script: {instanceID: 23500}
+      Script: {instanceID: 24580}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 24760}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24864}
     - Class: 114
-      Script: {instanceID: 23822}
+      Script: {instanceID: 24922}
     - Class: 114
-      Script: {instanceID: 23980}
+      Script: {instanceID: 25088}
     - Class: 114
-      Script: {instanceID: 24146}
+      Script: {instanceID: 25102}
     - Class: 114
-      Script: {instanceID: 24292}
+      Script: {instanceID: 25168}
     - Class: 114
-      Script: {instanceID: 24458}
-    - Class: 114
-      Script: {instanceID: 24470}
-    - Class: 114
-      Script: {instanceID: 24530}
-    - Class: 114
-      Script: {instanceID: 24774}
-    - Class: 114
-      Script: {instanceID: 24862}
-    - Class: 114
-      Script: {instanceID: 24870}
-    - Class: 114
-      Script: {instanceID: 24898}
-    - Class: 114
-      Script: {instanceID: 25122}
-    - Class: 114
-      Script: {instanceID: 25194}
-    - Class: 114
-      Script: {instanceID: 25394}
+      Script: {instanceID: 25432}
     - Class: 114
       Script: {instanceID: 25530}
     - Class: 114
-      Script: {instanceID: 25806}
+      Script: {instanceID: 25538}
     - Class: 114
-      Script: {instanceID: 25828}
+      Script: {instanceID: 25570}
     - Class: 114
-      Script: {instanceID: 25830}
+      Script: {instanceID: 25800}
     - Class: 114
-      Script: {instanceID: 25878}
+      Script: {instanceID: 25874}
     - Class: 114
-      Script: {instanceID: 26070}
+      Script: {instanceID: 26082}
     - Class: 114
-      Script: {instanceID: 26216}
+      Script: {instanceID: 26218}
     - Class: 114
-      Script: {instanceID: 26322}
+      Script: {instanceID: 26504}
     - Class: 114
-      Script: {instanceID: 26624}
+      Script: {instanceID: 26526}
     - Class: 114
-      Script: {instanceID: 26748}
+      Script: {instanceID: 26528}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 26580}
     - Class: 114
-      Script: {instanceID: 26834}
+      Script: {instanceID: 26782}
     - Class: 114
-      Script: {instanceID: 26918}
+      Script: {instanceID: 26862}
     - Class: 114
-      Script: {instanceID: 27026}
+      Script: {instanceID: 26936}
     - Class: 114
-      Script: {instanceID: 27174}
+      Script: {instanceID: 27042}
     - Class: 114
-      Script: {instanceID: 27186}
+      Script: {instanceID: 27148}
     - Class: 114
-      Script: {instanceID: 27454}
+      Script: {instanceID: 27362}
     - Class: 114
-      Script: {instanceID: 28084}
+      Script: {instanceID: 27490}
     - Class: 114
-      Script: {instanceID: 28246}
+      Script: {instanceID: 27574}
     - Class: 114
-      Script: {instanceID: 28478}
+      Script: {instanceID: 27586}
     - Class: 114
-      Script: {instanceID: 60564}
+      Script: {instanceID: 27684}
+    - Class: 114
+      Script: {instanceID: 27796}
+    - Class: 114
+      Script: {instanceID: 27950}
+    - Class: 114
+      Script: {instanceID: 27962}
+    - Class: 114
+      Script: {instanceID: 28242}
+    - Class: 114
+      Script: {instanceID: 28586}
+    - Class: 114
+      Script: {instanceID: 28914}
+    - Class: 114
+      Script: {instanceID: 29080}
+    - Class: 114
+      Script: {instanceID: 29330}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -678,6 +700,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 49
+      Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
     - Class: 60
@@ -697,57 +721,63 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16854}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 18130}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 18516}
     - Class: 114
-      Script: {instanceID: 18654}
+      Script: {instanceID: 18924}
     - Class: 114
-      Script: {instanceID: 19726}
+      Script: {instanceID: 20064}
     - Class: 114
-      Script: {instanceID: 20766}
+      Script: {instanceID: 21114}
     - Class: 114
-      Script: {instanceID: 21356}
+      Script: {instanceID: 21174}
     - Class: 114
-      Script: {instanceID: 21958}
+      Script: {instanceID: 21798}
     - Class: 114
-      Script: {instanceID: 22392}
+      Script: {instanceID: 22028}
     - Class: 114
-      Script: {instanceID: 22550}
+      Script: {instanceID: 22428}
     - Class: 114
-      Script: {instanceID: 23500}
+      Script: {instanceID: 22896}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 23060}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24066}
     - Class: 114
-      Script: {instanceID: 23822}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 23980}
+      Script: {instanceID: 24336}
     - Class: 114
-      Script: {instanceID: 24292}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 24470}
+      Script: {instanceID: 24412}
     - Class: 114
-      Script: {instanceID: 25394}
+      Script: {instanceID: 24580}
     - Class: 114
-      Script: {instanceID: 25530}
+      Script: {instanceID: 24922}
     - Class: 114
-      Script: {instanceID: 25878}
+      Script: {instanceID: 25102}
     - Class: 114
-      Script: {instanceID: 26532}
+      Script: {instanceID: 26082}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 26218}
     - Class: 114
-      Script: {instanceID: 27058}
+      Script: {instanceID: 26580}
     - Class: 114
-      Script: {instanceID: 27174}
+      Script: {instanceID: 27148}
     - Class: 114
-      Script: {instanceID: 28084}
+      Script: {instanceID: 27270}
     - Class: 114
-      Script: {instanceID: 28504}
+      Script: {instanceID: 27574}
+    - Class: 114
+      Script: {instanceID: 27832}
+    - Class: 114
+      Script: {instanceID: 27950}
+    - Class: 114
+      Script: {instanceID: 28914}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -794,21 +824,23 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 17444}
     - Class: 114
-      Script: {instanceID: 19078}
+      Script: {instanceID: 19384}
     - Class: 114
-      Script: {instanceID: 20766}
+      Script: {instanceID: 21174}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 25878}
+      Script: {instanceID: 26580}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 27148}
+    - Class: 114
+      Script: {instanceID: 27574}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -843,25 +875,27 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16854}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 17558}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 18516}
     - Class: 114
-      Script: {instanceID: 17372}
+      Script: {instanceID: 21174}
     - Class: 114
-      Script: {instanceID: 20766}
+      Script: {instanceID: 23060}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 23980}
+      Script: {instanceID: 24580}
     - Class: 114
-      Script: {instanceID: 25878}
+      Script: {instanceID: 26580}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 27148}
+    - Class: 114
+      Script: {instanceID: 27574}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -896,25 +930,29 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16854}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 17970}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 18516}
     - Class: 114
-      Script: {instanceID: 20766}
+      Script: {instanceID: 21174}
     - Class: 114
-      Script: {instanceID: 22550}
+      Script: {instanceID: 23060}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 25806}
+      Script: {instanceID: 26504}
     - Class: 114
-      Script: {instanceID: 25878}
+      Script: {instanceID: 26580}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 27148}
+    - Class: 114
+      Script: {instanceID: 27574}
+    - Class: 114
+      Script: {instanceID: 29296}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -949,29 +987,29 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 16852}
+      Script: {instanceID: 17060}
     - Class: 114
-      Script: {instanceID: 16854}
+      Script: {instanceID: 18296}
     - Class: 114
-      Script: {instanceID: 16860}
+      Script: {instanceID: 18516}
     - Class: 114
-      Script: {instanceID: 16864}
+      Script: {instanceID: 23060}
     - Class: 114
-      Script: {instanceID: 18068}
+      Script: {instanceID: 24176}
     - Class: 114
-      Script: {instanceID: 22550}
+      Script: {instanceID: 24376}
     - Class: 114
-      Script: {instanceID: 23604}
+      Script: {instanceID: 24580}
     - Class: 114
-      Script: {instanceID: 23788}
+      Script: {instanceID: 24760}
     - Class: 114
-      Script: {instanceID: 23980}
+      Script: {instanceID: 26862}
     - Class: 114
-      Script: {instanceID: 24146}
+      Script: {instanceID: 27148}
     - Class: 114
-      Script: {instanceID: 26824}
+      Script: {instanceID: 27574}
     - Class: 114
-      Script: {instanceID: 28142}
+      Script: {instanceID: 28972}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -997,54 +1035,6 @@ ScriptsOnlyBuild:
     className: UniversalRenderPipelineAsset
   - hash:
       serializedVersion: 2
-      Hash: 0249933f35dcc970b31eaae0159aebf9
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: ContentSizeFitter
-  - hash:
-      serializedVersion: 2
-      Hash: 1ed846c1ed9d69c8c2fcff9a6896b04f
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Text
-  - hash:
-      serializedVersion: 2
-      Hash: 0b7995e6c59201aa9b4ad6a0aecb4621
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Button
-  - hash:
-      serializedVersion: 2
-      Hash: 94f8303fca6ba25383fc62595e324b7b
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: LayoutElement
-  - hash:
-      serializedVersion: 2
-      Hash: 41ac98c9880a6f3758ca69dbaa1e7777
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: HorizontalLayoutGroup
-  - hash:
-      serializedVersion: 2
-      Hash: 6a356b04c25c0bb008c1b24bf8b0f996
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
-  - hash:
-      serializedVersion: 2
-      Hash: 1acffdc47de1ca014dae3d384c3d1086
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: ScrollRect
-  - hash:
-      serializedVersion: 2
-      Hash: 16c8cbd24a32f9d6625615e0e9098073
-    assemblyName: UnityEngine.UI
-    namespaceName: UnityEngine.UI
-    className: Image
-  - hash:
-      serializedVersion: 2
       Hash: 7b4effb6af892385b0b70f6aad73fafd
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
@@ -1057,10 +1047,22 @@ ScriptsOnlyBuild:
     className: PanelRaycaster
   - hash:
       serializedVersion: 2
+      Hash: 16c8cbd24a32f9d6625615e0e9098073
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Image
+  - hash:
+      serializedVersion: 2
       Hash: 74007bf515c4306e564934b368232bdb
     assemblyName: Unity.2D.Animation.Runtime
     namespaceName: UnityEngine.U2D.Animation
     className: SpriteSkin
+  - hash:
+      serializedVersion: 2
+      Hash: 92f27b9e8efc4cf3d04962dc6ec1c8b0
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: BoundingBoxFollowerGraphic
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1075,6 +1077,12 @@ ScriptsOnlyBuild:
     className: BezierSpline
   - hash:
       serializedVersion: 2
+      Hash: 94f8303fca6ba25383fc62595e324b7b
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: LayoutElement
+  - hash:
+      serializedVersion: 2
       Hash: 1ed2c6278a809fcb97c4b0e845bbecc5
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
@@ -1085,6 +1093,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
     className: DepthOfField
+  - hash:
+      serializedVersion: 2
+      Hash: 67c10250c417e299d162262383e86776
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Prototyping
+    className: SpineEventUnityHandler
   - hash:
       serializedVersion: 2
       Hash: 8cdf708746b9450c533c20f68785c932
@@ -1111,10 +1125,28 @@ ScriptsOnlyBuild:
     className: CompositeShadowCaster2D
   - hash:
       serializedVersion: 2
+      Hash: 8fdbebe59b227f62f595c70289f644d7
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineBlinkPlayer
+  - hash:
+      serializedVersion: 2
+      Hash: b548b5d7625a44ac73aeb84ca838ced7
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonMecanim
+  - hash:
+      serializedVersion: 2
       Hash: b9fb79698a50c1d4a6c0c70073cf4c81
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
     className: WhiteBalance
+  - hash:
+      serializedVersion: 2
+      Hash: ead6a082ac1654f670fd9366863ba4a4
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: RandomCartoon
   - hash:
       serializedVersion: 2
       Hash: c7b9385de9fd55499d563ac8783bbda2
@@ -1147,6 +1179,12 @@ ScriptsOnlyBuild:
     className: SpriteShapeDefaultCreator
   - hash:
       serializedVersion: 2
+      Hash: aebe96784ec087168f628056ba6c88ec
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonAnimation
+  - hash:
+      serializedVersion: 2
       Hash: cf74b7925226fa2f960e41cb453924d1
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
@@ -1165,6 +1203,12 @@ ScriptsOnlyBuild:
     className: ProbeVolumePerSceneData
   - hash:
       serializedVersion: 2
+      Hash: 34fa63a30926bcf55d7323dae76be890
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonSubmeshGraphic
+  - hash:
+      serializedVersion: 2
       Hash: 0aa202e0cb25aba547e426435f7d6914
     assemblyName: Assembly-CSharp
     namespaceName: Photon.Chat.Demo
@@ -1175,6 +1219,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
     className: DebugUIHandlerToggle
+  - hash:
+      serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonPartsRenderer
+  - hash:
+      serializedVersion: 2
+      Hash: e9f93aa8cc6b871ffc042cdcbed39d91
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: FootSoldierExample
   - hash:
       serializedVersion: 2
       Hash: dad8b52ecc898f494ba35b6402337f79
@@ -1193,6 +1249,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnBecameVisibleMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: f675dd6d83879eac1786dc6e45ffe161
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: CharaChange
   - hash:
       serializedVersion: 2
       Hash: c7b9385de9fd55499d563ac8783bbda2
@@ -1231,6 +1293,18 @@ ScriptsOnlyBuild:
     className: TMP_TextSelector_A
   - hash:
       serializedVersion: 2
+      Hash: 585971b9afa877fda2a26da0873fdc40
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SpineAtlasAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 183a0293afbb46e2778d03268079d7e1
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: BoneFollowerGraphic
+  - hash:
+      serializedVersion: 2
       Hash: a7a4f96d026b10ead36f70cf6402f61d
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
@@ -1241,6 +1315,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering
     className: ProbeReferenceVolumeProfile
+  - hash:
+      serializedVersion: 2
+      Hash: 5ff90f0d099abc9ae6dbb20dd49ea85c
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonRenderer
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1267,6 +1347,12 @@ ScriptsOnlyBuild:
     className: CoroutineRunner
   - hash:
       serializedVersion: 2
+      Hash: aa5adfbcb3c4ed0948c412372aab3263
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: ChromaticAberration
+  - hash:
+      serializedVersion: 2
       Hash: be8b55fc8a992741c6269f20cbc719b1
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
@@ -1283,6 +1369,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnButtonClickMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 181f3aea536f66038fde19610b934fb3
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonGraphicMirror
+  - hash:
+      serializedVersion: 2
+      Hash: ea15c20fbbd3a662eb07020002b55cac
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MaterialPropertyBlockExample
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1321,6 +1419,12 @@ ScriptsOnlyBuild:
     className: Bone
   - hash:
       serializedVersion: 2
+      Hash: 0b7995e6c59201aa9b4ad6a0aecb4621
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Button
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -1331,6 +1435,24 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnMouseDownMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 433cbfac383fd1638c19e2028478fcc1
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: AtlasRegionAttacher
+  - hash:
+      serializedVersion: 2
+      Hash: 46f3c141772ae41f979cd568adf355e7
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MaterialReplacementExample
+  - hash:
+      serializedVersion: 2
+      Hash: 37f2aa1c77cb0c36cfb061e7a1fd6f12
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MixAndMatchSkinsExample
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1363,6 +1485,12 @@ ScriptsOnlyBuild:
     className: UniversalRenderPipelineGlobalSettings
   - hash:
       serializedVersion: 2
+      Hash: b1fbc0df106d0c348cf1f0bf303b6b6b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: AttackSpineboy
+  - hash:
+      serializedVersion: 2
       Hash: 831c1ef4a20aa60edf162fbe87d60da5
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
@@ -1393,6 +1521,18 @@ ScriptsOnlyBuild:
     className: UnityOnSelectMessageListener
   - hash:
       serializedVersion: 2
+      Hash: bafa97a90bd42f4a3eb463a92cf2285e
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: BoneLocalOverride
+  - hash:
+      serializedVersion: 2
+      Hash: c0e8d2c9705c5b812913348c72cf8b44
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonRenderSeparator
+  - hash:
+      serializedVersion: 2
       Hash: cfa0bc588212b375b04e2336ce5e1315
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -1403,6 +1543,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
     className: DebugUIHandlerVBox
+  - hash:
+      serializedVersion: 2
+      Hash: fbfeb62a92239e91d473976151074ddc
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: BoneFollower
   - hash:
       serializedVersion: 2
       Hash: 995ded12fd23487c35be69ad8c37f000
@@ -1429,6 +1575,18 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionExit2DMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 7757015926da47f24cbc82041b9f03c6
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonGraphicRenderTexture
+  - hash:
+      serializedVersion: 2
+      Hash: d5126e0ea75c09ad838e02b4697a9023
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: TransitionDictionaryExample
+  - hash:
+      serializedVersion: 2
       Hash: 6bd289a775a9676b7d7d880eeedf3646
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit.Forms
@@ -1453,10 +1611,22 @@ ScriptsOnlyBuild:
     className: ScriptGraphAsset
   - hash:
       serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: DraggableTransform
+  - hash:
+      serializedVersion: 2
       Hash: e316a5e8a52e6e230447a7f7744ca324
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
     className: ColorAdjustments
+  - hash:
+      serializedVersion: 2
+      Hash: 2ccab2d3c6490861cc7dc194d0cbbb0a
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: CombinedSkin
   - hash:
       serializedVersion: 2
       Hash: b6e08e9716184d5736af5af9ffaf1513
@@ -1469,6 +1639,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: ActivationTrack
+  - hash:
+      serializedVersion: 2
+      Hash: c1a9c82b5fbdcd841d274122f0e64b8c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineGauge
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1501,10 +1677,22 @@ ScriptsOnlyBuild:
     className: PlayerAnimatorManager
   - hash:
       serializedVersion: 2
+      Hash: 0775d64979f300b28e5541c200c19007
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: PointFollower
+  - hash:
+      serializedVersion: 2
       Hash: 19995c8f57a061f914cfd824cff052b1
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: LayoutElementMatchSize
+  - hash:
+      serializedVersion: 2
+      Hash: 1b7b22360a93ec54ceab18a0ca9d6a57
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonUtilityGroundConstraint
   - hash:
       serializedVersion: 2
       Hash: d3550ca29959ded14a048f6dc981f237
@@ -1523,6 +1711,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
     className: PunTeams
+  - hash:
+      serializedVersion: 2
+      Hash: c2b8b7b5c480e7b9cfc8b3f90f5ccf93
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: FollowLocationRigidbody
   - hash:
       serializedVersion: 2
       Hash: d0f38d9d8b4898fddc05cf5525642bf4
@@ -1597,6 +1791,30 @@ ScriptsOnlyBuild:
     className: Bloom
   - hash:
       serializedVersion: 2
+      Hash: 304d96460ce7e8846d9f930e48d5dab4
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonRagdoll2D
+  - hash:
+      serializedVersion: 2
+      Hash: 7722fa0caefbd4e378ee4f41d03b95cc
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity
+    className: SkeletonAnimationFixedTimestep
+  - hash:
+      serializedVersion: 2
+      Hash: 30455a318ed5711a9552df4c81c66e70
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: BasicPlatformerController
+  - hash:
+      serializedVersion: 2
+      Hash: 408293f89d4950546351fcf0e974583f
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: MotionBlur
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
@@ -1613,6 +1831,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
     className: TMPro_InstructionOverlay
+  - hash:
+      serializedVersion: 2
+      Hash: 0f0fcf249c22c080b4b4684bc7f10df9
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyFootplanter
   - hash:
       serializedVersion: 2
       Hash: d0517205fcfc45f1f388e707a723983b
@@ -1693,6 +1917,12 @@ ScriptsOnlyBuild:
     className: ThirdPersonUserControl
   - hash:
       serializedVersion: 2
+      Hash: a774afc2d683a1fb0fa29ecc0d5a6fb5
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessVolume
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
@@ -1727,6 +1957,18 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
     className: GridLayoutGroup
+  - hash:
+      serializedVersion: 2
+      Hash: 314db1d5b471428110c69598ed809fef
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyBeginnerView
+  - hash:
+      serializedVersion: 2
+      Hash: e44c1964aad6fb40563573cf6608be1c
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessResources
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1765,6 +2007,12 @@ ScriptsOnlyBuild:
     className: GameVersionProperty
   - hash:
       serializedVersion: 2
+      Hash: ab1158d246acb39f20e7d8d4d4e0c621
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineBeginnerTwo
+  - hash:
+      serializedVersion: 2
       Hash: 6bd289a775a9676b7d7d880eeedf3646
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
@@ -1801,10 +2049,22 @@ ScriptsOnlyBuild:
     className: TextButtonTransition
   - hash:
       serializedVersion: 2
+      Hash: 41ac98c9880a6f3758ca69dbaa1e7777
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: HorizontalLayoutGroup
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnCollisionEnter2DMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: c939c7e6563c2c4afc5160d811de66cc
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RenderTextureFadeoutExample
   - hash:
       serializedVersion: 2
       Hash: bcd0aa30e639c9230560ff50ef3cec29
@@ -1825,6 +2085,12 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerIndirectToggle
   - hash:
       serializedVersion: 2
+      Hash: 2c11e3687875dd78c091544cf3bccfa3
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: DepthOfField
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Assembly-CSharp
     namespaceName: TMPro
@@ -1841,12 +2107,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering
     className: ProbeVolumeAsset
-  - hash:
-      serializedVersion: 2
-      Hash: c42fa6e5857f4ed6681e544250c59506
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: RandomMover
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -1873,6 +2133,12 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
+      Hash: 54c2c4305c2490180d0fc60afc7d798d
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonUtilityEyeConstraint
+  - hash:
+      serializedVersion: 2
       Hash: 8a20581fdc44f4e1a032de6ae8244810
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -1895,6 +2161,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
     className: PunPlayerScores
+  - hash:
+      serializedVersion: 2
+      Hash: 660f866cc95a2ccc6066a6af18b2bbda
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity
+    className: SkeletonAnimationMulti
   - hash:
       serializedVersion: 2
       Hash: e8ff0f32aede797557af213671aa1a71
@@ -1921,6 +2193,12 @@ ScriptsOnlyBuild:
     className: Cluster
   - hash:
       serializedVersion: 2
+      Hash: c2b8b7b5c480e7b9cfc8b3f90f5ccf93
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: FollowSkeletonUtilityRootRotation
+  - hash:
+      serializedVersion: 2
       Hash: 4b0940abcee0165b51af860ec5afc1a8
     assemblyName: PhotonUnityNetworking
     namespaceName: Photon.Pun
@@ -1939,10 +2217,22 @@ ScriptsOnlyBuild:
     className: PlayerListCell
   - hash:
       serializedVersion: 2
+      Hash: cba364baf02b9ffdc93e8a4016a4ecd0
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyPole
+  - hash:
+      serializedVersion: 2
       Hash: 925a889a282ea89c4d9bd41afd22e4c2
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
     className: TextMeshSpawner
+  - hash:
+      serializedVersion: 2
+      Hash: 46bd1da5f94320612470b1a83a50fa11
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: EquipButtonExample
   - hash:
       serializedVersion: 2
       Hash: a9996d5513cfdb2a18bf40e4b92c4518
@@ -1951,10 +2241,28 @@ ScriptsOnlyBuild:
     className: ProbeTouchupVolume
   - hash:
       serializedVersion: 2
+      Hash: 4eff811826c8a17204626945d1245cdd
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: SoundManager
+  - hash:
+      serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MecanimToAnimationHandleExample
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: AnimatorMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 1b08648e40bcec249fdcfab2b51f7f23
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonGraphic
   - hash:
       serializedVersion: 2
       Hash: 7a0dffef755dbed4f4799f891b173e23
@@ -1981,10 +2289,22 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerIntField
   - hash:
       serializedVersion: 2
+      Hash: b7d6f6883286295c8fdb575632404432
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonRendererCustomMaterials
+  - hash:
+      serializedVersion: 2
       Hash: 2cc35b2fe169bf48b64da75cf9381325
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
     className: LiftGammaGain
+  - hash:
+      serializedVersion: 2
+      Hash: 5e5d51f30f1c7603e7f0e7a3cd88af44
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyBeginnerModel
   - hash:
       serializedVersion: 2
       Hash: 971e8ce660e35a51d5c4384a57b98990
@@ -2015,6 +2335,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnTriggerStay2DMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 4b399f55068c43931ef44ea9cbddf12c
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: BlendModeMaterialsAsset
   - hash:
       serializedVersion: 2
       Hash: fcead85cbd2dde35d06cb401e4d50847
@@ -2059,10 +2385,22 @@ ScriptsOnlyBuild:
     className: T_ShootingManager
   - hash:
       serializedVersion: 2
+      Hash: bb25075da0d69a3b1e9f2ec348e0f07c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonRenderTexture
+  - hash:
+      serializedVersion: 2
       Hash: c7b9385de9fd55499d563ac8783bbda2
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: PingProperty
+  - hash:
+      serializedVersion: 2
+      Hash: b1dc400b3b6f350b27e0eaff1bf7932c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Prototyping
+    className: SkeletonColorInitialize
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2093,6 +2431,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering
     className: LensFlareDataSRP
+  - hash:
+      serializedVersion: 2
+      Hash: 3ae0f88cef6579c133bb93a485de89cc
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyPoleGraphic
   - hash:
       serializedVersion: 2
       Hash: 41ac98c9880a6f3758ca69dbaa1e7777
@@ -2143,6 +2487,12 @@ ScriptsOnlyBuild:
     className: Asteroid
   - hash:
       serializedVersion: 2
+      Hash: 5987c9e3523d3c6c3ba7dce96de9001c
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonDataAsset
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
@@ -2173,6 +2523,12 @@ ScriptsOnlyBuild:
     className: CountOfRoomsProperty
   - hash:
       serializedVersion: 2
+      Hash: 3107c0419e7a58a0a629a92a347e78d9
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RenderCombinedMesh
+  - hash:
+      serializedVersion: 2
       Hash: e1b25d6f2cf1bdbe674134afad6c2d9d
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
@@ -2201,6 +2557,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
     className: Dropdown
+  - hash:
+      serializedVersion: 2
+      Hash: 122be67108866eeccf52f7171051550a
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonUtilityBone
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2251,6 +2613,12 @@ ScriptsOnlyBuild:
     className: LightAnchor
   - hash:
       serializedVersion: 2
+      Hash: 44adaad0a3a0d5b97ecf4a0f1f149a24
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: AnimationMatchModifierAsset
+  - hash:
+      serializedVersion: 2
       Hash: eb08d30e33bc3276f2249349d4fae510
     assemblyName: Unity.2D.Animation.Runtime
     namespaceName: UnityEngine.U2D.Animation
@@ -2287,16 +2655,34 @@ ScriptsOnlyBuild:
     className: ConnectionHandler
   - hash:
       serializedVersion: 2
+      Hash: b0f4717834ee332ea7d6b1155d3576af
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: EventDataReferenceAsset
+  - hash:
+      serializedVersion: 2
       Hash: 98be06998c5fc6364f0bb20207f88247
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
     className: PhotonStatsGui
   - hash:
       serializedVersion: 2
+      Hash: 94845e9c154ec5e152e9db72b6e3c171
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyTargetControllerGraphic
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnParticleCollisionMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 9b8bac354fc172a4250994b7796868f9
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: EquipSystemExample
   - hash:
       serializedVersion: 2
       Hash: 3324a70611b197df9927d1019ae24ce4
@@ -2315,6 +2701,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnMouseOverMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: a0c3d8ac0230199d5e0acf6626e72964
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: ColorGrading
   - hash:
       serializedVersion: 2
       Hash: 025cd7bab07ecd22938b0166edeab2a5
@@ -2357,6 +2749,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp
     namespaceName: TMPro
     className: TMP_PhoneNumberValidator
+  - hash:
+      serializedVersion: 2
+      Hash: e0959e6b1ac2cd5e8efb65362252ce93
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: LensDistortion
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2437,6 +2835,12 @@ ScriptsOnlyBuild:
     className: DemoCircleExpositor
   - hash:
       serializedVersion: 2
+      Hash: 71ec6514b3ceab856554d974016ac24c
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: BoundingBoxFollower
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Assembly-CSharp
     namespaceName: 
@@ -2447,6 +2851,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: SignalEmitter
+  - hash:
+      serializedVersion: 2
+      Hash: 7a7f3fd88676b4bbf78dda8f8b93ef5a
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonAnimationHandleExample
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2521,10 +2931,22 @@ ScriptsOnlyBuild:
     className: FreeCamera
   - hash:
       serializedVersion: 2
+      Hash: 4159ee97e72afda71b66a895329f8e43
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: Rotator
+  - hash:
+      serializedVersion: 2
       Hash: 512e2d139bc2c1ba2fab42a0dd7b234d
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.PunBasics
     className: PlayerUI
+  - hash:
+      serializedVersion: 2
+      Hash: c624f409219fecb0600dcd133204742a
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: FollowLocationRigidbody2D
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2537,6 +2959,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: CountOfPlayersOnMasterProperty
+  - hash:
+      serializedVersion: 2
+      Hash: df4f4f182005df0a58099506d634cbdb
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: Grain
   - hash:
       serializedVersion: 2
       Hash: 71ecca19a5250b7a2b3b766068cac1d1
@@ -2599,16 +3027,34 @@ ScriptsOnlyBuild:
     className: SimpleScript
   - hash:
       serializedVersion: 2
+      Hash: 99545e48736606af7b639beb8767aa91
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: EditorSkeletonPlayer
+  - hash:
+      serializedVersion: 2
       Hash: c79b5fe597994b62169b6278b7655916
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Asteroids
     className: PlayerListEntry
   - hash:
       serializedVersion: 2
+      Hash: 5fa65ec794f2c6d0f8dad966f1f97285
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: AnimationReferenceAsset
+  - hash:
+      serializedVersion: 2
       Hash: 454a19bfd1b2b515e0d9e0dc4bb2c965
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Hub
     className: DemoHubManager
+  - hash:
+      serializedVersion: 2
+      Hash: 4fa68798f96dd59826e4250dc8557515
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: EquipsVisualsComponentExample
   - hash:
       serializedVersion: 2
       Hash: a89cac90d109fe2c6174c0c7c489e783
@@ -2633,6 +3079,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro
     namespaceName: TMPro
     className: TMP_StyleSheet
+  - hash:
+      serializedVersion: 2
+      Hash: 39b21f272ff8af2fb9ab6afd6293f18d
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonRootMotion
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2695,6 +3147,12 @@ ScriptsOnlyBuild:
     className: SplitToning
   - hash:
       serializedVersion: 2
+      Hash: fc4b10d676d5a5aae087dfc9c7748857
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessLayer
+  - hash:
+      serializedVersion: 2
       Hash: c11d4b3e51adcaec83d0a473fe83b496
     assemblyName: Unity.2D.Animation.Runtime
     namespaceName: UnityEngine.U2D.Animation
@@ -2735,6 +3193,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: CurrentRoomIsVisibleToggle
+  - hash:
+      serializedVersion: 2
+      Hash: 6b4ac3ab6f643fe9d80d155fe364671c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonUtilityKinematicShadow
   - hash:
       serializedVersion: 2
       Hash: 1bfcfbce150993e56fae19f40f3da27f
@@ -2803,10 +3267,28 @@ ScriptsOnlyBuild:
     className: RuleOverrideTile
   - hash:
       serializedVersion: 2
+      Hash: 36efedca9e9daa7760637d3a98a10198
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PlaneMove
+  - hash:
+      serializedVersion: 2
+      Hash: b87a2c8fbd5a7bedbd7a5f0f26731b4b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RenderExistingMesh
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: UnityEngine.TestRunner
     namespaceName: UnityEngine.TestRunner.Utils
     className: TestRunCallbackListener
+  - hash:
+      serializedVersion: 2
+      Hash: 12fb3bbbfecddbc226ccaf7bf6efda58
+    assemblyName: spine-unity-examples
+    namespaceName: 
+    className: ReloadSceneOnKeyDown
   - hash:
       serializedVersion: 2
       Hash: 6498fc76484598db46c5c1a11bab42fa
@@ -2821,7 +3303,7 @@ ScriptsOnlyBuild:
     className: LoaderAnime
   - hash:
       serializedVersion: 2
-      Hash: 8006abb216557ab63aa5e0ba3bd36fb5
+      Hash: 6183e86386b1143dd0784fa9d6bacf23
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: GameManager
@@ -2857,6 +3339,18 @@ ScriptsOnlyBuild:
     className: OfflineModeProperty
   - hash:
       serializedVersion: 2
+      Hash: 1f8eb5d7ffb11883cef938af111853c9
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: TwoByTwoTransformEffectExample
+  - hash:
+      serializedVersion: 2
+      Hash: a9eec1781f93c3ec317ab2cd65845a0c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RaggedySpineboy
+  - hash:
+      serializedVersion: 2
       Hash: bb1919f987f39a217a67674a47792b29
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -2869,10 +3363,22 @@ ScriptsOnlyBuild:
     className: PhotonView
   - hash:
       serializedVersion: 2
+      Hash: 210c4b8378879f3a7056a4a33a000823
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RootMotionDeltaCompensation
+  - hash:
+      serializedVersion: 2
       Hash: c7b9385de9fd55499d563ac8783bbda2
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: CurrentRoomIsOfflineProperty
+  - hash:
+      serializedVersion: 2
+      Hash: 1b913cb4792b01757e32310dd5e30e81
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyFreeze
   - hash:
       serializedVersion: 2
       Hash: a4d905db69ca7f45f45458ae380fb66f
@@ -2893,10 +3399,22 @@ ScriptsOnlyBuild:
     className: UniversalAdditionalCameraData
   - hash:
       serializedVersion: 2
+      Hash: 77039f42a6fd84f57debef06e10daa2f
+    assemblyName: spine-unity-examples
+    namespaceName: 
+    className: HurtFlashEffect
+  - hash:
+      serializedVersion: 2
       Hash: 6dda2d03efd582e504bb82d632a0e661
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: T_CardManager
+  - hash:
+      serializedVersion: 2
+      Hash: 843836ad56ce5ef50c83c4db3bf552d1
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: AutoExposure
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -2923,6 +3441,18 @@ ScriptsOnlyBuild:
     className: CullingHandler
   - hash:
       serializedVersion: 2
+      Hash: 0249933f35dcc970b31eaae0159aebf9
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: ContentSizeFitter
+  - hash:
+      serializedVersion: 2
+      Hash: 487df012d6d89e5e15a351b85a09d59d
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpriteAttacher
+  - hash:
+      serializedVersion: 2
       Hash: 8e42e83d821ee2e630997392edec5da0
     assemblyName: AllIn1SpriteShaderAssembly
     namespaceName: AllIn1SpriteShader
@@ -2933,6 +3463,18 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: VariablesAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 4798741c87233bd6cbcfcc0b0391e7d3
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyBeginnerViewGraphic
+  - hash:
+      serializedVersion: 2
+      Hash: 5f0d18f780971de0cf85f5b4f21f4d5f
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: Goblins
   - hash:
       serializedVersion: 2
       Hash: eebcdc0e2dd8e555a41e67933ddcb7bf
@@ -2989,10 +3531,28 @@ ScriptsOnlyBuild:
     className: EventSystemSpawner
   - hash:
       serializedVersion: 2
-      Hash: 07718d40d156803551cf222e7f7deaf1
+      Hash: c60032c1549d159a51d174a23924d16f
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: HandleEventWithAudioExample
+  - hash:
+      serializedVersion: 2
+      Hash: 9b0217e9af6fec25d08f41ee5644f5b5
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: PlayerData
+  - hash:
+      serializedVersion: 2
+      Hash: da4d32f9cd3b02cc835567ea8973a171
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: Bloom
+  - hash:
+      serializedVersion: 2
+      Hash: 138b7bae5e4705a1d5db15919b0d58c7
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonGraphicCustomMaterials
   - hash:
       serializedVersion: 2
       Hash: e10d4739aeade3b3fce790de0c3e8305
@@ -3013,6 +3573,12 @@ ScriptsOnlyBuild:
     className: BackgroundTimeOutField
   - hash:
       serializedVersion: 2
+      Hash: 1fc5644a08dee0ce5a32e0cb4068db74
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonUtility
+  - hash:
+      serializedVersion: 2
       Hash: 098f025716fad3521c89a222b6058556
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
@@ -3023,6 +3589,24 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI
     namespaceName: UnityEngine.UI
     className: Mask
+  - hash:
+      serializedVersion: 2
+      Hash: 028131bd57ac77bffd4327ae20c7ca30
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessEffectSettings
+  - hash:
+      serializedVersion: 2
+      Hash: 15ea884f2897428e1c0822099bb71fd3
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SlotTintBlackFollower
+  - hash:
+      serializedVersion: 2
+      Hash: 8e0c2e97326aaa134c7685a4b22cd0cf
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MixAndMatchGraphic
   - hash:
       serializedVersion: 2
       Hash: adfcbacf24b05b2f3b60b081fdab21dc
@@ -3053,6 +3637,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
     className: StatesGui
+  - hash:
+      serializedVersion: 2
+      Hash: d50cb92335b5c0e0cbe71e4260176635
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SkeletonMecanimRootMotion
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -3145,10 +3735,22 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
+      Hash: d0ffb83d32825c724192ece01e47eebc
+    assemblyName: spine-unity-examples
+    namespaceName: 
+    className: SkeletonGraphicPlayAnimationAtEvent
+  - hash:
+      serializedVersion: 2
       Hash: a8b7fd1da21541aeec7d0fde1c075720
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
     className: DebugUIHandlerEnumHistory
+  - hash:
+      serializedVersion: 2
+      Hash: 79c952d35ac442ca9a10d135aa5548fd
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: DummyMecanimControllerExample
   - hash:
       serializedVersion: 2
       Hash: fcc569162a8d9bd9df34e8c9dee84212
@@ -3169,6 +3771,12 @@ ScriptsOnlyBuild:
     className: LoadLevelUIForm
   - hash:
       serializedVersion: 2
+      Hash: 91fba0a2850ee2dd5a8a1e782bba2e26
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: ScreenSpaceReflections
+  - hash:
+      serializedVersion: 2
       Hash: e4699844af1ab63f6ed6ca4ad186ddcb
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -3179,6 +3787,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
     className: ObjectSpin
+  - hash:
+      serializedVersion: 2
+      Hash: d066d23e08562f427c3bf215007d518f
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: Raptor
   - hash:
       serializedVersion: 2
       Hash: 5b838469be02d5ce3a010fbcf59b3beb
@@ -3205,10 +3819,16 @@ ScriptsOnlyBuild:
     className: SceneVariables
   - hash:
       serializedVersion: 2
-      Hash: 183f41bfe1cf8689e2a2ef3e03748708
+      Hash: b8ca74944d33823d224983ffe80d065a
     assemblyName: Assembly-CSharp
     namespaceName: 
     className: TurnSys
+  - hash:
+      serializedVersion: 2
+      Hash: 11447c71d794091e69f9a12462c892aa
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyTargetController
   - hash:
       serializedVersion: 2
       Hash: 6fc777aac0ea7171de5755ec920b26c3
@@ -3221,6 +3841,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnEndDragMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: 30b47ad88e97c139354d848e6ca2aba6
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: AmbientOcclusion
   - hash:
       serializedVersion: 2
       Hash: 0cadf67970140b3a7997770202c43c70
@@ -3325,6 +3951,12 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
+      Hash: 4862508a82e551bebf075a72a1084e27
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: Vignette
+  - hash:
+      serializedVersion: 2
       Hash: f5f386639e3468382c5427b2c0171754
     assemblyName: Unity.RenderPipelines.Universal.Runtime
     namespaceName: UnityEngine.Rendering.Universal
@@ -3361,6 +3993,12 @@ ScriptsOnlyBuild:
     className: IngameControlPanel
   - hash:
       serializedVersion: 2
+      Hash: 8e186ec65f1eeb1e98f092b8d55a955a
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpawnFromSkeletonDataExample
+  - hash:
+      serializedVersion: 2
       Hash: 7a0dffef755dbed4f4799f891b173e23
     assemblyName: Unity.RenderPipelines.Core.Runtime
     namespaceName: UnityEngine.Rendering.UI
@@ -3371,6 +4009,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.Animation.Runtime
     namespaceName: UnityEngine.U2D.Animation
     className: SpriteSkinUpdateHelper
+  - hash:
+      serializedVersion: 2
+      Hash: 1ed846c1ed9d69c8c2fcff9a6896b04f
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: Text
   - hash:
       serializedVersion: 2
       Hash: ab435ba956cc72d19ee2de806e035c35
@@ -3397,10 +4041,28 @@ ScriptsOnlyBuild:
     className: UIFoldout
   - hash:
       serializedVersion: 2
+      Hash: e30d79bffb9fc171e65513ce8191d0b5
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: SpineSpriteAtlasAsset
+  - hash:
+      serializedVersion: 2
       Hash: d2938fd574d28d48888d4f06beab689c
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
     className: Benchmark02
+  - hash:
+      serializedVersion: 2
+      Hash: 40450eb17b7249d8fbba4ba17221f7e2
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyBodyTilt
+  - hash:
+      serializedVersion: 2
+      Hash: a4c0f3543087aba1a3cca651e082616e
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SetRigidbodySolverIterations
   - hash:
       serializedVersion: 2
       Hash: fc8f55bf515b10dc98c22ecfc71617f9
@@ -3415,10 +4077,22 @@ ScriptsOnlyBuild:
     className: InfosPanelPlaceholder
   - hash:
       serializedVersion: 2
+      Hash: 6a356b04c25c0bb008c1b24bf8b0f996
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
+  - hash:
+      serializedVersion: 2
       Hash: 101a944e5b7742d1651c3fc7ec950d02
     assemblyName: AllIn1SpriteShaderAssembly
     namespaceName: AllIn1SpriteShader
     className: SetAtlasUvs
+  - hash:
+      serializedVersion: 2
+      Hash: e8ef5adbd09aacf731eaccb03789c3aa
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: HeroEffectsHandlerExample
   - hash:
       serializedVersion: 2
       Hash: eb89cc9c55c1361dc02d4fea220cc023
@@ -3463,6 +4137,12 @@ ScriptsOnlyBuild:
     className: Benchmark03
   - hash:
       serializedVersion: 2
+      Hash: be4c9764328074beac85775900c6cf30
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: RuntimeLoadFromExportsExample
+  - hash:
+      serializedVersion: 2
       Hash: 5f2bc05abaaf6b2aed65275773a018d6
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.SlotRacer.Utils
@@ -3481,6 +4161,12 @@ ScriptsOnlyBuild:
     className: Scrollbar
   - hash:
       serializedVersion: 2
+      Hash: f7fd4913ecb8c5754238b18e6828a53f
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineAnimationTesterTool
+  - hash:
+      serializedVersion: 2
       Hash: be140ea01a11255b651c097661ac55b1
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
@@ -3491,6 +4177,12 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: CurrentRoomNameProperty
+  - hash:
+      serializedVersion: 2
+      Hash: 3c5ed7650bb8ce18146c3a4578181f74
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MixAndMatchSkinsButtonExample
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -3515,6 +4207,18 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Cockpit
     className: IsConnectedAndReadyProperty
+  - hash:
+      serializedVersion: 2
+      Hash: c019fd6a3b6a5130c714d9e3bc8f1b89
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyFacialExpression
+  - hash:
+      serializedVersion: 2
+      Hash: abf73792c498f3789aef87298f805ebd
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: OutlineSkeletonGraphic
   - hash:
       serializedVersion: 2
       Hash: f4f39b64f410b0cd98b49df4bad0eb7e
@@ -3559,6 +4263,12 @@ ScriptsOnlyBuild:
     className: ConnectToRegionUIForm
   - hash:
       serializedVersion: 2
+      Hash: 61a82cef5ffe07f398be8ce239626567
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpineboyBeginnerInput
+  - hash:
+      serializedVersion: 2
       Hash: a80737d727a1b0096e93ca948844ce4b
     assemblyName: Unity.2D.Tilemap.Extras
     namespaceName: UnityEngine
@@ -3601,6 +4311,12 @@ ScriptsOnlyBuild:
     className: DebugUIHandlerObjectList
   - hash:
       serializedVersion: 2
+      Hash: c7741c1cf8d2e1c0c705f19308db39b2
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SpawnSkeletonGraphicExample
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -3629,6 +4345,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline
     namespaceName: UnityEngine.Timeline
     className: BasicPlayableBehaviour
+  - hash:
+      serializedVersion: 2
+      Hash: 2432b8c1f40baf09e118d394c774fa0c
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: MixAndMatch
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -3697,16 +4419,40 @@ ScriptsOnlyBuild:
     className: SpriteShape
   - hash:
       serializedVersion: 2
+      Hash: fe7b69ba76c358db53d5dbe295437620
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: ConstrainedCamera
+  - hash:
+      serializedVersion: 2
       Hash: d85d18c4d95c9dd9e4b260f8c53ef1d6
     assemblyName: Assembly-CSharp
     namespaceName: Photon.Chat.Demo
     className: FriendItem
   - hash:
       serializedVersion: 2
+      Hash: 55f9ce7e265339a4e667c3ef987dbb38
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonRagdoll
+  - hash:
+      serializedVersion: 2
+      Hash: 230e0a5ac5d844fd1d796e9f8bb428e6
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: EquipAssetExample
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnMoveMessageListener
+  - hash:
+      serializedVersion: 2
+      Hash: bb458811c1f3a21e57bad9ca7d50d401
+    assemblyName: spine-unity
+    namespaceName: Spine.Unity
+    className: ActivateBasedOnFlipDirection
   - hash:
       serializedVersion: 2
       Hash: a7a975dc7dbeb089621e25a6b2627c29
@@ -3733,10 +4479,28 @@ ScriptsOnlyBuild:
     className: AsteroidsGameManager
   - hash:
       serializedVersion: 2
+      Hash: 8a19dad21d969aca0399d1618eb1c727
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessProfile
+  - hash:
+      serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: AllIn1SpriteShaderAssembly
     namespaceName: AllIn1SpriteShader
     className: RandomSeed
+  - hash:
+      serializedVersion: 2
+      Hash: 80789df0e1940f5416d1f2e5d39bb34b
+    assemblyName: Unity.Postprocessing.Runtime
+    namespaceName: UnityEngine.Rendering.PostProcessing
+    className: PostProcessDebug
+  - hash:
+      serializedVersion: 2
+      Hash: 1acffdc47de1ca014dae3d384c3d1086
+    assemblyName: UnityEngine.UI
+    namespaceName: UnityEngine.UI
+    className: ScrollRect
   - hash:
       serializedVersion: 2
       Hash: ba0656d47f0fcdf90e7f55af86e32052
@@ -3769,10 +4533,22 @@ ScriptsOnlyBuild:
     className: SpriteLibraryAsset
   - hash:
       serializedVersion: 2
+      Hash: 3d7b400e9fa04631b09e56df8c9ff272
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: JitterEffectExample
+  - hash:
+      serializedVersion: 2
       Hash: 5229e132142fc9e0a49b7db3a1856d2f
     assemblyName: PhotonUnityNetworking.Demos
     namespaceName: Photon.Pun.Demo.Procedural
     className: WorldGenerator
+  - hash:
+      serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: Spineboy
   - hash:
       serializedVersion: 2
       Hash: 4f2e673c02bc079622ce2cdb42228085
@@ -3799,6 +4575,12 @@ ScriptsOnlyBuild:
     className: T_TurnSys
   - hash:
       serializedVersion: 2
+      Hash: 2a17b11e3c2cbcd4ebe8429762e7757a
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonRenderTextureFadeout
+  - hash:
+      serializedVersion: 2
       Hash: b6e08e9716184d5736af5af9ffaf1513
     assemblyName: Assembly-CSharp
     namespaceName: TMPro.Examples
@@ -3815,6 +4597,18 @@ ScriptsOnlyBuild:
     assemblyName: PhotonUnityNetworking.Utilities
     namespaceName: Photon.Pun.UtilityScripts
     className: PunTurnManager
+  - hash:
+      serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonGhostRenderer
+  - hash:
+      serializedVersion: 2
+      Hash: 94f20bc52f24cede91a23b0fec4bf1aa
+    assemblyName: spine-unity-examples
+    namespaceName: Spine.Unity.Examples
+    className: SkeletonGhost
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
@@ -3842,6 +4636,12 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 751e5bae2a317288c2ab58d66687092b
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: SetVolume
+  - hash:
+      serializedVersion: 2
+      Hash: 751e5bae2a317288c2ab58d66687092b
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnTriggerExit2DMessageListener
@@ -3857,18 +4657,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 36efedca9e9daa7760637d3a98a10198
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PlaneMove
-  - hash:
-      serializedVersion: 2
-      Hash: 506c643a8ffd0194879a855dce329f91
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: SoundManager
   platform: 19
   scenePathNames:
   - Assets/Scenes/GameStart.unity

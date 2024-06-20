@@ -73,7 +73,6 @@ public class photonmgr : MonoBehaviourPunCallbacks
          roomOptions.MaxPlayers = 2;
          PhotonNetwork.JoinOrCreateRoom(roomName, roomOptions, null);
          */
-        PhotonNetwork.JoinLobby();
     }
    
     public void LeaveRoomAndDestroy()
