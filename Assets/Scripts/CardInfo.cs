@@ -81,17 +81,19 @@ public class CardInfo : MonoBehaviourPunCallbacks
                         }
                 if (myCardState == false)
                 {
-                    {
+                    
+                        SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
                         GameManager.Instance.player[0].strikeCards.Add(cardnum);
                         myCardState = true;
-                    }
+                    
                 }
                 }
                 else
                 {
                             GameManager.Instance.CardBuffering.SetActive(GameManager.Instance.player[0].pState.Value == PlayerState.Select);
                         this.myCardState = true;
-                            GameManager.Instance.player[0].pState.Value = PlayerState.Idle;
+                SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
+                GameManager.Instance.player[0].pState.Value = PlayerState.Idle;
                         StartCoroutine(DeleteDelay(0));
                             ShootingManager.Instance.DestroyTurnEndBird();
             }
@@ -100,6 +102,7 @@ public class CardInfo : MonoBehaviourPunCallbacks
         {
             if (GameManager.Instance.player[0].Guardnums.Count > 3)
                 return;
+            SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
             PV.RPC("RPCGuardClick",RpcTarget.All, 0, cardnum);
             myCardState = true;
         }
@@ -108,6 +111,33 @@ public class CardInfo : MonoBehaviourPunCallbacks
     public void RPCGuardClick(int playerIndex,int cardnum)
     {
         GameManager.Instance.player[playerIndex].Guardnums.Add(cardnum);
+        GameManager.Instance.guardBirdCount++;
+        if(TurnSys.Instance.sPlayerIndex.Value == 0 && myCardState == false)
+        {
+            GameManager.Instance.p2GuardBirdTxt[GameManager.Instance.guardBirdCount- 1].text = "" + cardnum;
+            if(cardnum  == 20)
+            {
+                GameManager.Instance.p2GuardBirdTxt[GameManager.Instance.guardBirdCount - 1].text = "R"; 
+            }
+            else if (cardnum == 30)
+            {
+                GameManager.Instance.p2GuardBirdTxt[GameManager.Instance.guardBirdCount - 1].text = "B";
+            }
+            GameManager.Instance.p2GuardBirdUI[GameManager.Instance.guardBirdCount - 1].SetActive(true);
+        }
+        if (TurnSys.Instance.sPlayerIndex.Value == 1 && myCardState == false)
+        {
+            GameManager.Instance.p1GuardBirdTxt[GameManager.Instance.guardBirdCount - 1].text = "" + cardnum;
+            if (cardnum == 20)
+            {
+                GameManager.Instance.p1GuardBirdTxt[GameManager.Instance.guardBirdCount - 1].text = "R";
+            }
+            else if (cardnum == 30)
+            {
+                GameManager.Instance.p1GuardBirdTxt[GameManager.Instance.guardBirdCount - 1].text = "B";
+            }
+            GameManager.Instance.p1GuardBirdUI[GameManager.Instance.guardBirdCount - 1].SetActive(true);
+        }
     }
    
     public void RPCp2Click()
@@ -124,6 +154,7 @@ public class CardInfo : MonoBehaviourPunCallbacks
                 }
                 if (myCardState == false)
                 {
+                    SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
                     GameManager.Instance.player[1].strikeCards.Add(cardnum);
                     myCardState = true;
 
@@ -133,6 +164,7 @@ public class CardInfo : MonoBehaviourPunCallbacks
             {
                 GameManager.Instance.CardBuffering.SetActive(GameManager.Instance.player[1].pState.Value == PlayerState.Select);
                 myCardState = true;
+                SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
                 GameManager.Instance.player[1].pState.Value = PlayerState.Idle;
                 StartCoroutine(DeleteDelay(1));
                 ShootingManager.Instance.DestroyTurnEndBird();   
@@ -142,6 +174,7 @@ public class CardInfo : MonoBehaviourPunCallbacks
         {
             if (GameManager.Instance.player[1].Guardnums.Count > 3)
                 return;
+            SoundManager.Instance.PlaySfx(SoundManager.Sfx.SelectBirdSfx);
             PV.RPC("RPCGuardClick",RpcTarget.All, 1, cardnum);
             myCardState = true;
         }

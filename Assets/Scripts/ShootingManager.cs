@@ -21,6 +21,7 @@ public class ShootingManager : MonoBehaviourPun
     Vector3 bird2rot = new Vector3(-90f, 180f, 0f);
     public Data<ShootingState> Sh_State = new Data<ShootingState>();
 
+    
     private static ShootingManager _instance;
 
     public static ShootingManager Instance
@@ -45,7 +46,7 @@ public class ShootingManager : MonoBehaviourPun
         var birdObject = Instantiate(birdPf, birdtransform.position, Utills.QI);
         birdObject.transform.rotation = Quaternion.Euler(rot);
         birdObject.transform.parent = BirdObject.transform;
-        birdlist.Add(birdObject);
+        birdlist.Insert(0,birdObject);
     }
     private void SetBird(PlayerState _pState)
     {
@@ -63,6 +64,26 @@ public class ShootingManager : MonoBehaviourPun
                 for (int i = p2Bird.Count; i < 8; i++)
                 {
                     AddBird(p2birdTransform[i], birdparentobj2, bird2Prefab, p2Bird, bird2rot);
+                }
+            }
+        }
+    }
+    private void ArrangeBird(PlayerState _pState)
+    {
+        if(_pState == PlayerState.End)
+        {
+            if(TurnSys.Instance.sPlayerIndex.Value == 0)
+            {
+                for(int i = p1Bird.Count - 1; i >= 0; i--)
+                {
+                    p1Bird[i].transform.position = p1birdTransform[i].position;
+                }
+            }
+            else if(TurnSys.Instance.sPlayerIndex.Value == 1)
+            {
+                for (int i = p1Bird.Count - 1; i >= 0; i--)
+                {
+                    p2Bird[i].transform.position = p2birdTransform[i].position;
                 }
             }
         }
@@ -86,7 +107,8 @@ public class ShootingManager : MonoBehaviourPun
         GameManager.Instance.S_State.onChange += Shootingbird;
         GameManager.Instance.player[0].pState.onChange += SetBird;
         GameManager.Instance.player[1].pState.onChange += SetBird;
-        
+   
+
     }
     private void Shootingbird(StrikeState _sState)
     {
@@ -109,13 +131,13 @@ public class ShootingManager : MonoBehaviourPun
     {
         if (TurnSys.Instance.sPlayerIndex.Value == 0)
         {
-            Destroy(p1Bird[7]);
+            p1Bird[7].SetActive(false);
             yield return new WaitForSeconds(0.15f);
             p1Bird.RemoveAt(7);
         }
         else if(TurnSys.Instance.sPlayerIndex.Value == 1)
         {
-            Destroy(p2Bird[7]);
+            p2Bird[7].SetActive(false);
             yield return new WaitForSeconds(0.15f);
             p2Bird.RemoveAt(7);
         }
@@ -128,18 +150,30 @@ public class ShootingManager : MonoBehaviourPun
             {
                 for (int i = 2; i >= 0; i--)
                 {
-                    Destroy(p2Bird[i]);
-                    yield return new WaitForSeconds(0.15f);
+                    p2Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
                     p2Bird.RemoveAt(i);
+                }
+                for (int i = 2; i >= 0; i--)
+                {
+                    p1Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
+                    p1Bird.RemoveAt(i);
                 }
             }
             else if(GameManager.Instance.player[0].doubleCheck == true)
             {
                 for (int i = 1; i >= 0; i--)
                 {
-                    Destroy(p2Bird[i]);
-                    yield return new WaitForSeconds(0.15f);
+                    p2Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
                     p2Bird.RemoveAt(i);
+                }
+                for (int i = 1; i >= 0; i--)
+                {
+                    p1Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
+                    p1Bird.RemoveAt(i);
                 }
             }
         }
@@ -149,17 +183,29 @@ public class ShootingManager : MonoBehaviourPun
             {
                 for (int i = 2; i >= 0; i--)
                 {
-                    Destroy(p1Bird[i]);
-                    yield return new WaitForSeconds(0.15f);
+                    p1Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
                     p1Bird.RemoveAt(i);
+                }
+                for (int i = 2; i >= 0; i--)
+                {
+                    p2Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
+                    p2Bird.RemoveAt(i);
                 }
             }
             else if (GameManager.Instance.player[1].doubleCheck == true)
             {
                 for (int i = 1; i >= 0; i--)
                 {
-                    Destroy(p1Bird[i]);
-                    yield return new WaitForSeconds(0.15f);
+                    p2Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
+                    p2Bird.RemoveAt(i);
+                }
+                for (int i = 1; i >= 0; i--)
+                {
+                    p1Bird[i].SetActive(false);
+                    yield return new WaitForSeconds(0.05f);
                     p1Bird.RemoveAt(i);
                 }
             }
@@ -172,6 +218,9 @@ public class ShootingManager : MonoBehaviourPun
         {
             if (GameManager.Instance.player[0].stairCheck == true || GameManager.Instance.player[0].tripleCheck == true)
             {
+                GameManager.Instance.player[0].stairCheck =false;
+                GameManager.Instance.player[0].tripleCheck = false;
+                
                 for (int i = 2; i >= 0; i--)
                 {
                     while (true)
@@ -180,16 +229,18 @@ public class ShootingManager : MonoBehaviourPun
                         if (p1Bird[i].transform.position.x >= p2hitbox.transform.position.x-0.1)
                         {
                             p1Bird[i].SetActive(false);
-                            yield return new WaitForSecondsRealtime(0.1f);
+                            yield return new WaitForSecondsRealtime(0.05f);
                             p1Bird.RemoveAt(i);
                             break;
                         }
                         yield return null;
                     }
                 }
+                
             }
             else if (GameManager.Instance.player[0].doubleCheck == true)
             {
+                GameManager.Instance.player[0].doubleCheck = false;
                 for (int i = 1; i >= 0; i--)
                 {
                     while (true)
@@ -197,54 +248,76 @@ public class ShootingManager : MonoBehaviourPun
                         p1Bird[i].transform.position = Vector3.MoveTowards(p1Bird[i].transform.position, p2hitbox.transform.position, 25f * Time.deltaTime);
                         if (p1Bird[i].transform.position.x >= p2hitbox.transform.position.x - 0.1)
                         {
-                            Destroy(p1Bird[i]);
-                            yield return new WaitForSecondsRealtime(0.1f);
+                            p1Bird[i].SetActive(false);
+                            yield return new WaitForSecondsRealtime(0.05f);
                             p1Bird.RemoveAt(i);
                             break;
                         }
                         yield return null;
                     }
                 }
+  
+
             }
         }
         else if (TurnSys.Instance.sPlayerIndex.Value == 1)
         {
             if (GameManager.Instance.player[1].stairCheck == true || GameManager.Instance.player[1].tripleCheck == true)
             {
+                GameManager.Instance.player[1].stairCheck = false;
+                GameManager.Instance.player[1].tripleCheck = false;
                 for (int i = 2; i >= 0; i--)
                 {
                     while (true)
                     {
                         p2Bird[i].transform.position = Vector3.MoveTowards(p2Bird[i].transform.position, p1hitbox.transform.position, 25f * Time.deltaTime);
-                        if (p2Bird[i].transform.position.x <= p1hitbox.transform.position.x + 0.1)
+                        if (p2Bird[i].transform.position.x <= (p1hitbox.transform.position.x + 0.1))
                         {
-                            Destroy(p2Bird[i]);
-                            yield return new WaitForSecondsRealtime(0.1f);
+                            p2Bird[i].SetActive(false);
+                            yield return new WaitForSecondsRealtime(0.05f);
                             p2Bird.RemoveAt(i);
                             break;
                         }
                         yield return null;
                     }
                 }
+                
             }
             else if (GameManager.Instance.player[1].doubleCheck == true)
             {
+                GameManager.Instance.player[1].doubleCheck = false;
                 for (int i = 1; i >= 0; i--)
                 {
                     while (true)
                     {
                         p2Bird[i].transform.position = Vector3.MoveTowards(p2Bird[i].transform.position, p1hitbox.transform.position, 25f * Time.deltaTime);
-                        if (p2Bird[i].transform.position.x <= p1hitbox.transform.position.x + 0.1)
+                        if (p2Bird[i].transform.position.x <= (p1hitbox.transform.position.x + 0.1))
                         {
-                            Destroy(p2Bird[i]);
-                            yield return new WaitForSecondsRealtime(0.1f);
+                            p2Bird[i].SetActive(false);
+                            yield return new WaitForSecondsRealtime(0.05f);
                             p2Bird.RemoveAt(i);
                             break;
                         }
                         yield return null;
                     }
                 }
+                
             }
+        }
+        yield return new WaitForSeconds(0.3f);
+        if (TurnSys.Instance.sPlayerIndex.Value == 0)
+        {
+            if (p1Bird.Count < 8)
+                AddBird(p1birdTransform[p1Bird.Count], birdparentobj, birdPrefab, p1Bird, bird1rot);
+            if (p2Bird.Count < 8)
+                AddBird(p2birdTransform[p2Bird.Count], birdparentobj2, bird2Prefab, p2Bird, bird2rot);
+        }
+        else if(TurnSys.Instance.sPlayerIndex.Value == 1)
+        {
+            if (p1Bird.Count < 8)
+                AddBird(p1birdTransform[p1Bird.Count], birdparentobj, birdPrefab, p1Bird, bird1rot);
+            if (p2Bird.Count < 8)
+                AddBird(p2birdTransform[p2Bird.Count], birdparentobj2, bird2Prefab, p2Bird, bird2rot);
         }
         Sh_State.Value = ShootingState.Idle;
     }

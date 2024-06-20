@@ -5,9 +5,9 @@ using TMPro;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using Spine.Unity;
 
-
-public class PlayerData : MonoBehaviourPunCallbacks
+public class PlayerData : MonoBehaviourPunCallbacks 
 {
     public Data<PlayerState> pState = new Data<PlayerState>();//플레이어 상태 변수
     public int pIndex;//플레이어의 인덱스
@@ -18,36 +18,51 @@ public class PlayerData : MonoBehaviourPunCallbacks
     public int strikeScore = 0;
     public int ComboCount = 0;
     public int ComboScore = 200;
-    public Image characterImg;
-    public List <Sprite> characterUI = new List<Sprite>();
+    public SkeletonGraphic CharaIdle;
+    public List <SkeletonDataAsset> charaAnim = new List<SkeletonDataAsset>();
     public Transform cardLeftTransform;
     public Transform cardRightTransform;
     public Transform playerPosition;
     public GameObject playerObject;
     public TMP_Text playerScoreText;
+    public GameObject delayUI;
+    
     [Header("Check")]
     public bool tripleCheck = false;
     public bool stairCheck = false;
     public bool doubleCheck = false;
     public List<int> Guardnums = new List<int>();
     public PhotonView PV;
+    [Header("playerParticleSys")]
     public ParticleSystem p1TurnStart;
     public ParticleSystem p2TurnStart;
+    public ParticleSystem p1TurnEnd;
+    public ParticleSystem p2TurnEnd;
     [Header("BirdState")]
     public Sprite PlayerClickBird;
     public Sprite PlayerGuardFailBird;
     public Sprite PlayerBirdTemp;
+    public GameObject myStateObj;
     public TMP_Text myStateTxt;
+    public int RoundWinCount = 0;
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         pState.onChange += Draw;//메소드를 추가(onChange를 의도하는 순서대로 배치)
         pState.onChange += SelectTime;
+        pState.onChange += DelayUI;
         pState.onChange += SelectCardFin;
         pState.onChange += SetIdle;
         TurnSys.Instance.sPlayerIndex.onChange += SetTurn;
     }
-    
+    private void Start()
+    {
+       if(pIndex !=GameManager.Instance.myIndex)
+        {
+            myStateObj.SetActive(false);
+        }
+    }
+
     [PunRPC]
     public void RPCPlayerSystem()
     {
@@ -59,7 +74,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
     public void RPCPlayerSelect()  
     {
         Debug.Log("playerSelect" + TurnSys.Instance.sPlayerIndex.Value);
-          
     }
     
     IEnumerator PlayerSystem()
@@ -67,20 +81,25 @@ public class PlayerData : MonoBehaviourPunCallbacks
         Debug.Log("GoplayerSystem");
         TurnSys.Instance.gState.Value = GameState.WaitAction;
         yield return new WaitForSeconds(0.5f);
-            pState.Value = PlayerState.Select;
-        
-
+        pState.Value = PlayerState.Select;
     }
     private void SelectTime(PlayerState _pState)
     {
-        if( _pState == PlayerState.Select )
+        if( _pState == PlayerState.Select)
         {
+            delayUI.SetActive(false);
             if (TurnSys.Instance.sPlayerIndex.Value == GameManager.Instance.myIndex)
             {
-                GameManager.Instance.TimeRoundUI.sprite = GameManager.Instance.RoundUISprites[1];
                 myStateTxt.text = "My Turn";
             }
             StartCoroutine(SelectTimer());
+        }
+    }
+    private void DelayUI(PlayerState _pState)
+    {
+        if(_pState == PlayerState.delay)
+        {
+            delayUI.SetActive(true);
         }
     }
     private void Draw(PlayerState _pState)//Player상태가 StartDraw인지 체크하고 PlayerSystem 시작 
@@ -89,12 +108,12 @@ public class PlayerData : MonoBehaviourPunCallbacks
         {
             if (!p1TurnStart.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 0 && GameManager.Instance.myIndex == 0)
             {
-                
+                SoundManager.Instance.PlaySfx(SoundManager.Sfx.DrawCard);
                 p1TurnStart.Play();
             }
             else if (!p2TurnStart.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 1 && GameManager.Instance.myIndex == 1)
             {
-                
+                SoundManager.Instance.PlaySfx(SoundManager.Sfx.DrawCard);
                 p2TurnStart.Play();
             }
             StartCoroutine(DelayDraw());
@@ -109,7 +128,8 @@ public class PlayerData : MonoBehaviourPunCallbacks
             {
                 if(!PhotonNetwork.IsMasterClient && TurnSys.Instance.sPlayerIndex.Value == 1 || PhotonNetwork.IsMasterClient && TurnSys.Instance.sPlayerIndex.Value == 0)
                 CardManager.Instance.AddCard(TurnSys.Instance.sPlayerIndex.Value);
-            }
+            yield return new WaitForSeconds(0.05f);
+        }
         CardManager.Instance.SortCards(playerCards);
         CardManager.Instance.ArrangeCardsBetweenMyCards(playerCards, cardLeftTransform, cardRightTransform, 1.7f);//건필군이 카드 간격을 조절하고싶을때 맨마지막상수f값을건들면됨
         StartCoroutine(PlayerSystem());
@@ -141,9 +161,9 @@ public class PlayerData : MonoBehaviourPunCallbacks
    
     public void ReadyStrike()//스트라이크 버튼 작용
     {
-        if (TurnSys.Instance.sPlayerIndex.Value == 0 && PhotonNetwork.IsMasterClient && pState.Value == PlayerState.Select)
+        if (TurnSys.Instance.sPlayerIndex.Value == GameManager.Instance.myIndex && pState.Value == PlayerState.Select)
         {
-            if (GameManager.Instance.S_State.Value == StrikeState.ReadyStrike)
+            if (GameManager.Instance.S_State.Value == StrikeState.ReadyStrike && pIndex == GameManager.Instance.myIndex)
             {
                 Debug.Log("Check");
                 Check();
@@ -153,21 +173,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
                 Debug.Log("SetStrike");
                 //문구 호출
                 PV.RPC("RPCReadyStrike", RpcTarget.All);
-            }
-
-        }
-        else if (TurnSys.Instance.sPlayerIndex.Value == 1 && !PhotonNetwork.IsMasterClient && pState.Value == PlayerState.Select)
-        {
-            if (GameManager.Instance.S_State.Value == StrikeState.ReadyStrike)
-            {
-                Debug.Log("Check");
-                Check();
-            }
-            else if (GameManager.Instance.S_State.Value == StrikeState.Idle)
-            {
-                Debug.Log("SetStrike");
-                //문구 호출
-                    PV.RPC("RPCReadyStrike", RpcTarget.All);
             }
 
         }
@@ -201,8 +206,19 @@ public class PlayerData : MonoBehaviourPunCallbacks
     {
         if (_pState == PlayerState.End)
         {
-            GameManager.Instance.TimeRoundUI.sprite = GameManager.Instance.RoundUISprites[0];
             myStateTxt.text = "";
+            for(int i = 0; i < playerCards.Count; i++)
+            {
+                playerCards[i].myCardState = false;
+            }
+            if (!p1TurnEnd.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 0 && GameManager.Instance.myIndex == 0)
+            {
+                p1TurnEnd.Play();
+            }
+            else if (!p2TurnEnd.isPlaying && TurnSys.Instance.sPlayerIndex.Value == 1 && GameManager.Instance.myIndex == 1)
+            {
+                p2TurnEnd.Play();
+            }
             if (PhotonNetwork.IsMasterClient)
               PV.RPC("RPCSetIdle", RpcTarget.All);
         }
@@ -239,7 +255,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
                 Debug.Log("HEAD");
                 headCheck++;
                 PV.RPC("RPCdoubleCheck", RpcTarget.All);
-                
             }
         }
         if (strikeCards.Count == 3)
@@ -274,6 +289,8 @@ public class PlayerData : MonoBehaviourPunCallbacks
 
         if (bodyCheck == 1 || headCheck == 1)
         {
+            pState.Value = PlayerState.delay;
+            GameManager.Instance.BgdarkUI.SetActive(false);
             PV.RPC("RPCStrike", RpcTarget.All);
         }
     }
@@ -281,6 +298,7 @@ public class PlayerData : MonoBehaviourPunCallbacks
     {
         GameManager.Instance.GuardFailUIdelay.SetActive(true);
         PlayerClickBird = PlayerGuardFailBird;
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.CheckFail);
         yield return new WaitForSecondsRealtime(0.5f);
         for (int i = 0; i < playerCards.Count; i++)
         {
@@ -295,7 +313,6 @@ public class PlayerData : MonoBehaviourPunCallbacks
         StartCoroutine(DeleteDelay());
         ComboCount++;
         strikeCards.Clear();
-        pState.Value = PlayerState.delay;
         if(PhotonNetwork.IsMasterClient)
         PV.RPC("RPCCheckGuard", RpcTarget.All);
     }
@@ -316,7 +333,13 @@ public class PlayerData : MonoBehaviourPunCallbacks
 
         if (Guardnums.Count < 2)
         {
+            for (int a = 0; a < GameManager.Instance.guardBirdCount; a++)
+            {
+                PV.RPC("RPCBirdUIClear", RpcTarget.All, a);
+            }
+            PV.RPC("RPCGuardnumClear", RpcTarget.All);
             Debug.Log("CheckError");
+            StartCoroutine(PlayerCheckFaildelay());
             return;
         }
         int temp = Guardnums[i];
@@ -354,18 +377,33 @@ public class PlayerData : MonoBehaviourPunCallbacks
         }
         if (bodyCheck == 0 && headCheck == 0)
         {
-            for (int a = 0; a < strikeCards.Count; a++)
+            for(int a = 0; a < GameManager.Instance.guardBirdCount; a++)
             {
-                PV.RPC("RPCGuardnumClear", RpcTarget.All);
+                PV.RPC("RPCBirdUIClear", RpcTarget.All, a);
             }
-            for (int a = 0; a < playerCards.Count; a++)
-            {
-                playerCards[a].myCardState = false;
-            }
-            //문구 및 선택취소
+            PV.RPC("RPCGuardnumClear", RpcTarget.All);   
+            StartCoroutine(PlayerCheckFaildelay());
+            PV.RPC("GuardCountClear", RpcTarget.All);
         }
         if (bodyCheck == 1 || headCheck == 1)
         {
+        }
+    }
+    [PunRPC]
+    public void GuardCountClear()
+    {
+        GameManager.Instance.guardBirdCount = 0;
+    }
+    [PunRPC]
+    public void RPCBirdUIClear(int i)
+    {
+        if(TurnSys.Instance.sPlayerIndex.Value == 0)
+        {
+            GameManager.Instance.p2GuardBirdUI[i].SetActive(false);
+        }
+        else if (TurnSys.Instance.sPlayerIndex.Value == 1)
+        {
+            GameManager.Instance.p1GuardBirdUI[i].SetActive(false);
         }
     }
     [PunRPC]
@@ -414,6 +452,11 @@ public class PlayerData : MonoBehaviourPunCallbacks
             }
             if (GameManager.Instance.turnTime < 0)
             {
+                GameManager.Instance.BgdarkUI.SetActive(false);
+                for (int i = 0; i < playerCards.Count; i++)
+                {
+                    playerCards[i].myCardState = false;
+                }
                 if (ComboCount > 0)
                 {
                     pState.Value = PlayerState.SelectFin;
@@ -421,16 +464,12 @@ public class PlayerData : MonoBehaviourPunCallbacks
                 }
                 else if (ComboCount == 0)
                 {
-                    GameManager.Instance.CardBuffering.SetActive(pState.Value == PlayerState.Select);
-                    
+                    GameManager.Instance.CardBuffering.SetActive(pState.Value == PlayerState.Select);   
                     StartCoroutine(CheckDelay(playerCards[7].gameObject));
                     break;
                 }
             }
-            for(int i = 0; i<playerCards.Count; i ++)
-            {
-                playerCards[i].myCardState = false;
-            }
+            
             if (TurnSys.Instance.gState.Value == GameState.GameEnd)
                 break;
             yield return null;

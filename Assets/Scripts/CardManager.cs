@@ -155,6 +155,8 @@ public class CardManager : MonoBehaviourPunCallbacks
             PV.RPC("RPCCardCount", RpcTarget.All);
         }
     }
+
+   
   [PunRPC]
   public void RPCCardCount()
     {

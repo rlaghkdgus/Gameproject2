@@ -19,6 +19,7 @@ public class TurnSys : MonoBehaviourPun
     private static TurnSys _instance;
     public PhotonView PV;
     public GameObject GameEndUI;
+    public List<TMP_Text> RoundCount = new List<TMP_Text>();
     public static TurnSys Instance
     {
         get
@@ -56,7 +57,8 @@ public class TurnSys : MonoBehaviourPun
     {
         //gState의Value는 PlayerData의 PlayerSystem과 연계
         if (_gState == GameState.ActionEnd)//PlayerSystem에서 gState.Value가 ActionEnd상태가 될 경우
-        { 
+        {
+           
             if ((sPlayerIndex.Value == 0  &&  ShootingManager.Instance.p1Bird.Count == 8)|| (sPlayerIndex.Value == 1 && ShootingManager.Instance.p2Bird.Count == 8))
             {
                 ShootingManager.Instance.DestroyTurnEndBird();
@@ -71,7 +73,7 @@ public class TurnSys : MonoBehaviourPun
     [PunRPC]
     public void RPCActionEnd()
     {
-
+        GameManager.Instance.S_State.Value = StrikeState.Idle;
         if (CardManager.Instance.cardBuffer.Count == 0)
             endCount++;
         if (endCount == 2)
@@ -79,13 +81,18 @@ public class TurnSys : MonoBehaviourPun
         StartCoroutine(TurnStartCo());
         if (GameManager.Instance.myIndex == 0)
         {
-            GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
-            GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
+            
+            GameManager.Instance.player[0].CharaIdle.skeletonDataAsset = GameManager.Instance.player[0].charaAnim[0];
+            GameManager.Instance.player[0].CharaIdle.Initialize(true);
+            GameManager.Instance.player[1].CharaIdle.skeletonDataAsset = GameManager.Instance.player[1].charaAnim[0];
+            GameManager.Instance.player[1].CharaIdle.Initialize(true);
         }
         else if (GameManager.Instance.myIndex == 1)
         {
-            GameManager.Instance.player[1].characterImg.sprite = GameManager.Instance.player[0].characterUI[3];
-            GameManager.Instance.player[0].characterImg.sprite = GameManager.Instance.player[1].characterUI[3];
+            GameManager.Instance.player[1].CharaIdle.skeletonDataAsset = GameManager.Instance.player[0].charaAnim[0];
+            GameManager.Instance.player[1].CharaIdle.Initialize(true);
+            GameManager.Instance.player[0].CharaIdle.skeletonDataAsset = GameManager.Instance.player[1].charaAnim[0];
+            GameManager.Instance.player[0].CharaIdle.Initialize(true);
         }
     }
     
@@ -129,7 +136,7 @@ public class TurnSys : MonoBehaviourPun
     {
         if(_gState == GameState.GameEnd)
         {
-            GameManager.Instance.turnFinishButton.SetActive(false);
+            
             if (PhotonNetwork.IsMasterClient)
             PV.RPC("RPCGameEnd1", RpcTarget.All);
         }
@@ -138,12 +145,21 @@ public class TurnSys : MonoBehaviourPun
     public void RPCGameEnd1()
     {
         Debug.Log("A");
+        GameManager.Instance.turnFinishButton.SetActive(false);
         for (int i = 0; i < 2; i++)
         {
             GameManager.Instance.player[i].pState.Value = PlayerState.Idle;
         }
         GameManager.Instance.S_State.Value = StrikeState.Idle;
         GameManager.Instance.G_State.Value = GuardState.Idle;
+        if(GameManager.Instance.player[0].playerScore > GameManager.Instance.player[1].playerScore)
+        {
+            GameManager.Instance.player[0].RoundWinCount++;
+        }
+        else
+        {
+            GameManager.Instance.player[1].RoundWinCount++;
+        }
         if (RoundManager.Instance.roundCount == 1)
         {
             if(PhotonNetwork.IsMasterClient)
@@ -160,6 +176,8 @@ public class TurnSys : MonoBehaviourPun
     [PunRPC]
     public void RPCGameEndUI()
     {
+        RoundCount[0].text = "" + GameManager.Instance.player[0].RoundWinCount;
+        RoundCount[1].text = "" + GameManager.Instance.player[1].RoundWinCount;
         StartCoroutine(GameEndUIset());
     }
     IEnumerator GameEndUIset()

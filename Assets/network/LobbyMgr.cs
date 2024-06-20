@@ -55,6 +55,11 @@ public class LobbyMgr : MonoBehaviourPunCallbacks
             }
         }
     }
+    public void leftRoom()
+    {
+        if(PhotonNetwork.InRoom)
+        PhotonNetwork.LeaveRoom();
+    }
     [PunRPC]
     public void DoReady()
     {
@@ -116,12 +121,13 @@ public class LobbyMgr : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.EnterRoom);
         RoomRenewal();
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        RoomRenewal();
+        readySign = false;
     }
     void RoomRenewal()
     {

@@ -32,7 +32,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     [Header("ETC")]
     public Text StatusText;
     public PhotonView PV;
-    public float RenewTime = 2.0f;
+    public float RenewTime = 1.0f;
     List<RoomInfo> myList = new List<RoomInfo>();
     int currentPage = 1, maxPage, multiple;
 
@@ -84,16 +84,30 @@ public class RoomManager : MonoBehaviourPunCallbacks
     #endregion
     void Update()
     {
+        if (!PhotonNetwork.InLobby )
+        {
+            RenewTime -= Time.deltaTime;
+            if (RenewTime < 0)
+            {
+                PhotonNetwork.JoinLobby();
+                RenewTime = 2.0f;
+            }
+        }
         StatusText.text = PhotonNetwork.NetworkClientState.ToString();
         LobbyInfoText.text = (PhotonNetwork.CountOfPlayers - PhotonNetwork.CountOfPlayersInRooms) + "Lobby / " + PhotonNetwork.CountOfPlayers + "Connects";
-        RenewTime -= Time.deltaTime;
-      
+        
     }
-    public void CreateRoom() => PhotonNetwork.CreateRoom(RoomInput.text == "" ? "Room" + Random.Range(0, 1000) : RoomInput.text, new RoomOptions { MaxPlayers = 2 });
+    public void CreateRoom()
+    {
+        string roomName = RoomInput.text == "" ? "Room" + Random.Range(0, 1000) : RoomInput.text;
+        RoomOptions roomOptions = new RoomOptions { MaxPlayers = 2 };     
+        PhotonNetwork.CreateRoom(roomName, roomOptions);
+        SoundManager.Instance.PlaySfx(SoundManager.Sfx.MakeRoom);
+    }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        RoomInput.text = ""; CreateRoom();
+        
     }
 
 }

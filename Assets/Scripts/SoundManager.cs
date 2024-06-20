@@ -7,16 +7,16 @@ public class SoundManager : Singleton<SoundManager>
     [Header("BGM")]
     public AudioClip[] bgmClips;
     public float bgmVolume;
-    AudioSource bgmPlayer;
+    public AudioSource bgmPlayer;
     [Header("SFX")]
     public AudioClip[] sfxClips;
     public float sfxVolume;
     public int channels;
-    AudioSource[] sfxPlayers;
+    public AudioSource[] sfxPlayers;
     int channelIndex;
 
-    public enum Sfx { }
-    public enum Bgm { }
+    public enum Sfx { timerWarning, ClickButton, MakeRoom, EnterRoom, SelectBirdSfx, DrawCard, CheckFail,Combo1,Combo2,Combo3}
+    public enum Bgm { MainMenuBgm,InGameBgm}
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -30,7 +30,7 @@ public class SoundManager : Singleton<SoundManager>
         bgmPlayer.loop = true;
         bgmPlayer.volume = bgmVolume;
         bgmPlayer.clip = bgmClips[0];
-
+        bgmPlayer.Play();
         GameObject sfxObject = new GameObject("SfxPlayer");
         sfxObject.transform.parent = transform;
         sfxPlayers = new AudioSource[channels];
@@ -59,5 +59,6 @@ public class SoundManager : Singleton<SoundManager>
     public void PlayBgm(Bgm bgm)
     {
         bgmPlayer.clip = bgmClips[(int)bgm];
+        bgmPlayer.Play();
     }
 }
